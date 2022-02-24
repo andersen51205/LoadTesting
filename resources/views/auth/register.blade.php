@@ -5,18 +5,21 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
+                <div class="card-header align-middle text-center">
+                    <img class="m-2 align-middle d-inline" width="50px" height="50px"
+                        src="{{ asset('/image/register-icon.svg') }}">
+                    <h1 class="m-2 align-middle d-inline">註冊會員</h1>
+                </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-
+                        {{-- 使用者名稱 --}}
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
+                            <div class="col-6 offset-3">
+                                <label class="col-form-label" for="name">使用者名稱</label>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                {{-- 錯誤提示 --}}
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -24,13 +27,13 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{-- 電子郵件 --}}
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
+                            <div class="col-6 offset-3">
+                                <label class="col-form-label" for="email">電子郵件</label>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                                    name="email" value="{{ old('email') }}" required autocomplete="email">
+                                {{-- 錯誤提示 --}}
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -38,13 +41,13 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{-- 密碼 --}}
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
+                            <div class="col-6 offset-3">
+                                <label for="password" class="col-form-label">密碼</label>
+                                <input id="password" type="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    name="password" required autocomplete="new-password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -52,20 +55,19 @@
                                 @enderror
                             </div>
                         </div>
-
+                        {{-- 密碼確認 --}}
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            <div class="col-6 offset-3">
+                                <label for="password-confirm" class="col-form-label">密碼確認</label>
+                                <input id="password-confirm" type="password" class="form-control"
+                                    name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
-
+                        {{-- 表單操作區 --}}
                         <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
+                            <div class="col-6 offset-3 d-flex justify-content-end">
+                                <a class="mx-4 my-2" href="{{ route('login') }}">改用帳號登入</a>
+                                <button type="submit" class="btn btn-primary">我要註冊</button>
                             </div>
                         </div>
                     </form>
