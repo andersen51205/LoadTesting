@@ -51,3 +51,10 @@ Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
 
 // 使用者首頁
 Route::get('/backend/user', 'User\UserController@main')->name('User_View');
+
+/**
+ * 管理員
+ */
+
+// 管理員首頁
+Route::get('/backend/manager', 'Manager\ManagerController@main')->name('Manager_View');

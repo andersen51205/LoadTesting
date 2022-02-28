@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class ManagerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,6 +24,6 @@ class UserController extends Controller
      */
     public function main()
     {
-        return view('User.UserMain');
+        return view('Manager.ManagerMain');
     }
 }
