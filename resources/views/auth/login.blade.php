@@ -60,8 +60,16 @@
                         {{-- 表單操作區 --}}
                         <div class="row mb-0">
                             <div class="col-6 offset-3 d-flex justify-content-end">
-                                <a class="btn btn-outline-success mx-3 my-2" href="{{ route('register') }}">我沒有帳號</a>
+                                {{-- <a class="btn btn-outline-success mx-3 my-2" href="{{ route('register') }}">我沒有帳號</a> --}}
                                 <button type="submit" class="btn btn-primary my-2">登入</button>
+                            </div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="col-6 offset-3">
+                                <hr class="w-100">
+                                <div class="d-flex justify-content-end">
+                                    <p>沒有帳號？<a href="{{ route('register') }}">我要註冊</a></p>
+                                </div>
                             </div>
                         </div>
                     </form>
