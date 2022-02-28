@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Validators\Auth\LoginValidator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -34,9 +36,15 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    protected $loginValidator;
+
+    public function __construct(
+        LoginValidator $loginValidator
+    )
     {
         $this->middleware('guest')->except('logout');
+        $this->loginValidator = $loginValidator;
     }
 
     // 登入頁面
@@ -48,6 +56,8 @@ class LoginController extends Controller
     // 登入驗證
     public function login(Request $request)
     {
+        // Validate
+        $this->loginValidator->checkLogin($request);
 
         // 認證帳號密碼
         if (Auth::attempt($request->only('email','password'))) {

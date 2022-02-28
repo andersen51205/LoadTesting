@@ -13,18 +13,18 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('Login') }}">
                         @csrf
+                        {{-- 錯誤提示 --}}
+                        @error('error')
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
                         {{-- 電子郵件 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
                                 <label class="col-form-label" for="email">電子郵件</label>
                                 <input type="email" id="email" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                {{-- 錯誤提示 --}}
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                         {{-- 密碼 --}}
@@ -34,12 +34,6 @@
                                 <input type="password" id="password"
                                     class="form-control @error('password') is-invalid @enderror"
                                     name="password" required autocomplete="current-password">
-                                {{-- 錯誤提示 --}}
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                         {{-- 記住我 --}}
