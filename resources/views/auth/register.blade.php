@@ -66,7 +66,7 @@
                         {{-- 表單操作區 --}}
                         <div class="row mb-0">
                             <div class="col-6 offset-3 d-flex justify-content-end">
-                                <a class="mx-4 my-2" href="{{ route('login') }}">改用帳號登入</a>
+                                <a class="mx-4 my-2" href="{{ route('Login_View') }}">改用帳號登入</a>
                                 <button type="submit" class="btn btn-primary">我要註冊</button>
                             </div>
                         </div>

@@ -41,9 +41,9 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            @if (Route::has('Login_View'))
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="{{ route('login') }}">登入</a>
+                                    <a class="nav-link active" href="{{ route('Login_View') }}">登入</a>
                                 </li>
                             @endif
 
@@ -59,7 +59,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{ route('Logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         登出

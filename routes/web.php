@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 // 前台首頁
-Route::get('/', 'Guest\GuestController@index')->name('Guest');
+Route::get('/', 'Guest\GuestController@main')->name('Guest_View');
 
 /**
  * 後台
@@ -39,10 +39,15 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 */
+// 驗證相關
+Route::get('login', 'Auth\LoginController@main')->name('Login_View');
+Route::post('login', 'Auth\LoginController@login')->name('Login');
+Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
+
 
 /**
  * 使用者
  */
 
 // 使用者首頁
-Route::get('/backend/user', 'User\UserController@index')->name('User');
+Route::get('/backend/user', 'User\UserController@main')->name('User_View');

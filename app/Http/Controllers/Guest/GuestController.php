@@ -12,7 +12,7 @@ class GuestController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function main()
     {
         return view('welcome');
     }

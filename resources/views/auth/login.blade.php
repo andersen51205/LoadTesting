@@ -11,7 +11,7 @@
                     <h1 class="m-2 align-middle d-inline">登入</h1>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('Login') }}">
                         @csrf
                         {{-- 電子郵件 --}}
                         <div class="row mb-3">

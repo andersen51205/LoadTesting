@@ -37,4 +37,23 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    // 登入頁面
+    public function main()
+    {
+        return view('Auth.Login');
+    }
+
+    // 登入驗證
+    public function login(Request $request)
+    {
+
+    }
+
+    // 登出
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('Login_View');
+    }
 }
