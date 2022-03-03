@@ -5,11 +5,14 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Validators\User\UserInformationValidator;
 use Auth;
 
 class UserController extends Controller
 {
     protected $user;
+    protected $userInformationValidator;
+
     /**
      * Create a new controller instance.
      *
@@ -17,11 +20,13 @@ class UserController extends Controller
      */
     public function __construct(
         User $user,
+        UserInformationValidator $userInformationValidator
     )
     {
         // 已透過Middleware進行檢查
         // $this->middleware('auth');
         $this->user = $user;
+        $this->userInformationValidator = $userInformationValidator;
     }
 
     /**
@@ -46,6 +51,35 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        // Validate
+        $this->userInformationValidator->checkUserInformation($request);
 
+        // Get Data
+        $data = [
+            'name' => $request['name'],
+        ];
+
+        // Update
+        try {
+            $this->user->where('email', Auth::user()->email)
+                       ->update($data);
+            $result = [
+                'result' => 'successful'
+            ];
+        } catch (\Exception $e) {
+            $result = [
+                'result' => 'failure',
+                'message' => $e->getMessage()];
+        }
+
+        // Response
+        if ($result['result'] === 'successful') {
+            return response('Successful', 200);
+        }
+        elseif ($result['result'] === 'failure') {
+            dd($result['message']);
+            return response('Server Error', 500);
+        }
+        return response('Bad Request', 400);
     }
 }
