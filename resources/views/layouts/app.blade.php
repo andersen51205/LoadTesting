@@ -21,6 +21,8 @@
 
     <!-- favicon.ico -->
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
+
+    @yield('link')
 </head>
 <body>
     <div id="app">
