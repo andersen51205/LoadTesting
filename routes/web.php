@@ -44,17 +44,22 @@ Route::get('login', 'Auth\LoginController@main')->name('Login_View');
 Route::post('login', 'Auth\LoginController@login')->name('Login');
 Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
 
-
 /**
- * 使用者
+ * 後台
  */
-
-// 使用者首頁
-Route::get('/backend/user', 'User\UserController@main')->name('User_View');
-
-/**
- * 管理員
- */
-
-// 管理員首頁
-Route::get('/backend/manager', 'Manager\ManagerController@main')->name('Manager_View');
+Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
+    /**
+     * 使用者
+     */
+    Route::group(['prefix' => 'user', 'middleware' => 'user'], function() {
+        // 使用者首頁
+        Route::get('/', 'User\UserController@main')->name('User_View');
+    });
+    /**
+     * 管理員
+     */
+    Route::group(['prefix' => 'manager', 'middleware' => 'manager'], function() {
+        // 管理員首頁
+        Route::get('/', 'Manager\ManagerController@main')->name('Manager_View');
+    });
+});

@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // 已透過Middleware進行檢查
+        // $this->middleware('auth');
     }
 
     /**
