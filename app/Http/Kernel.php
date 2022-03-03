@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'user' => \App\Http\Middleware\UserPermission::class,
         'manager' => \App\Http\Middleware\ManagerPermission::class,
+        'ajax' => \App\Http\Middleware\AjaxRequestCheck::class,
     ];
 }
