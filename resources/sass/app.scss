@@ -18,3 +18,8 @@
 .swal2-popup {
     font-size: 0.9rem !important;
 }
+
+// 複寫input錯誤提示
+.invalid-feedback {
+    display: block !important;
+}

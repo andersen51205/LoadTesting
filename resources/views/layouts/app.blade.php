@@ -85,4 +85,5 @@
     {{-- 公用元件 --}}
     <script type="text/javascript" src="{{asset(mix('/js/utility/SwalUtility.js'))}}"></script>
 </body>
+@yield('script')
 </html>

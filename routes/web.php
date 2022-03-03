@@ -52,14 +52,17 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
      * 使用者
      */
     Route::group(['prefix' => 'user', 'middleware' => 'user'], function() {
-        // 使用者首頁
+        // 首頁
         Route::get('/', 'User\UserController@main')->name('User_View');
+        // 基本資料
+        Route::get('/AccountInformation', 'User\UserController@infomation')->name('UserInfomation_View');
+        Route::patch('/AccountInformation', 'User\UserController@update')->name('UserInfomation_Update')->middleware('ajax');
     });
     /**
      * 管理員
      */
     Route::group(['prefix' => 'manager', 'middleware' => 'manager'], function() {
-        // 管理員首頁
+        // 首頁
         Route::get('/', 'Manager\ManagerController@main')->name('Manager_View');
     });
 });
