@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
+@section('link')
+@endsection
+
 @section('content')
-<div class="container">
+<div class="container pt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header p-3 align-middle text-center">
-                    <h2 class="m-2 align-middle d-inline"><i class="fa-solid fa-user-pen"></i> 帳號資訊</h2>
+                    <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-user-pen"></i> 帳號資訊</h3>
                 </div>
                 <div class="card-body">
                     <form id="Form_user_information" method="POST" action="{{-- axios --}}">
