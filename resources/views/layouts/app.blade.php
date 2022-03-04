@@ -15,6 +15,7 @@
     {{-- Styles --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">{{-- template CSS --}}
+    <link href="{{ asset('css/customize.css') }}" rel="stylesheet">{{-- customize CSS --}}
     {{-- favicon.ico --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
 
@@ -98,8 +99,8 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
+        {{-- 頁面內容 --}}
+        <main class="nav-padding">
             @yield('content')
         </main>
     </div>

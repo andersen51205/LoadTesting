@@ -57,6 +57,8 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         // 基本資料
         Route::get('/AccountInformation', 'User\UserController@infomation')->name('UserInfomation_View');
         Route::patch('/AccountInformation', 'User\UserController@update')->name('UserInfomation_Update')->middleware('ajax');
+        // 專案管理 
+        Route::get('/ProjectManagement', 'User\ProjectController@index')->name('ProjectManagement_View');
     });
     /**
      * 管理員
