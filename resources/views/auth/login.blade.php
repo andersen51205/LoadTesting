@@ -5,10 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header align-middle text-center">
-                    <img class="m-2 align-middle d-inline" width="50px" height="50px"
-                        src="{{ asset('/image/login-icon.svg') }}">
-                    <h1 class="m-2 align-middle d-inline">登入</h1>
+                <div class="card-header p-3 align-middle text-center">
+                    <h2 class="m-2 align-middle d-inline"><i class="fa-solid fa-users"></i> 登入</h2>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('Login') }}">

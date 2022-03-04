@@ -36,7 +36,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @if (Auth::user()->permission === 1)
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    基本資料
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('UserInfomation_View') }}">
+                                        帳號資訊
+                                    </a>
+                                </div>
+                            </li>
+                        @elseif (Auth::user()->permission === 2)
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                後臺管理
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('') }}">
+                                    使用者管理
+                                </a>
+                            </div>
+                        </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -82,5 +106,8 @@
             @yield('content')
         </main>
     </div>
+    {{-- 公用元件 --}}
+    <script type="text/javascript" src="{{asset(mix('/js/utility/SwalUtility.js'))}}"></script>
 </body>
+@yield('script')
 </html>
