@@ -3,29 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
+    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    {{-- Web Title --}}
     <title>負載測試平台</title>
-
-    <!-- Scripts -->
+    {{-- Scripts --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
+    {{-- Fonts --}}
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
+    {{-- Styles --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <!-- favicon.ico -->
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">{{-- template CSS --}}
+    {{-- favicon.ico --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
 
     @yield('link')
 </head>
 <body>
     <div id="app">
+        {{-- navbar --}}
         <nav class="navbar navbar-expand-md navbar-dark bg-secondary shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">負載測試平台</a>
