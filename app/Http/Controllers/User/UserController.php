@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Validators\User\UserInformationValidator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 class UserController extends Controller
@@ -42,7 +43,6 @@ class UserController extends Controller
     public function infomation()
     {
         // Get Data
-        // $table = $this->foundationBasicInformationService->getTable(Auth::user()->account, Auth::user()->id, Auth::user()->permissions);
         $data = $this->user->where('email', Auth::user()->email)
                            ->first();
         // Response
@@ -53,12 +53,24 @@ class UserController extends Controller
     {
         // Validate
         $this->userInformationValidator->checkUserInformation($request);
-
+        // Check Password
+        if($request['password']) {
+            $user = Auth::user();
+            if (!Hash::check($request['currentPassword'], $user['password'])) {
+                return response('Current Password Wrong', 200);
+            }
+            else if ($request['password'] !== $request['confirmPassword']) {
+                return response('Confirm Password Failed', 200);
+            }
+            else {
+                $newpassword = bcrypt($request['password']);
+            }
+        }
         // Get Data
-        $data = [
-            'name' => $request['name'],
-        ];
-
+        $data = ['name' => $request['name']];
+        if(isset($newpassword)) {
+            $data["password"] = $newpassword;
+        }
         // Update
         try {
             $this->user->where('email', Auth::user()->email)
@@ -70,14 +82,12 @@ class UserController extends Controller
             $result = [
                 'result' => 'failure',
                 'message' => $e->getMessage()];
-        }
-
+        }   
         // Response
         if ($result['result'] === 'successful') {
             return response('Successful', 200);
         }
         elseif ($result['result'] === 'failure') {
-            dd($result['message']);
             return response('Server Error', 500);
         }
         return response('Bad Request', 400);

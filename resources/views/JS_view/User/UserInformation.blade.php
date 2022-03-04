@@ -8,18 +8,18 @@
             validMarks[i].classList.remove('is-invalid');
         }
         // 檢查密碼是否填寫
-        const oldPassword = form.querySelector('#Input_old_password');
+        const currentPassword = form.querySelector('#Input_current_password');
         const password = form.querySelector('#Input_password');
         const confirmPassword = form.querySelector('#Input_confirm_password');
-        if(password.value || confirmPassword.value || oldPassword.value) {
+        if(password.value || confirmPassword.value || currentPassword.value) {
             password.classList.add('necessary');
             confirmPassword.classList.add('necessary');
-            oldPassword.classList.add('necessary');
+            currentPassword.classList.add('necessary');
         }
         else {
             password.classList.remove('necessary');
             confirmPassword.classList.remove('necessary');
-            oldPassword.classList.remove('necessary');
+            currentPassword.classList.remove('necessary');
         }
         // 驗證後送出
         if(validateForm() &&
@@ -35,7 +35,18 @@
                 data: formData,
             }).then(function (response) {
                 // handle success
-                UtilSwal.submitSuccess('儲存成功');
+                // "Successful" : 修改成功
+                // "Current Password Wrong" : 舊密碼輸入錯誤
+                // "Confirm Password Failed" : 新密碼確認失敗
+                if(response['data'] === "Current Password Wrong") {
+                    UtilSwal.showFail("舊密碼輸入錯誤");
+                }
+                else if(response['data'] === "Confirm Password Failed") {
+                    UtilSwal.showFail("密碼確認失敗");
+                }
+                else {
+                    UtilSwal.submitSuccess('儲存成功');
+                }
             })
             .catch(function (error) {
                 // handle error
@@ -63,19 +74,19 @@
     function validatePassword() {
         const form = document.querySelector('#Form_user_information');
         // 驗證密碼
-        const oldPassword = form.querySelector('#Input_old_password');
+        const currentPassword = form.querySelector('#Input_current_password');
         const password = form.querySelector('#Input_password');
         const confirmPassword = form.querySelector('#Input_confirm_password');
-        if(password.value || confirmPassword.value || oldPassword.value) {
+        if(password.value || confirmPassword.value || currentPassword.value) {
             if(password.value !== confirmPassword.value) {
                 password.classList.add('is-invalid');
                 confirmPassword.classList.add('is-invalid');
                 UtilSwal.showFail("密碼確認失敗");
                 return false;
             }
-            if(password.value === oldPassword.value) {
+            if(password.value === currentPassword.value) {
                 password.classList.add('is-invalid');
-                oldPassword.classList.add('is-invalid');
+                currentPassword.classList.add('is-invalid');
                 UtilSwal.showFail("新密碼與舊密碼相同");
                 return false;
             }

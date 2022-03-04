@@ -13,7 +13,9 @@
                         {{-- 使用者名稱 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label class="col-form-label" for="name">使用者名稱</label>
+                                <label class="col-form-label" for="name">
+                                    <span class="text-danger">*</span>使用者名稱
+                                </label>
                                 <input type="text" id="Input_name" class="form-control necessary"
                                     name="name" value="{{ $data['name'] }}">
                             </div>
@@ -21,7 +23,9 @@
                         {{-- 電子郵件 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label class="col-form-label" for="email">電子郵件</label>
+                                <label class="col-form-label" for="email">
+                                    <span class="text-danger">*</span>電子郵件
+                                </label>
                                 <input type="email" id="Input_email" class="form-control necessary"
                                     name="email" value="{{ $data['email'] }}" disabled>
                             </div>
@@ -29,9 +33,9 @@
                         {{-- 舊密碼 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label for="Input_old_password" class="col-form-label">舊密碼</label>
-                                <input type="password" id="Input_old_password" class="form-control"
-                                    name="oldPassword">
+                                <label for="Input_current_password" class="col-form-label">舊密碼</label>
+                                <input type="password" id="Input_current_password" class="form-control"
+                                    name="currentPassword">
                                 <span class="invalid-feedback" role="alert">
                                     <strong>若只需變更使用者名稱，請將密碼欄位留空。</strong>
                                 </span>

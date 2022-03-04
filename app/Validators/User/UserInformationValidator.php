@@ -9,7 +9,9 @@ class UserInformationValidator
     {
         $request->validate([
             'name' => 'required',
+            'currentPassword' => 'nullable',
             'password' => 'nullable',
+            'confirmPassword' => 'nullable',
         ]);
     }
 }
