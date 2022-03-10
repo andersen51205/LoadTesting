@@ -59,6 +59,8 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::patch('/AccountInformation', 'User\UserController@update')->name('UserInfomation_Update')->middleware('ajax');
         // 專案管理 
         Route::get('/ProjectManagement', 'User\ProjectController@index')->name('ProjectManagement_View');
+        Route::get('/ProjectCreate', 'User\ProjectController@create')->name('ProjectCreate_View');
+        Route::post('/ProjectCreate', 'User\ProjectController@store')->name('ProjectCreate_Create');
     });
     /**
      * 管理員

@@ -41,7 +41,13 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        // Formate Data
+        $data = ['projectList' => $projectList];
+        // View
+        return view('User.ProjectCreate', compact('data'));
     }
 
     /**
@@ -52,7 +58,17 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate
+        // $this->userInformationValidator->checkUserInformation($request);
+        // Get Data
+        $data = [];
+        $data['name'] = $request['projectName'];
+        $data['description'] = $request['projectDescription'];
+        $data['user_id'] = Auth::user()->id;
+        // Create Data
+        $this->project->create($data);
+        // Redirect Route
+        return response()->json(['redirectTarget' => route('Project_View', [$data["name"]])], 200);
     }
 
     /**

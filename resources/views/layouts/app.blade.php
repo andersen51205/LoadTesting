@@ -60,6 +60,9 @@
                                         <a class="dropdown-item" href="{{ route('ProjectManagement_View') }}">
                                             專案管理
                                         </a>
+                                        <a class="dropdown-item" href="{{ route('ProjectCreate_View') }}">
+                                            新增專案
+                                        </a>
                                     </div>
                                 </li>
                             @elseif (Auth::user()->permission === 2)
