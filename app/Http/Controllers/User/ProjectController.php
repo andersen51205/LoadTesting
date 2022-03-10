@@ -77,9 +77,19 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($projectName, Project $project)
     {
-        //
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        $projectData = $this->project->where('name', $projectName)->first();
+        // $scriptList = $this->script->where('project_id', Auth::user()->id)
+        //                            ->get();
+        // Formate Data
+        $data = ['projectList' => $projectList,
+                 'projectData' => $projectData];
+        // View
+        return view('User.ProjectView', compact('data'));
     }
 
     /**

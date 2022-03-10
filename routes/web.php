@@ -61,6 +61,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/ProjectManagement', 'User\ProjectController@index')->name('ProjectManagement_View');
         Route::get('/ProjectCreate', 'User\ProjectController@create')->name('ProjectCreate_View');
         Route::post('/ProjectCreate', 'User\ProjectController@store')->name('ProjectCreate_Create');
+        Route::get('/Project/{projectName}', 'User\ProjectController@show')->name('Project_View');
     });
     /**
      * 管理員
