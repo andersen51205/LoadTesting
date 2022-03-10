@@ -46,7 +46,7 @@ class UserController extends Controller
         $data = $this->user->where('email', Auth::user()->email)
                            ->first();
         // Response
-        return view('User.UserInformation', compact('data'));
+        return view('User.UserInformationMain', compact('data'));
     }
 
     public function update(Request $request)

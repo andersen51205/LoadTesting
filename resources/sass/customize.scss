@@ -1,0 +1,23 @@
+// 調整swal整體大小
+.swal2-popup {
+    font-size: 0.9rem !important;
+}
+// 複寫input錯誤提示
+.invalid-feedback {
+    display: block !important;
+}
+// 固定navbar
+.navbar {
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    z-index: 1050;
+}
+// navbar高度
+.nav-padding {
+    padding-top: 56px;
+}
+// 改變側邊欄顏色
+.sb-sidenav-light {
+    background-color: #e6e6e6;
+}

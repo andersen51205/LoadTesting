@@ -13,13 +13,3 @@
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/v4-shims.scss";
-
-// 調整swal整體大小
-.swal2-popup {
-    font-size: 0.9rem !important;
-}
-
-// 複寫input錯誤提示
-.invalid-feedback {
-    display: block !important;
-}

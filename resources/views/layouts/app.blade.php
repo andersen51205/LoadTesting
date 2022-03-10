@@ -3,29 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
+    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    {{-- Web Title --}}
     <title>負載測試平台</title>
-
-    <!-- Scripts -->
+    {{-- Scripts --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
+    {{-- Fonts --}}
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
+    {{-- Styles --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <!-- favicon.ico -->
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">{{-- template CSS --}}
+    <link href="{{ asset('css/table.css') }}" rel="stylesheet">{{-- table CSS --}}
+    <link href="{{ asset('css/customize.css') }}" rel="stylesheet">{{-- customize CSS --}}
+    {{-- favicon.ico --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
 
     @yield('link')
 </head>
 <body>
     <div id="app">
+        {{-- navbar --}}
         <nav class="navbar navbar-expand-md navbar-dark bg-secondary shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">負載測試平台</a>
@@ -36,31 +35,53 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        @if (Auth::user()->permission === 1)
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    基本資料
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('UserInfomation_View') }}">
-                                        帳號資訊
+                        @auth
+                            @if (Auth::user()->permission === 1)
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{{ route('User_View') }}">首頁</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        基本資料
                                     </a>
-                                </div>
-                            </li>
-                        @elseif (Auth::user()->permission === 2)
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                後臺管理
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('') }}">
-                                    使用者管理
-                                </a>
-                            </div>
-                        </li>
-                        @endif
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('UserInfomation_View') }}">
+                                            帳號資訊
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        專案資訊
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('ProjectManagement_View') }}">
+                                            專案管理
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('ProjectCreate_View') }}">
+                                            新增專案
+                                        </a>
+                                    </div>
+                                </li>
+                            @elseif (Auth::user()->permission === 2)
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{{ route('Manager_View') }}">首頁</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        後臺管理
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Manager_View') }}">
+                                            使用者管理
+                                        </a>
+                                    </div>
+                                </li>
+                            @endif
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -101,8 +122,8 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
+        {{-- 頁面內容 --}}
+        <main class="nav-padding">
             @yield('content')
         </main>
     </div>
