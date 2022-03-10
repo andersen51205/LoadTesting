@@ -18,4 +18,5 @@ mix.js('resources/js/app.js', 'public/js')
     .css('resources/css/laravel.css', 'public/css')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/customize.scss', 'public/css')
+    .sass('resources/sass/table.scss', 'public/css')
     .sourceMaps();

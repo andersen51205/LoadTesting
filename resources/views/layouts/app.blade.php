@@ -15,6 +15,7 @@
     {{-- Styles --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">{{-- template CSS --}}
+    <link href="{{ asset('css/table.css') }}" rel="stylesheet">{{-- table CSS --}}
     <link href="{{ asset('css/customize.css') }}" rel="stylesheet">{{-- customize CSS --}}
     {{-- favicon.ico --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}"/>
