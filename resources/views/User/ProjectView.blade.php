@@ -16,8 +16,7 @@
                         <div class="row">
                             <div class="col-10 offset-1 ">
                                 <h3 class="mt-4 mb-0">專案名稱：{{ $data['projectData']['name'] }}</h3>
-                                <hr class="m-1">
-                                <div class="mt-0 mb-2">
+                                <div class="my-2">
                                     專案描述：{{ $data['projectData']['description'] }}
                                 </div>
                             </div>
@@ -25,24 +24,41 @@
                         <div class="row">
                             <div class="col-10 offset-1">
                                 <div class="my-2 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-outline-secondary">
+                                    <a class="btn btn-outline-secondary"
+                                        href="{{ route('TestScriptCreate_View') }}?project={{ $data['projectData']['name'] }}">
                                         <i class="fa-solid fa-plus"></i> 新增測試
-                                    </button>
+                                    </a>
                                 </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center">
-                                            <th style="width:30%">col1</th>
-                                            <th style="width:50%">col2</th>
-                                            <th style="width:20%">col3</th>
+                                            <th style="width:20%">名稱</th>
+                                            <th style="width:44%">描述</th>
+                                            <th style="width:19%">最後修改日期</th>
+                                            <th style="width:17%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="p-3">欄位1</th>
-                                            <td class="p-3">欄位2</td>
-                                            <td class="p-3">欄位3</td>
-                                        </tr>
+                                        @if(isset($data['testScriptList']))
+                                            @foreach ($data['testScriptList'] as $testScript)
+                                                <tr>
+                                                    <td class="p-3">{{ $testScript['name'] }}</th>
+                                                    <td class="p-3">{{ $testScript['description'] }}</td>
+                                                    <td class="p-3">{{ $testScript['updated_at'] }}</td>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-outline-secondary m-1" href="">
+                                                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                                        </a>
+                                                        <button class="btn btn-outline-secondary m-1">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary m-1">
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

@@ -23,6 +23,11 @@
                         </ol> --}}
                         <div class="row">
                             <div class="col-10 offset-1">
+                                <div class="my-2 d-flex justify-content-end">
+                                    <a class="btn btn-outline-secondary" href="{{ route('ProjectCreate_View') }}">
+                                        <i class="fa-solid fa-plus"></i> 新增專案
+                                    </a>
+                                </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center">
@@ -35,9 +40,13 @@
                                         @if(isset($data['projectList']))
                                             @foreach ($data['projectList'] as $project)
                                                 <tr>
-                                                    <td class="p-3">{{ $project['name'] }}</th>
+                                                    <td class="p-3">{{ $project['name'] }}</td>
                                                     <td class="p-3">{{ $project['description'] }}</td>
                                                     <td class="text-center">
+                                                        <a class="btn btn-outline-secondary m-1"
+                                                            href="{{ route('Project_View', [$project['name']]) }}">
+                                                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                                        </a>
                                                         <button class="btn btn-outline-secondary m-1">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>

@@ -4,18 +4,21 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\TestScript;
 use Illuminate\Http\Request;
 use Auth;
 
 class ProjectController extends Controller
 {
-    protected $project;
+    protected $project, $testScript;
 
     public function __construct(
-        Project $project
+        Project $project,
+        TestScript $testScript
     )
     {
         $this->project = $project;
+        $this->testScript = $testScript;
     }
 
     /**
@@ -82,12 +85,14 @@ class ProjectController extends Controller
         // Get Data
         $projectList = $this->project->where('user_id', Auth::user()->id)
                                      ->get();
-        $projectData = $this->project->where('name', $projectName)->first();
-        // $scriptList = $this->script->where('project_id', Auth::user()->id)
-        //                            ->get();
+        $projectData = $this->project->where('name', $projectName)
+                                     ->first();
+        $testScriptList = $this->testScript->where('project_id', $projectData['id'])
+                                           ->get();
         // Formate Data
         $data = ['projectList' => $projectList,
-                 'projectData' => $projectData];
+                 'projectData' => $projectData,
+                 'testScriptList' => $testScriptList];
         // View
         return view('User.ProjectView', compact('data'));
     }
