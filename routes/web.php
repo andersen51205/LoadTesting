@@ -57,11 +57,16 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         // 基本資料
         Route::get('/AccountInformation', 'User\UserController@infomation')->name('UserInfomation_View');
         Route::patch('/AccountInformation', 'User\UserController@update')->name('UserInfomation_Update')->middleware('ajax');
-        // 專案管理 
+        // 專案 
         Route::get('/ProjectManagement', 'User\ProjectController@index')->name('ProjectManagement_View');
         Route::get('/ProjectCreate', 'User\ProjectController@create')->name('ProjectCreate_View');
-        Route::post('/ProjectCreate', 'User\ProjectController@store')->name('ProjectCreate_Create');
+        Route::post('/ProjectCreate', 'User\ProjectController@store')->name('Project_Create');
         Route::get('/Project/{projectName}', 'User\ProjectController@show')->name('Project_View');
+        // 測試腳本
+        Route::get('/TestScriptManagement', 'User\TestScriptController@index')->name('TestScriptManagement_View');
+        Route::get('/TestScriptCreate', 'User\TestScriptController@create')->name('TestScriptCreate_View');
+        Route::post('/TestScriptCreate', 'User\TestScriptController@store')->name('TestScript_Create');
+        Route::get('/TestScript/{testScriptName}', 'User\TestScriptController@show')->name('TestScript_View');
     });
     /**
      * 管理員

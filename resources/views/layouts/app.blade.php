@@ -54,7 +54,7 @@
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        專案資訊
+                                        專案
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{{ route('ProjectManagement_View') }}">
@@ -62,6 +62,20 @@
                                         </a>
                                         <a class="dropdown-item" href="{{ route('ProjectCreate_View') }}">
                                             新增專案
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        測試腳本
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('TestScriptManagement_View') }}">
+                                            測試腳本管理
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('TestScriptCreate_View') }}">
+                                            新增測試腳本
                                         </a>
                                     </div>
                                 </li>

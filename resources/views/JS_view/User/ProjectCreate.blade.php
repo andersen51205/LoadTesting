@@ -9,7 +9,7 @@
         }
         // 驗證後送出
         if(validateForm()) {
-            const route = "{{ route('ProjectCreate_Create') }}";
+            const route = "{{ route('Project_Create') }}";
             let formData = new FormData(form);
 
             UtilSwal.showLoading();
