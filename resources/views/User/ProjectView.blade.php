@@ -33,9 +33,9 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th style="width:20%">名稱</th>
-                                            <th style="width:44%">描述</th>
+                                            <th style="width:39%">描述</th>
                                             <th style="width:19%">最後修改日期</th>
-                                            <th style="width:17%">操作</th>
+                                            <th style="width:22%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -46,6 +46,11 @@
                                                     <td class="p-3">{{ $testScript['description'] }}</td>
                                                     <td class="p-3">{{ $testScript['updated_at'] }}</td>
                                                     <td class="text-center">
+                                                        <button class="btn btn-outline-secondary m-1"
+                                                            data-id="{{ $testScript['id'] }}"
+                                                            onclick="startTesting(this)">
+                                                            <i class="fa-solid fa-play"></i>
+                                                        </button>
                                                         <a class="btn btn-outline-secondary m-1" href="">
                                                             <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                                         </a>
@@ -92,4 +97,5 @@
 @endsection
 
 @section('script')
+    @include('JS_view.User.ProjectView')
 @endsection

@@ -142,4 +142,32 @@ class TestScriptController extends Controller
     {
         //
     }
+
+    public function start($testScriptId)
+    {
+        // $result = shell_exec('dir');
+        // $resultUtf8 = mb_convert_encoding($result, "UTF-8", "BIG-5"); 
+        // return response()->json($result, 200);
+        // $result = shell_exec('jmeter -n -t my_test.jmx -l log.jtl -H my.proxy.server -P 8000');
+        // return 'done';
+
+        // Get Data
+        $testScriptData = $this->testScript->where('id', $testScriptId)
+                                           ->first();
+        $filename = $this->filename->where('id', $testScriptData['file_id'])
+                                   ->first();
+        // Set Command
+        $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
+        $scriptFile = '../storage/app/TestScript/'.$filename['hash'];
+        $resultLog = '../storage/app/TestResult/'.$filename['hash'].'.jtl';
+        $command = $jmeterPath.' -n -t '.$scriptFile.' -l '.$resultLog;
+        // Check Result
+        $deleteMessage = '';
+        if(file_exists($resultLog)) {
+            $deleteMessage = unlink($resultLog);
+        }
+        // Start Test
+        $result = shell_exec($command);
+        dd($result);
+    }
 }

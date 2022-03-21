@@ -11,6 +11,7 @@
 /public/js/utility
 /public/fonts/vendor
 /public/mix-manifest.json
+/public/jmeter.log
 /storage/*.key
 /vendor
 .env
