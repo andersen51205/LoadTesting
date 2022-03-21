@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Jobs\TestJob;
 use App\Http\Controllers\Controller;
 use App\Models\TestScript;
 use App\Models\Project;
@@ -156,18 +157,8 @@ class TestScriptController extends Controller
                                            ->first();
         $filename = $this->filename->where('id', $testScriptData['file_id'])
                                    ->first();
-        // Set Command
-        $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
-        $scriptFile = '../storage/app/TestScript/'.$filename['hash'];
-        $resultLog = '../storage/app/TestResult/'.$filename['hash'].'.jtl';
-        $command = $jmeterPath.' -n -t '.$scriptFile.' -l '.$resultLog;
-        // Check Result
-        $deleteMessage = '';
-        if(file_exists($resultLog)) {
-            $deleteMessage = unlink($resultLog);
-        }
-        // Start Test
-        $result = shell_exec($command);
-        dd($result);
+        // Add to job queue
+        $this->dispatch(new TestJob($filename));
+        
     }
 }
