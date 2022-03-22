@@ -126,8 +126,12 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($projectId)
     {
-        //
+        // Get Data
+        $project = $this->project->where('id', $projectId)
+                                 ->first();
+        $project->delete();
+        return response(null, 204);
     }
 }

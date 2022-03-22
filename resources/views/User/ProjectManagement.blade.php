@@ -50,7 +50,8 @@
                                                         <button class="btn btn-outline-secondary m-1">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-secondary m-1">
+                                                        <button class="btn btn-outline-secondary m-1"
+                                                            data-projectId="{{ $project['id'] }}" onclick="deleteProject(this)">
                                                             <i class="fa-solid fa-trash-can"></i>
                                                         </button>
                                                     </td>
@@ -90,4 +91,5 @@
 @endsection
 
 @section('script')
+    @include('JS_view.User.ProjectManagement')
 @endsection
