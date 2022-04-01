@@ -158,7 +158,7 @@ class TestScriptController extends Controller
         $filename = $this->filename->where('id', $testScriptData['file_id'])
                                    ->first();
         // Add to job queue
-        $this->dispatch(new TestJob($filename));
+        $this->dispatch(new TestJob($filename, $testScriptData));
         
     }
 }
