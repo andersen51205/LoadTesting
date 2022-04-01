@@ -159,6 +159,28 @@ class TestScriptController extends Controller
                                    ->first();
         // Add to job queue
         $this->dispatch(new TestJob($filename, $testScriptData));
-        
+    }
+
+    public function result($testScriptId)
+    {
+        // Get Data
+        $testScript = $this->testScript->where('id', $testScriptId)
+                                       ->first();
+        $filename = $this->filename->where('id', $testScript['file_id'])
+                                   ->first();
+        // Check Status
+        $resultFolder = '../storage/app/TestResult/'.$filename['hash'];
+        if(file_exists($resultFolder)) {
+            // $result = Storage::disk('TestResult')->has('file.jpg');
+            $result = Storage::disk('TestResult')->get($filename['hash'].'/statistics.json');
+            $statistics = json_decode($result, true);
+            ksort($statistics);
+            // Formate Data
+            $data = ['testScript' => $testScript,
+                     'result' => $statistics];
+            // View
+            return view('User.TestResult', compact('data'));
+        }
+        dd($resultFolder.' not exist.');
     }
 }

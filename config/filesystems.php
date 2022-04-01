@@ -44,6 +44,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/TestScript'),
         ],
+        'TestResult' => [
+            'driver' => 'local',
+            'root' => storage_path('app/TestResult'),
+        ],
         // Cloud Storage
         's3' => [
             'driver' => 's3',

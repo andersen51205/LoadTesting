@@ -51,8 +51,8 @@
                                                             onclick="startTesting(this)">
                                                             <i class="fa-solid fa-play"></i>
                                                         </button>
-                                                        <a class="btn btn-outline-secondary m-1" href="">
-                                                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                                        <a class="btn btn-outline-secondary m-1" href="{{ route('TestResult_View', $testScript['id']) }}">
+                                                            <i class="fa-solid fa-chart-line"></i>
                                                         </a>
                                                         <button class="btn btn-outline-secondary m-1">
                                                             <i class="fa-solid fa-pen-to-square"></i>

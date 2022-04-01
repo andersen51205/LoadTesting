@@ -69,6 +69,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::post('/TestScriptCreate', 'User\TestScriptController@store')->name('TestScript_Create');
         Route::get('/TestScript/{testScriptName}', 'User\TestScriptController@show')->name('TestScript_View');
         Route::get('/TestScript/Start/{testScriptId}', 'User\TestScriptController@start')->name('TestScript_Start');
+        Route::get('/TestScript/Result/{testScriptId}', 'User\TestScriptController@result')->name('TestResult_View');
     });
     /**
      * 管理員
