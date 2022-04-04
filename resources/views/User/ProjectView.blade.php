@@ -44,8 +44,14 @@
                                                 <tr>
                                                     <td class="p-3">{{ $testScript['name'] }}</th>
                                                     <td class="p-3">{{ $testScript['description'] }}</td>
-                                                    <td class="p-3">{{ $testScript['updated_at'] }}</td>
                                                     <td class="text-center">
+                                                    <td class="p-3 text-center align-middle">
+                                                        @if(isset($testScript['updateDate']) && isset($testScript['updateTime']))
+                                                            {{ $testScript['updateDate'] }}<br>{{ $testScript['updateTime'] }}
+                                                        @else
+                                                            {{ $testScript['updated_at'] }}
+                                                        @endif
+                                                    </td>
                                                         <button class="btn btn-outline-secondary m-1"
                                                             data-id="{{ $testScript['id'] }}"
                                                             onclick="startTesting(this)">

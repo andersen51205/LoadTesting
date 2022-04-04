@@ -89,6 +89,12 @@ class ProjectController extends Controller
                                      ->first();
         $testScriptList = $this->testScript->where('project_id', $projectData['id'])
                                            ->get();
+        // Processing Data
+        foreach ($testScriptList as $testScript) {
+            $updateData = explode(" ", $testScript['updated_at']);
+            $testScript['updateDate'] = $updateData[0];
+            $testScript['updateTime'] = $updateData[1];
+        }
         // Formate Data
         $data = ['projectList' => $projectList,
                  'projectData' => $projectData,
