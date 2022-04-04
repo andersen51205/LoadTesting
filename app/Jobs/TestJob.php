@@ -19,6 +19,13 @@ class TestJob implements ShouldQueue
     protected $filename, $testScript;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 600;
+
+    /**
      * Create a new job instance.
      *
      * @return void
@@ -39,41 +46,42 @@ class TestJob implements ShouldQueue
      */
     public function handle(Filename $filename, TestScript $testScript)
     {
-        try {
-            // Get Data
-            $scriptName = $this->filename;
-            // Set Command
-            $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
-            $scriptFile = 'storage/app/TestScript/'.$scriptName['hash'];
-            $resultLog = 'storage/app/TestResult/'.$scriptName['hash'].'.jtl';
-            $resultFolder = 'storage/app/TestResult/'.$scriptName['hash'];
-            $command = $jmeterPath.' -n -t '.$scriptFile.' -l '.$resultLog;
-            // Check Result
-            $deleteMessage = '';
-            if(file_exists($resultLog)) {
-                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-                $deleteMessage = unlink($resultLog);
-            }
-            if(file_exists($resultFolder)) {
-                $this->removeDirectory($resultFolder);
-            }
-            // Start Time
-            $this->testScript->start_at = date("Y-m-d H:i:s");
-            $this->testScript->save();
-            // Start Test
-            $result = shell_exec($command);
-            echo($result."\n");
-            // Generating reports
-            $reportCommand = $jmeterPath.' -g '.$resultLog.' -o '.$resultFolder;
-            $result = shell_exec($reportCommand);
-            echo($result."\n");
-            // End Time
-            $this->testScript->end_at = date("Y-m-d H:i:s");
-            $this->testScript->save();
+        // Get Data
+        $scriptName = $this->filename;
+        // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
+        $this->testScript->status = 3;
+        $this->testScript->save();
+        // Set Command
+        $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
+        $scriptFile = 'storage/app/TestScript/'.$scriptName['hash'];
+        $resultLog = 'storage/app/TestResult/'.$scriptName['hash'].'.jtl';
+        $resultFolder = 'storage/app/TestResult/'.$scriptName['hash'];
+        $command = $jmeterPath.' -n -t '.$scriptFile.' -l '.$resultLog;
+        // Check Result
+        $deleteMessage = '';
+        if(file_exists($resultLog)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($resultLog);
         }
-        catch (Exception $e) {
-            echo($e);
+        if(file_exists($resultFolder)) {
+            $this->removeDirectory($resultFolder);
         }
+        // Start Time
+        $this->testScript->start_at = date("Y-m-d H:i:s");
+        $this->testScript->save();
+        // Start Test
+        $result = shell_exec($command);
+        echo($result."\n");
+        // Generating reports
+        $reportCommand = $jmeterPath.' -g '.$resultLog.' -o '.$resultFolder;
+        $result = shell_exec($reportCommand);
+        echo($result."\n");
+        // End Time
+        $this->testScript->end_at = date("Y-m-d H:i:s");
+        $this->testScript->save();
+        // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
+        $this->testScript->status = 4;
+        $this->testScript->save();
     }
 
     public function removeDirectory($path)

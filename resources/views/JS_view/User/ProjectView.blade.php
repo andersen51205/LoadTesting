@@ -11,7 +11,7 @@
         })
         .then(function (response) {
             // handle success
-            UtilSwal.showSuccess();
+            UtilSwal.submitSuccess();
         })
         .catch(function (error) {
             // handle error
@@ -19,4 +19,12 @@
         });
     }
     
+    function viewResult(el) {
+        if(el.hasAttribute('data-href')) {
+            location.href = el.getAttribute('data-href');
+        }
+        else {
+            UtilSwal.submitFail();
+        }
+    }
 </script>

@@ -33,18 +33,31 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th style="width:20%">名稱</th>
-                                            <th style="width:39%">描述</th>
-                                            <th style="width:19%">最後修改日期</th>
-                                            <th style="width:22%">操作</th>
+                                            <th style="width:30%">描述</th>
+                                            <th style="width:12%">狀態</th>
+                                            <th style="width:13%">最後修改日期</th>
+                                            <th style="width:25%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if(isset($data['testScriptList']))
                                             @foreach ($data['testScriptList'] as $testScript)
                                                 <tr>
-                                                    <td class="p-3">{{ $testScript['name'] }}</th>
-                                                    <td class="p-3">{{ $testScript['description'] }}</td>
-                                                    <td class="text-center">
+                                                    <td class="p-3 align-middle">{{ $testScript['name'] }}</th>
+                                                    <td class="p-3 align-middle">{{ $testScript['description'] }}</td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        @if($testScript['status'] === 1)
+                                                            準備就緒
+                                                        @elseif($testScript['status'] === 2)
+                                                            等待開始
+                                                        @elseif($testScript['status'] === 3)
+                                                            測試中
+                                                        @elseif($testScript['status'] === 4)
+                                                            測試完成
+                                                        @else
+                                                            其他
+                                                        @endif
+                                                    </td>
                                                     <td class="p-3 text-center align-middle">
                                                         @if(isset($testScript['updateDate']) && isset($testScript['updateTime']))
                                                             {{ $testScript['updateDate'] }}<br>{{ $testScript['updateTime'] }}
@@ -52,14 +65,24 @@
                                                             {{ $testScript['updated_at'] }}
                                                         @endif
                                                     </td>
+                                                    <td class="text-center align-middle">
                                                         <button class="btn btn-outline-secondary m-1"
                                                             data-id="{{ $testScript['id'] }}"
-                                                            onclick="startTesting(this)">
+                                                            onclick="startTesting(this)"
+                                                            @if($testScript['status'] === 2 || $testScript['status'] === 3)
+                                                                disabled
+                                                            @endif>
                                                             <i class="fa-solid fa-play"></i>
                                                         </button>
-                                                        <a class="btn btn-outline-secondary m-1" href="{{ route('TestResult_View', $testScript['id']) }}">
+                                                        <button class="btn btn-outline-secondary m-1"
+                                                            onclick="viewResult(this)"
+                                                            @if($testScript['status'] === 4)
+                                                                data-href="{{ route('TestResult_View', $testScript['id']) }}"
+                                                            @else
+                                                                disabled
+                                                            @endif>
                                                             <i class="fa-solid fa-chart-line"></i>
-                                                        </a>
+                                                        </button>
                                                         <button class="btn btn-outline-secondary m-1">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>

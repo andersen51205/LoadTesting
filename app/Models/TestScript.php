@@ -15,5 +15,6 @@ class TestScript extends Model
         'file_id',
         'name',
         'description',
+        'status',
     ];
 }

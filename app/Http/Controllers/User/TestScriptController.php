@@ -91,6 +91,7 @@ class TestScriptController extends Controller
         $data['file_id'] = $fileId;
         $data['name'] = $request['testScriptName'];
         $data['description'] = $request['testScriptDescription'];
+        $data['status'] = 1;
         // Create Script
         $this->testScript->create($data);
         // Return Response
@@ -157,6 +158,9 @@ class TestScriptController extends Controller
                                            ->first();
         $filename = $this->filename->where('id', $testScriptData['file_id'])
                                    ->first();
+        // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
+        $testScriptData->status = 2;
+        $testScriptData->save();
         // Add to job queue
         $this->dispatch(new TestJob($filename, $testScriptData));
     }
