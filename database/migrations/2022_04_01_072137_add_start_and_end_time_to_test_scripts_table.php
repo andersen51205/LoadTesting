@@ -14,11 +14,9 @@ class AddStartAndEndTimeToTestScriptsTable extends Migration
     public function up()
     {
         Schema::table('test_scripts', function (Blueprint $table) {
-            if (!Schema::hasColumn('start_at', 'end_at')) {
-                // 在test_scripts表新增測試時間欄位
-                $table->dateTime('start_at')->nullable()->after('description');
-                $table->dateTime('end_at')->nullable()->after('start_at');
-            }
+            // 在test_scripts表新增測試時間欄位
+            $table->dateTime('start_at')->nullable()->after('description');
+            $table->dateTime('end_at')->nullable()->after('start_at');
         });
     }
 
