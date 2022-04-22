@@ -73,14 +73,15 @@
                                                 </div>
                                                 <div class="col-8 mb-3">
                                                     <input type="file" id="Input_file" class="form-control necessary"
-                                                        name="file" accept=".jmx"></textarea>
+                                                        name="file" accept=".jmx">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 {{-- 表單操作區 --}}
                                                 <div class="col-10 mb-3">
                                                     <div class="d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-primary" onclick="submitForm()">送出</button>
+                                                        <button type="button" class="btn btn-primary"
+                                                            data-type="create" onclick="submitForm(this)">送出</button>
                                                     </div>
                                                 </div>
                                             </div>

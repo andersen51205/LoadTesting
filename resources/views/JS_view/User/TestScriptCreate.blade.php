@@ -14,7 +14,13 @@
         }
     }
 
-    function submitForm() {
+    function submitForm(el) {
+        if(el.hasAttribute('data-type')) {
+            if(el.getAttribute('data-type') === "update") {
+                UtilSwal.showInfo('功能建置中');
+                return;
+            }
+        }
         /* 驗證前置作業 */
         const form = document.querySelector('#Form_test_script_information');
         // 清除紅框

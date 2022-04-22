@@ -67,20 +67,20 @@
                                                     </td>
                                                     <td class="text-center align-middle">
                                                         <button class="btn btn-outline-secondary m-1"
-                                                            data-id="{{ $testScript['id'] }}"
-                                                            onclick="startTesting(this)"
-                                                            @if($testScript['status'] === 2 || $testScript['status'] === 3)
-                                                                disabled
-                                                            @endif>
+                                                                data-id="{{ $testScript['id'] }}"
+                                                                onclick="startTesting(this)"
+                                                                @if($testScript['status'] === 2 || $testScript['status'] === 3)
+                                                                    disabled
+                                                                @endif>
                                                             <i class="fa-solid fa-play"></i>
                                                         </button>
                                                         <button class="btn btn-outline-secondary m-1"
-                                                            onclick="viewResult(this)"
-                                                            @if($testScript['status'] === 4)
-                                                                data-href="{{ route('TestResult_View', $testScript['id']) }}"
-                                                            @else
-                                                                disabled
-                                                            @endif>
+                                                                onclick="viewResult(this)"
+                                                                @if($testScript['status'] === 4)
+                                                                    data-href="{{ route('TestResult_View', $testScript['id']) }}"
+                                                                @else
+                                                                    disabled
+                                                                @endif>
                                                             <i class="fa-solid fa-chart-line"></i>
                                                         </button>
                                                         <button class="btn btn-outline-secondary m-1"
