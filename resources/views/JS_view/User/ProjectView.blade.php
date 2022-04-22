@@ -27,4 +27,12 @@
             UtilSwal.submitFail();
         }
     }
+    function editTestScript(el) {
+        if(el.hasAttribute('data-href')) {
+            location.href = el.getAttribute('data-href');
+        }
+        else {
+            UtilSwal.submitFail();
+        }
+    }
 </script>

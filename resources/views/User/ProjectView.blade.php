@@ -83,7 +83,9 @@
                                                             @endif>
                                                             <i class="fa-solid fa-chart-line"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-secondary m-1">
+                                                        <button class="btn btn-outline-secondary m-1"
+                                                                onclick="editTestScript(this)"
+                                                                data-href="{{ route('TestScript_View', $testScript['id']) }}">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>
                                                         <button class="btn btn-outline-secondary m-1">

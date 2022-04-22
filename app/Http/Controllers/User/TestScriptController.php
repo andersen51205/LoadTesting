@@ -106,9 +106,26 @@ class TestScriptController extends Controller
      * @param  \App\Models\TestScript  $testScript
      * @return \Illuminate\Http\Response
      */
-    public function show(TestScript $testScript)
+    public function show($testScriptId, TestScript $testScript)
     {
-        //
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
+                                           ->where('id', $testScriptId)
+                                           ->first();
+        $projectData = $this->project->where('id', $testScriptData['project_id'])
+                                     ->first();
+        $fileName = $this->filename->where('id', $testScriptData['file_id'])
+                                   ->first();
+        // 
+        $testScriptData['fileName'] = $fileName['name'];
+        // Formate Data
+        $data = ['projectList' => $projectList,
+                 'projectData' => $projectData,
+                 'testScriptData' => $testScriptData];
+        // View
+        return view('User.TestScriptView', compact('data'));
     }
 
     /**
