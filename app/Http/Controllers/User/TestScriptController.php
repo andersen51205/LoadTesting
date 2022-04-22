@@ -128,6 +128,19 @@ class TestScriptController extends Controller
         return view('User.TestScriptView', compact('data'));
     }
 
+    public function download($testScriptId)
+    {
+        // Get Data
+        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
+                                           ->where('id', $testScriptId)
+                                           ->first();
+        $fileName = $this->filename->where('id', $testScriptData['file_id'])
+                                   ->first();
+        $path = '../storage/app/TestScript/'.$fileName['hash'];
+        // Script File
+        return response()->download($path, $fileName['name']);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
