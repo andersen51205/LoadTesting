@@ -174,7 +174,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if(isset($data['error']))
+                                                @if(isset($data['error']) && count($data['error'])>0)
                                                     @foreach ($data['error'] as $error)
                                                         <tr>
                                                             <td class="text-break">
@@ -191,6 +191,10 @@
                                                             </td>
                                                         </tr>
                                                     @endforeach
+                                                @else
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">無失敗結果</td>
+                                                    </tr>
                                                 @endif
                                             </tbody>
                                         </table>
@@ -214,7 +218,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if(isset($data['errorByType']))
+                                                @if(isset($data['errorByType']) && count($data['errorByType'])>0)
                                                     @foreach ($data['errorByType'] as $error)
                                                         <tr>
                                                             <td class="text-break">
@@ -231,6 +235,10 @@
                                                             </td>
                                                         </tr>
                                                     @endforeach
+                                                @else
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">無錯誤資訊</td>
+                                                    </tr>
                                                 @endif
                                             </tbody>
                                         </table>
