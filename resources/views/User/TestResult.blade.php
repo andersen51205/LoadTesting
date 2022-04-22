@@ -15,7 +15,7 @@
                     <div class="container-fluid px-4">
                         <div class="row">
                             {{-- 測試資訊 --}}
-                            <div class="col-12 pt-4">
+                            <div class="col-12 p-4">
                                 <div class="card">
                                     <div class="card-header p-2 align-middle text-center">
                                         <h5 class="m-2 align-middle d-inline">測試資訊</h5>
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             {{-- 成功率 --}}
-                            <div class="col-12 pt-4">
+                            <div class="col-12 pb-4">
                                 <div class="card">
                                     <div class="card-header p-2 align-middle text-center">
                                         <h5 class="m-2 align-middle d-inline">成功率</h5>
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             {{-- 統計結果 --}}
-                            <div class="col-12 pt-4">
+                            <div class="col-12 pb-4">
                                 <div class="card">
                                     <div class="card-header p-2 align-middle text-center">
                                         <h5 class="m-2 align-middle d-inline">統計結果</h5>
@@ -75,22 +75,38 @@
                                         <table class="table table-bordered py-2">
                                             <thead class="text-center align-middle">
                                                 <tr>
-                                                    <th rowspan="2" style="width: 40%">項目</th>
+                                                    {{-- <th rowspan="2" style="width: 40%">項目</th>
                                                     <th colspan="3">執行請求</th>
-                                                    <th colspan="4">回應時間(毫秒)</th>
+                                                    <th colspan="5">回應時間(毫秒)</th>
                                                     <th rowspan="2" style="width: 6%">流通量</th>
+                                                    <th colspan="2">速度(KB/秒)</th> --}}
+                                                    <th rowspan="2">項目</th>
+                                                    <th colspan="3">執行請求</th>
+                                                    <th colspan="5">回應時間(毫秒)</th>
+                                                    <th rowspan="2">流通量</th>
                                                     <th colspan="2">速度(KB/秒)</th>
                                                 </tr>
                                                 <tr>
-                                                    <th style="width: 5%">次數</th>
+                                                    {{-- <th style="width: 5%">次數</th>
                                                     <th style="width: 5%">失敗</th>
                                                     <th style="width: 5%">失敗率</th>
                                                     <th style="width: 5%">平均</th>
                                                     <th style="width: 5%">最小</th>
                                                     <th style="width: 5%">最大</th>
                                                     <th style="width: 5%">中位數</th>
+                                                    <th style="width: 6%">90分位</th>
                                                     <th style="width: 6%">接收</th>
-                                                    <th style="width: 3%">傳送</th>
+                                                    <th style="width: 3%">傳送</th> --}}
+                                                    <th>次數</th>
+                                                    <th>失敗</th>
+                                                    <th>失敗率</th>
+                                                    <th>平均</th>
+                                                    <th>最小</th>
+                                                    <th>最大</th>
+                                                    <th>中位數</th>
+                                                    <th>90分位</th>
+                                                    <th>接收</th>
+                                                    <th>傳送</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -122,6 +138,9 @@
                                                                 {{ number_format($result['medianResTime'], 2) }}
                                                             </td>
                                                             <td class="text-end">
+                                                                {{ $result['pct90ResTime'] }}
+                                                            </td>
+                                                            <td class="text-end">
                                                                 {{ number_format($result['throughput'], 2) }}
                                                             </td>
                                                             <td class="text-end">
@@ -129,6 +148,86 @@
                                                             </td>
                                                             <td class="text-end">
                                                                 {{ number_format($result['sentKBytesPerSec'], 2) }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- 失敗統計結果 --}}
+                            <div class="col-12 pb-4">
+                                <div class="card">
+                                    <div class="card-header p-2 align-middle text-center">
+                                        <h5 class="m-2 align-middle d-inline">失敗結果</h5>
+                                    </div>
+                                    <div class="card-body my-3">
+                                        <table class="table table-bordered py-2">
+                                            <thead class="text-center align-middle">
+                                                <tr>
+                                                    <th style="width: 48%">項目</th>
+                                                    <th style="width: 6%">總次數</th>
+                                                    <th style="width: 6%">失敗數</th>
+                                                    <th style="width: 40%">錯誤資訊</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if(isset($data['error']))
+                                                    @foreach ($data['error'] as $error)
+                                                        <tr>
+                                                            <td class="text-break">
+                                                                {{ $error['errorLabel'] }}
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ $error['sampleCount'] }}
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ $error['errorCount'] }}
+                                                            </td>
+                                                            <td class="text-break">
+                                                                {{ $error['errorType'] }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- 錯誤資訊統計結果 --}}
+                            <div class="col-12 pb-4">
+                                <div class="card">
+                                    <div class="card-header p-2 align-middle text-center">
+                                        <h5 class="m-2 align-middle d-inline">錯誤資訊統計結果</h5>
+                                    </div>
+                                    <div class="card-body my-3">
+                                        <table class="table table-bordered py-2">
+                                            <thead class="text-center align-middle">
+                                                <tr>
+                                                    <th style="width: 55%">錯誤資訊</th>
+                                                    <th style="width: 15%">次數</th>
+                                                    <th style="width: 15%">失敗比例</th>
+                                                    <th style="width: 15%">整體比例</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if(isset($data['errorByType']))
+                                                    @foreach ($data['errorByType'] as $error)
+                                                        <tr>
+                                                            <td class="text-break">
+                                                                {{ $error['errorType'] }}
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ $error['errorCount'] }}
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ number_format($error['errorPctInError'], 2) }}%
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ number_format($error['errorPctInAll'], 2) }}%
                                                             </td>
                                                         </tr>
                                                     @endforeach
