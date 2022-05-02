@@ -169,7 +169,7 @@ class TestJob implements ShouldQueue
             "minResTime" => 999999,
             "totalRecv" => 0,
             "totalSent" => 0,
-            "startTime" => $statistics[$i][0][0],
+            "startTime" => $statistics[0][0][0],
             "endTime" => 0
         ];
         $errorStatistics = [];
@@ -391,6 +391,9 @@ class TestJob implements ShouldQueue
     public function failed(Throwable $exception)
     {
         // Send user notification of failure, etc...
+        $this->testScript->where('status', '3')
+                         ->first()
+                         ->update(['status' => '5']);
         echo $exception;
     }
 }
