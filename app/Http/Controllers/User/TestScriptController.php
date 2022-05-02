@@ -170,9 +170,50 @@ class TestScriptController extends Controller
      * @param  \App\Models\TestScript  $testScript
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TestScript $testScript)
+    public function destroy($testScriptId ,TestScript $testScript)
     {
-        //
+        // Get Data
+        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
+                                           ->where('id', $testScriptId)
+                                           ->first();
+        $fileName = $this->filename->where('id', $testScriptData['file_id'])
+                                   ->first();
+        // Delete File
+        $deleteMessage = '';
+        $resultPath = '../storage/app/TestResult/';
+        $scriptPath = '../storage/app/TestScript/';
+
+        if(file_exists($resultPath . $fileName['hash'])) {
+            $this->removeDirectory($resultPath . $fileName['hash']);
+        }
+        $currentFile = $resultPath . $fileName['hash'] . '.json';
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+        $currentFile = $resultPath . $fileName['hash'] . '-error.json';
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+        $currentFile = $resultPath . $fileName['hash'] . '-errorByType.json';
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+        $currentFile = $resultPath . $fileName['hash'] . '.jtl';
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+        $currentFile = $scriptPath . $fileName['hash'];
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+        $fileName->delete();
+        $testScriptData->delete();
+        return response(null, 204);
     }
 
     public function start($testScriptId)
@@ -223,5 +264,20 @@ class TestScriptController extends Controller
             return view('User.TestResult', compact('data'));
         }
         dd($resultFolder.' not exist.');
+    }
+
+    public function removeDirectory($path)
+    {
+        // $files = glob($path . '/*');
+        $files = glob($path . '/{,.}[!.,!..]*', GLOB_BRACE);
+        foreach ($files as $file) {
+            if(is_dir($file)) {
+                $this->removeDirectory($file);
+            }
+            else {
+                unlink($file);
+            }
+        }
+        rmdir($path);
     }
 }

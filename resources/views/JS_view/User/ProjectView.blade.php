@@ -45,21 +45,25 @@
             UtilSwal.submitFail();
             return;
         }
-        const id = el.getAttribute('data-script-id');
-        route = route.replace('id', id);
+        UtilSwal.formSubmit({
+            title: '確定要刪除嗎？',
+        },() => {
+            const id = el.getAttribute('data-script-id');
+            route = route.replace('id', id);
 
-        UtilSwal.showLoading();
-        axios({
-            url: route,
-            method: "GET",
+            UtilSwal.showLoading();
+            axios({
+                url: route,
+                method: "DELETE",
+            })
+            .then(function (response) {
+                // handle success
+                UtilSwal.submitSuccess();
+            })
+            .catch(function (error) {
+                // handle error
+                UtilSwal.submitFail();
+            });
         })
-        .then(function (response) {
-            // handle success
-            UtilSwal.submitSuccess();
-        })
-        .catch(function (error) {
-            // handle error
-            UtilSwal.submitFail();
-        });
     }
 </script>
