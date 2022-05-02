@@ -54,12 +54,15 @@
                                                             測試中
                                                         @elseif($testScript['status'] === 4)
                                                             測試完成
+                                                        @elseif($testScript['status'] === 5)
+                                                            失敗
                                                         @else
                                                             其他
                                                         @endif
                                                     </td>
                                                     <td class="p-3 text-center align-middle">
-                                                        @if(isset($testScript['updateDate']) && isset($testScript['updateTime']))
+                                                        @if(isset($testScript['updateDate'])
+                                                            && isset($testScript['updateTime']))
                                                             {{ $testScript['updateDate'] }}<br>{{ $testScript['updateTime'] }}
                                                         @else
                                                             {{ $testScript['updated_at'] }}
@@ -69,7 +72,8 @@
                                                         <button class="btn btn-outline-secondary m-1"
                                                                 data-id="{{ $testScript['id'] }}"
                                                                 onclick="startTesting(this)"
-                                                                @if($testScript['status'] === 2 || $testScript['status'] === 3)
+                                                                @if($testScript['status'] === 2
+                                                                    || $testScript['status'] === 3)
                                                                     disabled
                                                                 @endif>
                                                             <i class="fa-solid fa-play"></i>
@@ -85,10 +89,22 @@
                                                         </button>
                                                         <button class="btn btn-outline-secondary m-1"
                                                                 onclick="editTestScript(this)"
-                                                                data-href="{{ route('TestScript_View', $testScript['id']) }}">
+                                                                @if($testScript['status'] !== 2
+                                                                    && $testScript['status'] !== 3)
+                                                                    data-href="{{ route('TestScript_View', $testScript['id']) }}"
+                                                                @else
+                                                                    disabled
+                                                                @endif>
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-secondary m-1">
+                                                        <button class="btn btn-outline-secondary m-1"
+                                                                onclick="deleteTestScript(this)"
+                                                                @if($testScript['status'] !== 2
+                                                                    && $testScript['status'] !== 3)
+                                                                    data-script-id="{{ $testScript['id'] }}"
+                                                                @else
+                                                                    disabled
+                                                                @endif>
                                                             <i class="fa-solid fa-trash-can"></i>
                                                         </button>
                                                     </td>
