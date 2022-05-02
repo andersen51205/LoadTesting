@@ -61,7 +61,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/ProjectManagement', 'User\ProjectController@index')->name('ProjectManagement_View');
         Route::get('/ProjectCreate', 'User\ProjectController@create')->name('ProjectCreate_View');
         Route::post('/ProjectCreate', 'User\ProjectController@store')->name('Project_Create');
-        Route::get('/Project/{projectName}', 'User\ProjectController@show')->name('Project_View');
+        Route::get('/Project/{projectId}', 'User\ProjectController@show')->name('Project_View');
         Route::delete('/Project/{projectId}', 'User\ProjectController@destroy')->name('Project_Delete');
         // 測試腳本
         Route::get('/TestScriptManagement', 'User\TestScriptController@index')->name('TestScriptManagement_View');

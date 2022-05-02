@@ -80,14 +80,15 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show($projectName, Project $project)
+    public function show($projectId, Project $project)
     {
         // Get Data
         $projectList = $this->project->where('user_id', Auth::user()->id)
                                      ->get();
-        $projectData = $this->project->where('name', $projectName)
+        $projectData = $this->project->where('user_id', Auth::user()->id)
+                                     ->where('id', $projectId)
                                      ->first();
-        $testScriptList = $this->testScript->where('project_id', $projectData['id'])
+        $testScriptList = $this->testScript->where('project_id', $projectId)
                                            ->get();
         // Processing Data
         foreach ($testScriptList as $testScript) {
