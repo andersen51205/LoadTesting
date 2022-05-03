@@ -5,20 +5,23 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\TestScript;
+use App\Models\Filename;
 use Illuminate\Http\Request;
 use Auth;
 
 class ProjectController extends Controller
 {
-    protected $project, $testScript;
+    protected $project, $testScript, $filename;
 
     public function __construct(
         Project $project,
-        TestScript $testScript
+        TestScript $testScript,
+        Filename $filename
     )
     {
         $this->project = $project;
         $this->testScript = $testScript;
+        $this->filename = $filename;
     }
 
     /**
@@ -136,9 +139,65 @@ class ProjectController extends Controller
     public function destroy($projectId)
     {
         // Get Data
-        $project = $this->project->where('id', $projectId)
+        $project = $this->project->where('user_id', Auth::user()->id)
+                                 ->where('id', $projectId)
                                  ->first();
+        $testScriptList = $this->testScript->where('project_id', $projectId)
+                                           ->with('filename')
+                                           ->get();
+        foreach ($testScriptList as $testScript) {
+            // Delete File
+            $deleteMessage = '';
+            $resultPath = '../storage/app/TestResult/';
+            $scriptPath = '../storage/app/TestScript/';
+
+            if(file_exists($resultPath . $testScript['filename']['hash'])) {
+                $this->removeDirectory($resultPath . $testScript['filename']['hash']);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '-error.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '-errorByType.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '.jtl';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $scriptPath . $testScript['filename']['hash'];
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $testScript['filename']->delete();
+            $testScript->delete();
+        }
         $project->delete();
         return response(null, 204);
+    }
+
+    public function removeDirectory($path)
+    {
+        // $files = glob($path . '/*');
+        $files = glob($path . '/{,.}[!.,!..]*', GLOB_BRACE);
+        foreach ($files as $file) {
+            if(is_dir($file)) {
+                $this->removeDirectory($file);
+            }
+            else {
+                unlink($file);
+            }
+        }
+        rmdir($path);
     }
 }
