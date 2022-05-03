@@ -30,11 +30,11 @@
                                                 </div>
                                                 <div class="col-8 mb-3">
                                                     <select id="Select_project" class="form-select necessary"
-                                                        name="projectName" value="">
+                                                        name="projectId" value="">
                                                         <option value="" selected>選擇專案...</option>
                                                         @if(isset($data['projectList']))
                                                             @foreach ($data['projectList'] as $project)
-                                                                <option value="{{ $project['name'] }}">{{ $project['name'] }}</option>
+                                                                <option value="{{ $project['id'] }}">{{ $project['name'] }}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>

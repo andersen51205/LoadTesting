@@ -84,10 +84,11 @@ class TestScriptController extends Controller
             return response('Server Error', 500);
         }
         // Get Data
-        $projectId = $this->project->where('name', $request['projectName'])->first()->id;
+        $projectData = $this->project->where('id', $request['projectId'])
+                                     ->first();
         $data = [];
         $data['user_id'] = Auth::user()->id;
-        $data['project_id'] = $projectId;
+        $data['project_id'] = $projectData['id'];
         $data['file_id'] = $fileId;
         $data['name'] = $request['testScriptName'];
         $data['description'] = $request['testScriptDescription'];
@@ -96,8 +97,8 @@ class TestScriptController extends Controller
         $this->testScript->create($data);
         // Return Response
         return response()->json([
-            'redirectTarget' => route('Project_View', [$request['projectName']])
-            ], 200);
+            'redirectTarget' => route('Project_View', [$projectData['id']])
+        ], 200);
     }
 
     /**

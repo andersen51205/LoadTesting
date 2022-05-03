@@ -25,7 +25,7 @@
                             <div class="col-10 offset-1">
                                 <div class="my-2 d-flex justify-content-end">
                                     <a class="btn btn-outline-secondary"
-                                        href="{{ route('TestScriptCreate_View') }}?project={{ $data['projectData']['name'] }}">
+                                        href="{{ route('TestScriptCreate_View') }}?projectId={{ $data['projectData']['id'] }}">
                                         <i class="fa-solid fa-plus"></i> 新增測試
                                     </a>
                                 </div>
@@ -41,84 +41,90 @@
                                     </thead>
                                     <tbody>
                                         @if(isset($data['testScriptList']))
-                                            @foreach ($data['testScriptList'] as $testScript)
+                                            @if(count($data['testScriptList']) === 0)
                                                 <tr>
-                                                    {{-- 名稱 --}}
-                                                    <td class="p-3 align-middle">{{ $testScript['name'] }}</th>
-                                                    {{-- 描述 --}}
-                                                    <td class="p-3 align-middle">{{ $testScript['description'] }}</td>
-                                                    {{-- 狀態 --}}
-                                                    <td class="p-3 text-center align-middle">
-                                                        @if($testScript['status'] === 1)
-                                                            準備就緒
-                                                        @elseif($testScript['status'] === 2)
-                                                            等待開始
-                                                        @elseif($testScript['status'] === 3)
-                                                            測試中
-                                                        @elseif($testScript['status'] === 4)
-                                                            測試完成
-                                                        @elseif($testScript['status'] === 5)
-                                                            失敗
-                                                        @else
-                                                            其他
-                                                        @endif
-                                                    </td>
-                                                    {{-- 最後修改日期 --}}
-                                                    <td class="p-3 text-center align-middle">
-                                                        @if(isset($testScript['updateDate'])
-                                                                && isset($testScript['updateTime']))
-                                                            {{ $testScript['updateDate'] }}<br>{{ $testScript['updateTime'] }}
-                                                        @else
-                                                            {{ $testScript['updated_at'] }}
-                                                        @endif
-                                                    </td>
-                                                    {{-- 操作區 --}}
-                                                    <td class="text-center align-middle">
-                                                        {{-- 開始測試 --}}
-                                                        <button class="btn btn-outline-secondary m-1"
-                                                                data-id="{{ $testScript['id'] }}"
-                                                                onclick="startTesting(this)"
-                                                                @if($testScript['status'] === 2
-                                                                        || $testScript['status'] === 3)
-                                                                    disabled
-                                                                @endif>
-                                                            <i class="fa-solid fa-play"></i>
-                                                        </button>
-                                                        {{-- 查看結果 --}}
-                                                        <button class="btn btn-outline-secondary m-1"
-                                                                onclick="viewResult(this)"
-                                                                @if($testScript['status'] === 4)
-                                                                    data-href="{{ route('TestResult_View', $testScript['id']) }}"
-                                                                @else
-                                                                    disabled
-                                                                @endif>
-                                                            <i class="fa-solid fa-chart-line"></i>
-                                                        </button>
-                                                        {{-- 編輯腳本 --}}
-                                                        <button class="btn btn-outline-secondary m-1"
-                                                                onclick="editTestScript(this)"
-                                                                @if($testScript['status'] !== 2
-                                                                        && $testScript['status'] !== 3)
-                                                                    data-href="{{ route('TestScript_View', $testScript['id']) }}"
-                                                                @else
-                                                                    disabled
-                                                                @endif>
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                        {{-- 刪除腳本 --}}
-                                                        <button class="btn btn-outline-secondary m-1"
-                                                                onclick="deleteTestScript(this)"
-                                                                @if($testScript['status'] !== 2
-                                                                        && $testScript['status'] !== 3)
-                                                                    data-script-id="{{ $testScript['id'] }}"
-                                                                @else
-                                                                    disabled
-                                                                @endif>
-                                                            <i class="fa-solid fa-trash-can"></i>
-                                                        </button>
-                                                    </td>
+                                                    <td class="p-3 text-center" colspan="5">無測試腳本資料</th>
                                                 </tr>
-                                            @endforeach
+                                            @else
+                                                @foreach ($data['testScriptList'] as $testScript)
+                                                    <tr>
+                                                        {{-- 名稱 --}}
+                                                        <td class="p-3 align-middle">{{ $testScript['name'] }}</th>
+                                                        {{-- 描述 --}}
+                                                        <td class="p-3 align-middle">{{ $testScript['description'] }}</td>
+                                                        {{-- 狀態 --}}
+                                                        <td class="p-3 text-center align-middle">
+                                                            @if($testScript['status'] === 1)
+                                                                準備就緒
+                                                            @elseif($testScript['status'] === 2)
+                                                                等待開始
+                                                            @elseif($testScript['status'] === 3)
+                                                                測試中
+                                                            @elseif($testScript['status'] === 4)
+                                                                測試完成
+                                                            @elseif($testScript['status'] === 5)
+                                                                失敗
+                                                            @else
+                                                                其他
+                                                            @endif
+                                                        </td>
+                                                        {{-- 最後修改日期 --}}
+                                                        <td class="p-3 text-center align-middle">
+                                                            @if(isset($testScript['updateDate'])
+                                                                    && isset($testScript['updateTime']))
+                                                                {{ $testScript['updateDate'] }}<br>{{ $testScript['updateTime'] }}
+                                                            @else
+                                                                {{ $testScript['updated_at'] }}
+                                                            @endif
+                                                        </td>
+                                                        {{-- 操作區 --}}
+                                                        <td class="text-center align-middle">
+                                                            {{-- 開始測試 --}}
+                                                            <button class="btn btn-outline-secondary m-1"
+                                                                    data-id="{{ $testScript['id'] }}"
+                                                                    onclick="startTesting(this)"
+                                                                    @if($testScript['status'] === 2
+                                                                            || $testScript['status'] === 3)
+                                                                        disabled
+                                                                    @endif>
+                                                                <i class="fa-solid fa-play"></i>
+                                                            </button>
+                                                            {{-- 查看結果 --}}
+                                                            <button class="btn btn-outline-secondary m-1"
+                                                                    onclick="viewResult(this)"
+                                                                    @if($testScript['status'] === 4)
+                                                                        data-href="{{ route('TestResult_View', $testScript['id']) }}"
+                                                                    @else
+                                                                        disabled
+                                                                    @endif>
+                                                                <i class="fa-solid fa-chart-line"></i>
+                                                            </button>
+                                                            {{-- 編輯腳本 --}}
+                                                            <button class="btn btn-outline-secondary m-1"
+                                                                    onclick="editTestScript(this)"
+                                                                    @if($testScript['status'] !== 2
+                                                                            && $testScript['status'] !== 3)
+                                                                        data-href="{{ route('TestScript_View', $testScript['id']) }}"
+                                                                    @else
+                                                                        disabled
+                                                                    @endif>
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </button>
+                                                            {{-- 刪除腳本 --}}
+                                                            <button class="btn btn-outline-secondary m-1"
+                                                                    onclick="deleteTestScript(this)"
+                                                                    @if($testScript['status'] !== 2
+                                                                            && $testScript['status'] !== 3)
+                                                                        data-script-id="{{ $testScript['id'] }}"
+                                                                    @else
+                                                                        disabled
+                                                                    @endif>
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         @endif
                                     </tbody>
                                 </table>

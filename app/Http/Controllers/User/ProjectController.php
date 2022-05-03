@@ -72,9 +72,11 @@ class ProjectController extends Controller
         $data['description'] = $request['projectDescription'];
         $data['user_id'] = Auth::user()->id;
         // Create Data
-        $this->project->create($data);
+        $newProject = $this->project->create($data);
         // Redirect Route
-        return response()->json(['redirectTarget' => route('Project_View', [$data["name"]])], 200);
+        return response()->json([
+            'redirectTarget' => route('Project_View', [$newProject['id']])
+        ], 200);
     }
 
     /**

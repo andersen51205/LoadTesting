@@ -25,7 +25,7 @@
                 <div class="sb-sidenav-menu-heading">專案列表</div>
                 @if(isset($data['projectList']))
                     @foreach ($data['projectList'] as $project)
-                        <a class="btn nav-link" href="{{ route('Project_View', [$project['name']]) }}">
+                        <a class="btn nav-link" href="{{ route('Project_View', [$project['id']]) }}">
                             {{ $project['name'] }}
                         </a>
                     @endforeach

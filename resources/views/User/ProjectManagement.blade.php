@@ -38,25 +38,31 @@
                                     </thead>
                                     <tbody>
                                         @if(isset($data['projectList']))
-                                            @foreach ($data['projectList'] as $project)
+                                            @if(count($data['projectList']) === 0)
                                                 <tr>
-                                                    <td class="p-3">{{ $project['name'] }}</td>
-                                                    <td class="p-3">{{ $project['description'] }}</td>
-                                                    <td class="text-center">
-                                                        <a class="btn btn-outline-secondary m-1"
-                                                            href="{{ route('Project_View', [$project['id']]) }}">
-                                                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                                                        </a>
-                                                        <button class="btn btn-outline-secondary m-1">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                        <button class="btn btn-outline-secondary m-1"
-                                                            data-projectId="{{ $project['id'] }}" onclick="deleteProject(this)">
-                                                            <i class="fa-solid fa-trash-can"></i>
-                                                        </button>
-                                                    </td>
+                                                    <td class="p-3 text-center" colspan="3">查無專案資料</td>
                                                 </tr>
-                                            @endforeach
+                                            @else
+                                                @foreach ($data['projectList'] as $project)
+                                                    <tr>
+                                                        <td class="p-3">{{ $project['name'] }}</td>
+                                                        <td class="p-3">{{ $project['description'] }}</td>
+                                                        <td class="text-center">
+                                                            <a class="btn btn-outline-secondary m-1"
+                                                                href="{{ route('Project_View', [$project['id']]) }}">
+                                                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                                            </a>
+                                                            <button class="btn btn-outline-secondary m-1">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </button>
+                                                            <button class="btn btn-outline-secondary m-1"
+                                                                data-projectId="{{ $project['id'] }}" onclick="deleteProject(this)">
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         @endif
                                     </tbody>
                                 </table>

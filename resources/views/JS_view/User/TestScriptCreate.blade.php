@@ -5,11 +5,11 @@
     function init() {
         // 檢查url是否有帶入專案參數
         const url = new URL(window.location.href);
-        if(url.searchParams.has('project')) {
+        if(url.searchParams.has('projectId')) {
             // 選取專案選項
-            document.querySelector('#Select_project').value = url.searchParams.get('project');
+            document.querySelector('#Select_project').value = url.searchParams.get('projectId');
             // 清除參數
-            url.searchParams.delete('project');
+            url.searchParams.delete('projectId');
             window.history.replaceState('', '', url.href);
         }
     }
