@@ -23,6 +23,11 @@
                         </ol> --}}
                         <div class="row">
                             <div class="col-10 offset-1">
+                                <div class="my-2 d-flex justify-content-end">
+                                    <a class="btn btn-outline-secondary" href="{{ route('ProjectCreate_View') }}">
+                                        <i class="fa-solid fa-plus"></i> 新增專案
+                                    </a>
+                                </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center">
@@ -33,20 +38,32 @@
                                     </thead>
                                     <tbody>
                                         @if(isset($data['projectList']))
-                                            @foreach ($data['projectList'] as $project)
+                                            @if(count($data['projectList']) === 0)
                                                 <tr>
-                                                    <td class="p-3">{{ $project['name'] }}</th>
-                                                    <td class="p-3">{{ $project['description'] }}</td>
-                                                    <td class="text-center">
-                                                        <button class="btn btn-outline-secondary m-1">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
-                                                        </button>
-                                                        <button class="btn btn-outline-secondary m-1">
-                                                            <i class="fa-solid fa-trash-can"></i>
-                                                        </button>
-                                                    </td>
+                                                    <td class="p-3 text-center" colspan="3">查無專案資料</td>
                                                 </tr>
-                                            @endforeach
+                                            @else
+                                                @foreach ($data['projectList'] as $project)
+                                                    <tr>
+                                                        <td class="p-3">{{ $project['name'] }}</td>
+                                                        <td class="p-3">{{ $project['description'] }}</td>
+                                                        <td class="text-center">
+                                                            <a class="btn btn-outline-secondary m-1"
+                                                                href="{{ route('Project_View', $project['id']) }}">
+                                                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                                            </a>
+                                                            <a class="btn btn-outline-secondary m-1"
+                                                                href="{{ route('Project_Edit', $project['id']) }}">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                            <button class="btn btn-outline-secondary m-1"
+                                                                data-projectId="{{ $project['id'] }}" onclick="deleteProject(this)">
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         @endif
                                     </tbody>
                                 </table>
@@ -81,4 +98,5 @@
 @endsection
 
 @section('script')
+    @include('JS_view.User.ProjectManagement')
 @endsection

@@ -17,7 +17,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header p-3 align-middle text-center">
-                                        <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-plus"></i> 新增專案</h3>
+                                        <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-plus"></i> 編輯專案</h3>
                                     </div>
                                     <div class="card-body">
                                         <form id="Form_project_information" method="POST" action="{{-- axios --}}">
@@ -28,7 +28,7 @@
                                                         <span class="text-danger">*</span>專案名稱
                                                     </label>
                                                     <input type="text" id="Input_name" class="form-control necessary"
-                                                        name="projectName" value="">
+                                                        name="projectName" value="{{ $data['projectData']['name'] }}">
                                                 </div>
                                             </div>
                                             {{-- 專案描述 --}}
@@ -38,14 +38,15 @@
                                                         專案描述
                                                     </label>
                                                     <textarea id="Textarea_description" class="form-control"
-                                                        name="projectDescription" rows="4"></textarea>
+                                                        name="projectDescription" rows="4">{{ $data['projectData']['description'] }}</textarea>
                                                 </div>
                                             </div>
                                             {{-- 表單操作區 --}}
                                             <div class="row mb-0">
                                                 <div class="col-6 offset-3 d-flex justify-content-end">
                                                     <button type="button" class="btn btn-primary"
-                                                        data-submit-type="create" onclick="submitForm(this)">送出</button>
+                                                        data-submit-type="update" data-project-id="{{ $data['projectData']['id'] }}"
+                                                        onclick="submitForm(this)">送出</button>
                                                 </div>
                                             </div>
                                         </form>
