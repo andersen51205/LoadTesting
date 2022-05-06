@@ -15,12 +15,12 @@
     }
 
     function submitForm(el) {
-        if(el.hasAttribute('data-type')) {
-            if(el.getAttribute('data-type') === "update") {
-                UtilSwal.showInfo('功能建置中');
-                return;
-            }
-        }
+        const createRoute = "{{ route('TestScript_Create') }}";
+        const updateRoute = "{{ route('TestScript_Update', 'id') }}";
+        const submitType = el.getAttribute('data-type');
+        let route = createRoute;
+        let warringText = "";
+        
         /* 驗證前置作業 */
         const form = document.querySelector('#Form_test_script_information');
         // 清除紅框
@@ -30,26 +30,33 @@
         }
         // 驗證後送出
         if(validateForm()) {
-            const route = "{{ route('TestScript_Create') }}";
             let formData = new FormData(form);
-
-            UtilSwal.showLoading();
-            axios({
-                url: route,
-                method: "POST",
-                data: formData,
-            }).then(async function (response) {
-                // handle success
-                let options = {'text':''};
-                if(response.data['redirectTarget']) {
-                    options['redirectPage'] = response.data['redirectTarget'];
-                }
-                UtilSwal.submitSuccess(options);
+            if(submitType === "update") {
+                route = updateRoute.replace('id', el.getAttribute('data-id'));
+                formData.append('_method', "PATCH");
+                warringText = "注意：送出後將會清除壓測結果";
+            }
+            UtilSwal.formSubmit({
+                text: warringText
+            },() => {
+                UtilSwal.showLoading();
+                axios({
+                    url: route,
+                    method: "POST",
+                    data: formData,
+                }).then(async function (response) {
+                    // handle success
+                    let options = {'text':''};
+                    if(response.data['redirectTarget']) {
+                        options['redirectPage'] = response.data['redirectTarget'];
+                    }
+                    UtilSwal.submitSuccess(options);
+                })
+                .catch(function (error) {
+                    // handle error
+                    UtilSwal.submitFail();
+                });
             })
-            .catch(function (error) {
-                // handle error
-                UtilSwal.submitFail();
-            });
         }
     }
     function validateForm() {

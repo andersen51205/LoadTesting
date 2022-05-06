@@ -160,9 +160,75 @@ class TestScriptController extends Controller
      * @param  \App\Models\TestScript  $testScript
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TestScript $testScript)
+    public function update($testScriptId, Request $request, TestScript $testScript)
     {
-        //
+        // Get Data
+        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
+                                           ->where('id', $testScriptId)
+                                           ->first();
+        // Check File
+        if($request['file']) {
+            // Get Data
+            $fileData = $this->filename->where('id', $testScriptData['file_id'])
+                                       ->first();
+            $originalFileHash = $fileData['hash'];
+            // Create File
+            $file = $request['file'];
+            $originalFileName = $file->getClientOriginalName();
+            $uid = hash('sha256', Str::uuid().time());
+            Storage::disk('TestScript')->put($uid, $file->get());
+            // Update File
+            $fileData->update([
+                'hash' => $uid,
+                'name' => $originalFileName,
+            ]);
+            // Delete File
+            $deleteMessage = '';
+            $resultPath = '../storage/app/TestResult/';
+            $scriptPath = '../storage/app/TestScript/';
+
+            if(file_exists($resultPath . $originalFileHash)) {
+                $this->removeDirectory($resultPath . $originalFileHash);
+            }
+            $currentFile = $resultPath . $originalFileHash . '.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $originalFileHash . '-error.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $originalFileHash . '-errorByType.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $originalFileHash . '.jtl';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $scriptPath . $originalFileHash;
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+        }
+        // Processing data
+        $data['project_id'] = $request['projectId'];
+        $data['name'] = $request['testScriptName'];
+        $data['description'] = $request['testScriptDescription'];
+        $data['status'] = 1;
+        $data['start_at'] = NULL;
+        $data['end_at'] = NULL;
+        // Update Test Script
+        $testScriptData->update($data);
+        // Redirect Route
+        return response()->json([
+            'redirectTarget' => route('Project_View', $data['project_id'])
+        ], 200);
     }
 
     /**

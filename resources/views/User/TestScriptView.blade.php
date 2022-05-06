@@ -30,12 +30,12 @@
                                                 </div>
                                                 <div class="col-8 mb-3">
                                                     <select id="Select_project" class="form-select necessary"
-                                                        name="projectName" value="">
+                                                        name="projectId" value="">
                                                         <option value="">選擇專案...</option>
                                                         @if(isset($data['projectList']))
                                                             @foreach ($data['projectList'] as $project)
-                                                                <option value="{{ $project['name'] }}"
-                                                                    @if($data['projectData']['name'] === $project['name'])
+                                                                <option value="{{ $project['id'] }}"
+                                                                    @if($data['projectData']['id'] === $project['id'])
                                                                         selected
                                                                     @endif
                                                                 >{{ $project['name'] }}</option>
@@ -86,12 +86,15 @@
                                                 {{-- 新腳本檔案 --}}
                                                 <div class="col-2 mb-3">
                                                     <label class="col-form-label" for="Input_file">
-                                                        <span class="text-danger">*</span>上傳新腳本
+                                                        上傳新腳本
                                                     </label>
                                                 </div>
                                                 <div class="col-8 mb-3">
-                                                    <input type="file" id="Input_file" class="form-control necessary"
+                                                    <input type="file" id="Input_file" class="form-control"
                                                         name="file" accept=".jmx">
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>若無需變更腳本，請將欄位留空。</strong>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -99,7 +102,8 @@
                                                 <div class="col-10 mb-3">
                                                     <div class="d-flex justify-content-end">
                                                         <button type="button" class="btn btn-primary"
-                                                            data-type="update" onclick="submitForm(this)">送出</button>
+                                                            data-type="update" data-id="{{ $data['testScriptData']['id'] }}"
+                                                            onclick="submitForm(this)">送出</button>
                                                     </div>
                                                 </div>
                                             </div>

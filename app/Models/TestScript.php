@@ -16,5 +16,7 @@ class TestScript extends Model
         'name',
         'description',
         'status',
+        'start_at',
+        'end_at'
     ];
 }
