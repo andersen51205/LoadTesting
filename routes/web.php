@@ -62,12 +62,15 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/ProjectCreate', 'User\ProjectController@create')->name('ProjectCreate_View');
         Route::post('/ProjectCreate', 'User\ProjectController@store')->name('Project_Create');
         Route::get('/Project/{projectId}', 'User\ProjectController@show')->name('Project_View');
+        Route::get('/Project/edit/{projectId}', 'User\ProjectController@edit')->name('Project_Edit');
+        Route::patch('/Project/{projectId}', 'User\ProjectController@update')->name('Project_Update');
         Route::delete('/Project/{projectId}', 'User\ProjectController@destroy')->name('Project_Delete');
         // 測試腳本
         Route::get('/TestScriptManagement', 'User\TestScriptController@index')->name('TestScriptManagement_View');
         Route::get('/TestScriptCreate', 'User\TestScriptController@create')->name('TestScriptCreate_View');
         Route::post('/TestScriptCreate', 'User\TestScriptController@store')->name('TestScript_Create');
         Route::get('/TestScript/{testScriptId}', 'User\TestScriptController@show')->name('TestScript_View');
+        Route::patch('/TestScript/{testScriptId}', 'User\TestScriptController@update')->name('TestScript_Update');
         Route::delete('/TestScript/{testScriptId}', 'User\TestScriptController@destroy')->name('TestScript_Delete');
         Route::get('/TestScript/Download/{testScriptId}', 'User\TestScriptController@download')->name('TestScript_Download');
         Route::get('/TestScript/Start/{testScriptId}', 'User\TestScriptController@start')->name('TestScript_Start');

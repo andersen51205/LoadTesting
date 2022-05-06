@@ -49,12 +49,13 @@
                                                         <td class="p-3">{{ $project['description'] }}</td>
                                                         <td class="text-center">
                                                             <a class="btn btn-outline-secondary m-1"
-                                                                href="{{ route('Project_View', [$project['id']]) }}">
+                                                                href="{{ route('Project_View', $project['id']) }}">
                                                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                                             </a>
-                                                            <button class="btn btn-outline-secondary m-1">
+                                                            <a class="btn btn-outline-secondary m-1"
+                                                                href="{{ route('Project_Edit', $project['id']) }}">
                                                                 <i class="fa-solid fa-pen-to-square"></i>
-                                                            </button>
+                                                            </a>
                                                             <button class="btn btn-outline-secondary m-1"
                                                                 data-projectId="{{ $project['id'] }}" onclick="deleteProject(this)">
                                                                 <i class="fa-solid fa-trash-can"></i>

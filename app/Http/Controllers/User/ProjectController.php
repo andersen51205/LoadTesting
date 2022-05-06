@@ -115,9 +115,19 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($projectId, Project $project)
     {
-        //
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        $projectData = $this->project->where('user_id', Auth::user()->id)
+                                     ->where('id', $projectId)
+                                     ->first();
+        // Formate Data
+        $data = ['projectList' => $projectList,
+                 'projectData' => $projectData];
+        // View
+        return view('User.ProjectEdit', compact('data'));
     }
 
     /**
@@ -127,9 +137,21 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update($projectId, Request $request, Project $project)
     {
-        //
+        // Get Data
+        $projectData = $this->project->where('user_id', Auth::user()->id)
+                                     ->where('id', $projectId)
+                                     ->first();
+        // Processing Data
+        $data['name'] = $request['projectName'];
+        $data['description'] = $request['projectDescription'];
+        // Update Test Script
+        $projectData->update($data);
+        // Redirect Route
+        return response()->json([
+            'redirectTarget' => route('ProjectManagement_View')
+        ], 200);
     }
 
     /**

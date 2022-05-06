@@ -1,5 +1,9 @@
 <script type="text/javascript">
-    function submitForm() {
+    function submitForm(el) {
+        const createRoute = "{{ route('Project_Create') }}";
+        const updateRoute = "{{ route('Project_Update', 'id') }}";
+        const submitType = el.getAttribute('data-submit-type');
+        let route = createRoute;
         /* 驗證前置作業 */
         const form = document.querySelector('#Form_project_information');
         // 清除紅框
@@ -9,25 +13,29 @@
         }
         // 驗證後送出
         if(validateForm()) {
-            const route = "{{ route('Project_Create') }}";
             let formData = new FormData(form);
-
-            UtilSwal.showLoading();
-            axios({
-                url: route,
-                method: "POST",
-                data: formData,
-            }).then(async function (response) {
-                // handle success
-                let options = {'text':''};
-                if(response.data['redirectTarget']) {
-                    options['redirectPage'] = response.data['redirectTarget'];
-                }
-                UtilSwal.submitSuccess(options);
-            })
-            .catch(function (error) {
-                // handle error
-                UtilSwal.submitFail();
+            if(submitType === 'update') {
+                route = updateRoute.replace('id', el.getAttribute('data-project-id'));
+                formData.append('_method', 'PATCH');
+            }
+            UtilSwal.formSubmit({},() => {
+                UtilSwal.showLoading();
+                axios({
+                    url: route,
+                    method: "POST",
+                    data: formData,
+                }).then(async function (response) {
+                    // handle success
+                    let options = {'text':''};
+                    if(response.data['redirectTarget']) {
+                        options['redirectPage'] = response.data['redirectTarget'];
+                    }
+                    UtilSwal.submitSuccess(options);
+                })
+                .catch(function (error) {
+                    // handle error
+                    UtilSwal.submitFail();
+                });
             });
         }
     }
