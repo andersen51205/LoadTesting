@@ -66,6 +66,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::patch('/Project/{projectId}', 'User\ProjectController@update')->name('Project_Update');
         Route::delete('/Project/{projectId}', 'User\ProjectController@destroy')->name('Project_Delete');
         // 測試腳本
+        Route::get('/TestScriptTutorial', 'User\TestScriptController@tutorial')->name('TestScriptTutorial_View');
         Route::get('/TestScriptManagement', 'User\TestScriptController@index')->name('TestScriptManagement_View');
         Route::get('/TestScriptCreate', 'User\TestScriptController@create')->name('TestScriptCreate_View');
         Route::post('/TestScriptCreate', 'User\TestScriptController@store')->name('TestScript_Create');

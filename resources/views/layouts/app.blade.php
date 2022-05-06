@@ -71,6 +71,9 @@
                                         測試腳本
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('TestScriptTutorial_View') }}">
+                                            如何產生腳本
+                                        </a>
                                         <a class="dropdown-item" href="{{ route('TestScriptManagement_View') }}">
                                             測試腳本管理
                                         </a>

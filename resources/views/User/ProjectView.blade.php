@@ -24,6 +24,10 @@
                         <div class="row">
                             <div class="col-10 offset-1">
                                 <div class="my-2 d-flex justify-content-end">
+                                    <a class="btn btn-outline-secondary me-2"
+                                        href="{{ route('TestScriptTutorial_View') }}">
+                                        <i class="fa-regular fa-circle-question"></i> 如何產生腳本
+                                    </a>
                                     <a class="btn btn-outline-secondary"
                                         href="{{ route('TestScriptCreate_View') }}?projectId={{ $data['projectData']['id'] }}">
                                         <i class="fa-solid fa-plus"></i> 新增測試

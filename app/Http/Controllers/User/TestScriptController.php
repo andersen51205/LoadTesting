@@ -347,4 +347,15 @@ class TestScriptController extends Controller
         }
         rmdir($path);
     }
+
+    public function tutorial()
+    {
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        // Formate Data
+        $data = ['projectList' => $projectList];
+        // View
+        return view('User.TestTutorial', compact('data'));
+    }
 }
