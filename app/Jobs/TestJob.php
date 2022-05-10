@@ -55,11 +55,16 @@ class TestJob implements ShouldQueue
         $this->testScript->save();
         // Set Command
         $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
-        $scriptFile = 'storage/app/TestScript/'.$scriptName['hash'];
+        $originalScriptFile = 'storage/app/TestScript/'.$scriptName['hash'];
+        $currentScriptFile = 'storage/app/TestScript/'.$scriptName['hash'].'.jmx';
         $resultLog = 'storage/app/TestResult/'.$scriptName['hash'].'.jtl';
         $resultFolder = 'storage/app/TestResult/'.$scriptName['hash'];
         $resultJson = 'storage/app/TestResult/'.$scriptName['hash'].'.json';
-        $command = $jmeterPath.' -n -t '.$scriptFile.' -l '.$resultLog;
+        $command = $jmeterPath.' -n -t '.$currentScriptFile.' -l '.$resultLog;
+        // Generating TestScript
+        printf("Generating TestScript\n");
+        $this->generationTestScript($this->testScript, $scriptName);
+
         // Check Result
         $deleteMessage = '';
         if(file_exists($resultLog)) {
@@ -78,7 +83,7 @@ class TestJob implements ShouldQueue
         // Start Test
         $result = shell_exec($command);
         printf("%s\n", $result);
-        // Generating reports
+        // Generating Reports
         printf("Start Generating reports\n");
         $reportCommand = $jmeterPath.' -g '.$resultLog.' -o '.$resultFolder;
         $result = shell_exec($reportCommand);
@@ -106,6 +111,38 @@ class TestJob implements ShouldQueue
             }
         }
         rmdir($path);
+    }
+
+    public function generationTestScript(TestScript $testScript, $scriptName)
+    {
+        $testScriptPath = 'storage/app/TestScript/';
+        $originalScriptFile = $testScriptPath.$scriptName['hash'];
+        $currentScriptFile = $testScriptPath.$scriptName['hash'].'.jmx';
+        $message = "";
+        // Get Parameter
+        $threads = $testScript['threads'];
+        $rampUpPeriod = $testScript['ramp_up_period'];
+        $loops = $testScript['loops'];
+        // Load XML file
+        $xml = simplexml_load_file($originalScriptFile, "SimpleXMLElement", LIBXML_NOEMPTYTAG);
+        
+        $threadGroupNode = $xml->hashTree->hashTree->ThreadGroup; // 主執行緒Node
+        foreach($threadGroupNode->children() as $child) {
+            // find num_threads
+            if($child->attributes()->name == "ThreadGroup.num_threads") {
+                // Set Parameter
+                $child[0] = $threads;
+            }
+            if($child->attributes()->name == "ThreadGroup.ramp_time") {
+                // Set Parameter
+                $child[0] = $rampUpPeriod;
+            }
+            if($child->attributes()->name == "ThreadGroup.main_controller") {
+                // Set Parameter
+                $child->stringProp[0] = $loops;
+            }
+        }
+        $xml->asXml($currentScriptFile);
     }
 
     public function generationReport($scriptName)
