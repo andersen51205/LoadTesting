@@ -29,7 +29,7 @@
             validMarks[i].classList.remove('is-invalid');
         }
         // 驗證後送出
-        if(validateForm()) {
+        if(validateForm() && validateInterger()) {
             let formData = new FormData(form);
             if(submitType === "update") {
                 route = updateRoute.replace('id', el.getAttribute('data-id'));
@@ -73,6 +73,24 @@
         // 錯誤訊息
         if(!isValidPass) {
             UtilSwal.frontendValidFail();
+        }
+        return isValidPass;
+    }
+    function validateInterger() {
+        const form = document.querySelector('#Form_test_script_information');
+        const verifyIntegers = form.querySelectorAll('.verify-int');
+        let isValidPass = true;
+        const INTERGER = /^[0-9]*$/;
+        // 驗證資料格式
+        for(let i=0; i<verifyIntegers.length; i++) {
+            if(verifyIntegers[i].value === "0" || !INTERGER.test(verifyIntegers[i].value)) {
+                verifyIntegers[i].classList.add('is-invalid');
+                isValidPass = false;
+            }
+        }
+        // 錯誤訊息
+        if(!isValidPass) {
+            UtilSwal.showFail('請輸入大於0的整數');
         }
         return isValidPass;
     }
