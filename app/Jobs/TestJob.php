@@ -49,50 +49,61 @@ class TestJob implements ShouldQueue
     {
         printf("Start Job\n");
         // Get Data
-        $scriptName = $this->filename;
+        $scriptName = $this->filename['hash'];
+        $threads = $this->testScript['threads'];
+        $rampUpPeriod = $this->testScript['ramp_up_period'];
+        $loops = $this->testScript['loops'];
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
         $this->testScript->status = 3;
         $this->testScript->save();
         // Set Command
         $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
-        $originalScriptFile = 'storage/app/TestScript/'.$scriptName['hash'];
-        $currentScriptFile = 'storage/app/TestScript/'.$scriptName['hash'].'.jmx';
-        $resultLog = 'storage/app/TestResult/'.$scriptName['hash'].'.jtl';
-        $resultFolder = 'storage/app/TestResult/'.$scriptName['hash'];
-        $resultJson = 'storage/app/TestResult/'.$scriptName['hash'].'.json';
-        $command = $jmeterPath.' -n -t '.$currentScriptFile.' -l '.$resultLog;
+        $testScriptPath = 'storage/app/TestScript/';
+        $testResultPath = 'storage/app/TestResult/'.$scriptName.'/';
+
+        $originalScriptFile = $testScriptPath . $scriptName;
+        $currentScriptFile = $testScriptPath . $scriptName . '.jmx';
+
+        $resultName = $threads . '-' . $rampUpPeriod . '-' . $loops;
+        $resultJTL = $testResultPath . $resultName .'.jtl';
+        $command = $jmeterPath.' -n -t '.$currentScriptFile.' -l '.$resultJTL;
         // Generating TestScript
         printf("Generating TestScript\n");
         $this->generationTestScript($this->testScript, $scriptName);
 
         // Check Result
-        $deleteMessage = '';
-        if(file_exists($resultLog)) {
+        $deleteMessage = "";
+        if(file_exists($resultJTL)) {
             // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($resultLog);
+            $deleteMessage = unlink($resultJTL);
         }
-        if(file_exists($resultJson)) {
-            $deleteMessage = unlink($resultJson);
-        }
-        if(file_exists($resultFolder)) {
-            $this->removeDirectory($resultFolder);
-        }
+        // if(file_exists($resultJson)) {
+        //     $deleteMessage = unlink($resultJson);
+        // }
+        // if(file_exists($resultFolder)) {
+        //     $this->removeDirectory($resultFolder);
+        // }
+
         // Start Time
         $this->testScript->start_at = date("Y-m-d H:i:s");
         $this->testScript->save();
+        printf("Start Testing.\n");
         // Start Test
         $result = shell_exec($command);
         printf("%s\n", $result);
-        // Generating Reports
-        printf("Start Generating reports\n");
-        $reportCommand = $jmeterPath.' -g '.$resultLog.' -o '.$resultFolder;
-        $result = shell_exec($reportCommand);
 
-        $this->GenerationReport($scriptName['hash']);
-        printf("%s\n", $result);
+        // Generating Reports
+        printf("Start Generating reports.\n");
+        // $reportCommand = $jmeterPath.' -g '.$resultLog.' -o '.$resultFolder;
+        // $result = shell_exec($reportCommand);
+
+        $this->GenerationReport($testResultPath, $resultName);
+        // printf("%s\n", $result);
+
         // End Time
         $this->testScript->end_at = date("Y-m-d H:i:s");
         $this->testScript->save();
+
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
         $this->testScript->status = 4;
         $this->testScript->save();
@@ -116,8 +127,8 @@ class TestJob implements ShouldQueue
     public function generationTestScript(TestScript $testScript, $scriptName)
     {
         $testScriptPath = 'storage/app/TestScript/';
-        $originalScriptFile = $testScriptPath.$scriptName['hash'];
-        $currentScriptFile = $testScriptPath.$scriptName['hash'].'.jmx';
+        $originalScriptFile = $testScriptPath . $scriptName;
+        $currentScriptFile = $testScriptPath . $scriptName . '.jmx';
         $message = "";
         // Get Parameter
         $threads = $testScript['threads'];
@@ -128,33 +139,44 @@ class TestJob implements ShouldQueue
         
         $threadGroupNode = $xml->hashTree->hashTree->ThreadGroup; // 主執行緒Node
         foreach($threadGroupNode->children() as $child) {
-            // find num_threads
             if($child->attributes()->name == "ThreadGroup.num_threads") {
                 // Set Parameter
                 $child[0] = $threads;
+                $message = $message . "Thread Done.\n";
             }
-            if($child->attributes()->name == "ThreadGroup.ramp_time") {
+            else if($child->attributes()->name == "ThreadGroup.ramp_time") {
                 // Set Parameter
                 $child[0] = $rampUpPeriod;
+                $message = $message . "RampUpTime Done.\n";
             }
-            if($child->attributes()->name == "ThreadGroup.main_controller") {
+            else if($child->attributes()->name == "ThreadGroup.main_controller") {
                 // Set Parameter
                 $child->stringProp[0] = $loops;
+                $message = $message . "Loop Done.\n";
             }
         }
+        if($message === "") {
+            $message = "TestScript generate Fail !\n";
+        }
+        printf("%s", $message);
         $xml->asXml($currentScriptFile);
     }
 
-    public function generationReport($scriptName)
+    public function generationReport($resultPath, $resultName)
     {
         // $resultLog = 'storage/app/TestResult/'.$scriptName['hash'].'.jtl';
-        $resultCSV = 'storage/app/TestResult/'.$scriptName.'.jtl';
-        $resultJSON = 'storage/app/TestResult/'.$scriptName.'.json';
-        $errorJSON = 'storage/app/TestResult/'.$scriptName.'-error.json';
-        $errorByTypeJSON = 'storage/app/TestResult/'.$scriptName.'-errorByType.json';
+        // $resultJTL = 'storage/app/TestResult/'.$scriptName.'.jtl';
+        // $resultJSON = 'storage/app/TestResult/'.$scriptName.'.json';
+        // $errorJSON = 'storage/app/TestResult/'.$scriptName.'-error.json';
+        // $errorByTypeJSON = 'storage/app/TestResult/'.$scriptName.'-errorByType.json';
+        $resultJTL = $resultPath . $resultName . '.jtl';
+        $resultJSON = $resultPath . $resultName . '.json';
+        $errorJSON = $resultPath . $resultName . '-error.json';
+        $errorByTypeJSON = $resultPath . $resultName . '-errorByType.json';
+        
         printf("Start Read CSV\n");
         // 讀取CSV
-        $file = fopen($resultCSV, 'r');
+        $file = fopen($resultJTL, 'r');
         $statistics = [];
         // 讀取標題
         $row = fgetcsv($file);
