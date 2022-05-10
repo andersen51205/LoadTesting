@@ -15,6 +15,9 @@ class TestScript extends Model
         'file_id',
         'name',
         'description',
+        'threads',
+        'ramp_up_period',
+        'loops',
         'status',
         'start_at',
         'end_at'

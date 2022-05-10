@@ -92,6 +92,9 @@ class TestScriptController extends Controller
         $data['file_id'] = $fileId;
         $data['name'] = $request['testScriptName'];
         $data['description'] = $request['testScriptDescription'];
+        $data['threads'] = $request['testScriptThreads'];
+        $data['ramp_up_period'] = $request['testScriptRampUpPeriod'];
+        $data['loops'] = $request['testScriptLoops'];
         $data['status'] = 1;
         // Create Script
         $this->testScript->create($data);
@@ -220,6 +223,9 @@ class TestScriptController extends Controller
         $data['project_id'] = $request['projectId'];
         $data['name'] = $request['testScriptName'];
         $data['description'] = $request['testScriptDescription'];
+        $data['threads'] = $request['testScriptThreads'];
+        $data['ramp_up_period'] = $request['testScriptRampUpPeriod'];
+        $data['loops'] = $request['testScriptLoops'];
         $data['status'] = 1;
         $data['start_at'] = NULL;
         $data['end_at'] = NULL;

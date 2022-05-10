@@ -69,6 +69,42 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                {{-- 人數 --}}
+                                                <div class="col-2 mb-3">
+                                                    <label class="col-form-label" for="Input_threads">
+                                                        <span class="text-danger">*</span>執行緒(人數)
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3">
+                                                    <input type="text" id="Input_threads" class="form-control necessary verify-int"
+                                                        name="testScriptThreads" value="{{ $data['testScriptData']['threads'] }}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                {{-- 啟動時間 --}}
+                                                <div class="col-2 mb-3">
+                                                    <label class="col-form-label" for="Input_ramp_up_period">
+                                                        <span class="text-danger">*</span>啟動時間(秒)
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3">
+                                                    <input type="text" id="Input_ramp_up_period" class="form-control necessary verify-int"
+                                                        name="testScriptRampUpPeriod" value="{{ $data['testScriptData']['ramp_up_period'] }}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                {{-- 次數 --}}
+                                                <div class="col-2 mb-3">
+                                                    <label class="col-form-label" for="Input_loops">
+                                                        <span class="text-danger">*</span>執行次數
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3">
+                                                    <input type="text" id="Input_loops" class="form-control necessary verify-int"
+                                                        name="testScriptLoops" value="{{ $data['testScriptData']['loops'] }}">
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 {{-- 舊檔案 --}}
                                                 <div class="col-2 mb-3">
                                                     <label class="col-form-label" for="Input_file">
