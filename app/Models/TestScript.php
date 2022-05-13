@@ -20,4 +20,9 @@ class TestScript extends Model
         'loops',
         'status'
     ];
+
+    public function filename()
+    {
+        return $this->belongsTo('App\Models\Filename', 'file_id', 'id');
+    }
 }

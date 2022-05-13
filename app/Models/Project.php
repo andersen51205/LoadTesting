@@ -14,4 +14,9 @@ class Project extends Model
         'name',
         'description',
     ];
+
+    public function testScript()
+    {
+        return $this->hasMany('App\Models\TestScript', 'project_id', 'id');
+    }
 }
