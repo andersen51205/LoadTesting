@@ -76,6 +76,8 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/TestScript/Download/{testScriptId}', 'User\TestScriptController@download')->name('TestScript_Download');
         Route::get('/TestScript/Start/{testScriptId}', 'User\TestScriptController@start')->name('TestScript_Start');
         Route::get('/TestScript/Result/{testScriptId}', 'User\TestScriptController@result')->name('TestResult_View');
+        // 測試結果
+        Route::get('/TestResultList/{testScriptId}', 'User\TestResultController@index')->name('TestResultOverview_View');
     });
     /**
      * 管理員

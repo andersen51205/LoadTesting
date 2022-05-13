@@ -2,10 +2,10 @@
     <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <button class="btn nav-link mt-2" onclick="">
-                    <div class="sb-nav-link-icon"><i class="fa fa-dashboard fa-fw"></i></div>
+                <a class="btn nav-link mt-3 py-0"
+                        href="{{ route('TestResultOverview_View', $data['testScriptData']['id']) }}">
                     結果總覽
-                </button>
+                </a>
                 {{-- <a class="nav-link collapsed" href="#"
                     data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                     aria-expanded="false" aria-controls="collapseLayouts">
