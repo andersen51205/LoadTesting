@@ -97,7 +97,7 @@
                                                             <button class="btn btn-outline-secondary m-1"
                                                                     onclick="viewResult(this)"
                                                                     @if($testScript['status'] === 4)
-                                                                        data-href="{{ route('TestResult_View', $testScript['id']) }}"
+                                                                        data-href="{{ route('TestResultOverview_View', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>

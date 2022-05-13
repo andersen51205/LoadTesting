@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Filesystem\Filesystem;
 use App\Models\Filename;
 use App\Models\TestScript;
+use App\Models\TestResult;
 use Storage;
 use Throwable;
 
@@ -85,12 +86,13 @@ class TestJob implements ShouldQueue
         // }
 
         // Start Time
-        $this->testScript->start_at = date("Y-m-d H:i:s");
-        $this->testScript->save();
+        $startTime = date("Y-m-d H:i:s");
         printf("Start Testing.\n");
         // Start Test
         $result = shell_exec($command);
         printf("%s\n", $result);
+        // End Time
+        $endTime = date("Y-m-d H:i:s");
 
         // Generating Reports
         printf("Start Generating reports.\n");
@@ -99,10 +101,16 @@ class TestJob implements ShouldQueue
 
         $this->GenerationReport($testResultPath, $resultName);
         // printf("%s\n", $result);
-
-        // End Time
-        $this->testScript->end_at = date("Y-m-d H:i:s");
-        $this->testScript->save();
+        $testResult = [];
+        $testResult['user_id'] = $this->testScript['user_id'];
+        $testResult['test_script_id'] = $this->testScript['id'];
+        $testResult['threads'] = $threads;
+        $testResult['ramp_up_period'] = $rampUpPeriod;
+        $testResult['loops'] = $loops;
+        $testResult['start_at'] = $startTime;
+        $testResult['end_at'] = $endTime;
+        $testResult['file_name'] = $resultName;
+        TestResult::create($testResult);
 
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
         $this->testScript->status = 4;
@@ -428,16 +436,13 @@ class TestJob implements ShouldQueue
         printf("Start Export Json\n");
         // printf("%s\n", $resultJSON);
         // $json = json_encode($statisticsResult);
+        $exportData = [
+            'detail' => $statisticsResult,
+            'errorDetail' => $errorStatistics,
+            'errorByType' => $errorStatisticsByType,
+        ];
         $fp = fopen($resultJSON, 'w');
-        fwrite($fp, json_encode($statisticsResult, JSON_UNESCAPED_SLASHES));
-        fclose($fp);
-
-        $fp = fopen($errorByTypeJSON, 'w');
-        fwrite($fp, json_encode($errorStatisticsByType, JSON_UNESCAPED_SLASHES));
-        fclose($fp);
-
-        $fp = fopen($errorJSON, 'w');
-        fwrite($fp, json_encode($errorStatistics, JSON_UNESCAPED_SLASHES));
+        fwrite($fp, json_encode($exportData, JSON_UNESCAPED_SLASHES));
         fclose($fp);
     }
 

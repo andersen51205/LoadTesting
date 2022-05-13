@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Jobs\TestJob;
 use App\Http\Controllers\Controller;
 use App\Models\TestScript;
 use App\Models\Project;
 use App\Models\Filename;
+use App\Jobs\TestJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
@@ -165,12 +165,14 @@ class TestScriptController extends Controller
      */
     public function update($testScriptId, Request $request, TestScript $testScript)
     {
+        $updateData = [];
         // Get Data
         $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
                                            ->where('id', $testScriptId)
                                            ->first();
         // Check File
         if($request['file']) {
+            $updateData['status'] = 1;
             // Get Data
             $fileData = $this->filename->where('id', $testScriptData['file_id'])
                                        ->first();
@@ -220,20 +222,17 @@ class TestScriptController extends Controller
             }
         }
         // Processing data
-        $data['project_id'] = $request['projectId'];
-        $data['name'] = $request['testScriptName'];
-        $data['description'] = $request['testScriptDescription'];
-        $data['threads'] = $request['testScriptThreads'];
-        $data['ramp_up_period'] = $request['testScriptRampUpPeriod'];
-        $data['loops'] = $request['testScriptLoops'];
-        $data['status'] = 1;
-        $data['start_at'] = NULL;
-        $data['end_at'] = NULL;
+        $updateData['project_id'] = $request['projectId'];
+        $updateData['name'] = $request['testScriptName'];
+        $updateData['description'] = $request['testScriptDescription'];
+        $updateData['threads'] = $request['testScriptThreads'];
+        $updateData['ramp_up_period'] = $request['testScriptRampUpPeriod'];
+        $updateData['loops'] = $request['testScriptLoops'];
         // Update Test Script
-        $testScriptData->update($data);
+        $testScriptData->update($updateData);
         // Redirect Route
         return response()->json([
-            'redirectTarget' => route('Project_View', $data['project_id'])
+            'redirectTarget' => route('Project_View', $updateData['project_id'])
         ], 200);
     }
 

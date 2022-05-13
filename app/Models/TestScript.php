@@ -18,8 +18,6 @@ class TestScript extends Model
         'threads',
         'ramp_up_period',
         'loops',
-        'status',
-        'start_at',
-        'end_at'
+        'status'
     ];
 }

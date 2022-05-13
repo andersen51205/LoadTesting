@@ -34,7 +34,7 @@
             if(submitType === "update") {
                 route = updateRoute.replace('id', el.getAttribute('data-id'));
                 formData.append('_method', "PATCH");
-                warringText = "注意：送出後將會清除壓測結果";
+                warringText = "注意：若有上傳新腳本，送出後將會清除壓測結果";
             }
             UtilSwal.formSubmit({
                 text: warringText
