@@ -33,7 +33,8 @@ class TestResultController extends Controller
     public function index($testScriptId, Request $request)
     {
         // Get Data
-        $testScriptModel = $this->testScript->where('id', $testScriptId)
+        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
+                                            ->where('id', $testScriptId)
                                             ->first();
         $testResultList = $this->testResult->where('test_script_id', $testScriptId)
                                            ->get();
@@ -71,9 +72,53 @@ class TestResultController extends Controller
      * @param  \App\Models\TestResult  $testResult
      * @return \Illuminate\Http\Response
      */
-    public function show(TestResult $testResult)
+    public function show($testResultId, TestResult $testResult)
     {
-        //
+        // Get Data
+        $testResultModel = $this->testResult->where('user_id', Auth::user()->id)
+                                            ->where('id', $testResultId)
+                                            ->first();
+        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
+                                            ->where('id', $testResultModel['test_script_id'])
+                                            ->first();
+        $filename = $this->filename->where('id', $testScriptModel['file_id'])
+                                   ->first();
+        $testResultList = $this->testResult->where('test_script_id', $testScriptModel['id'])
+                                           ->get();
+        // Check Status
+        // $resultFolder = '../storage/app/TestResult/'.$filename['hash'].'/';
+        // $result = Storage::disk('TestResult')->has('file.jpg');
+        // $result = Storage::disk('TestResult')->get($filename['hash'].'/statistics.json');
+        $result = Storage::disk('TestResult')->get($filename['hash'].'/'.$testResultModel['file_name'].'.json');
+        // $error = Storage::disk('TestResult')->get($filename['hash'].'-error.json');
+        // $errorByType = Storage::disk('TestResult')->get($filename['hash'].'-errorByType.json');
+        $resultArray = json_decode($result, true);
+        $statistics = $resultArray['detail'];
+        $errorStatistics = $resultArray['errorDetail'];
+        $errorStatisticsByType = $resultArray['errorByType'];
+        // ksort($statistics);
+
+        // Processing Data
+        // $testInfomation = [];
+        // 腳本資訊
+        // $testInfomation['name'] = $testScriptModel['name'];
+        // $testInfomation['description'] = $testScriptModel['description'];
+        // 結果資訊
+        // $testInfomation['id'] = $testResultModel['id'];
+        // $testInfomation['threads'] = $testResultModel['threads'];
+        // $testInfomation['loops'] = $testResultModel['loops'];
+        // $testInfomation['rampUpTime'] = $testResultModel['ramp_up_period'];
+        // $testInfomation['start_at'] = $testResultModel['start_at'];
+        // $testInfomation['end_at'] = $testResultModel['end_at'];
+        // Formate Data
+        $data = ['testScriptData' => $testScriptModel,
+                 'testResultList' => $testResultList,
+                 'testResultData' => $testResultModel,
+                 'result' => $statistics,
+                 'error' => $errorStatistics,
+                 'errorByType' => $errorStatisticsByType];
+        // View
+        return view('User.TestResult', compact('data'));
     }
 
     /**

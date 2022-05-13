@@ -308,36 +308,6 @@ class TestScriptController extends Controller
         $this->dispatch(new TestJob($filename, $testScriptData));
     }
 
-    public function result($testScriptId)
-    {
-        // Get Data
-        $testScript = $this->testScript->where('id', $testScriptId)
-                                       ->first();
-        $filename = $this->filename->where('id', $testScript['file_id'])
-                                   ->first();
-        // Check Status
-        $resultFolder = '../storage/app/TestResult/'.$filename['hash'];
-        if(file_exists($resultFolder)) {
-            // $result = Storage::disk('TestResult')->has('file.jpg');
-            // $result = Storage::disk('TestResult')->get($filename['hash'].'/statistics.json');
-            $result = Storage::disk('TestResult')->get($filename['hash'].'.json');
-            $error = Storage::disk('TestResult')->get($filename['hash'].'-error.json');
-            $errorByType = Storage::disk('TestResult')->get($filename['hash'].'-errorByType.json');
-            $statistics = json_decode($result, true);
-            $errorStatistics = json_decode($error, true);
-            $errorStatisticsByType = json_decode($errorByType, true);
-            // ksort($statistics);
-            // Formate Data
-            $data = ['testScript' => $testScript,
-                     'result' => $statistics,
-                     'error' => $errorStatistics,
-                     'errorByType' => $errorStatisticsByType];
-            // View
-            return view('User.TestResult', compact('data'));
-        }
-        dd($resultFolder.' not exist.');
-    }
-
     public function removeDirectory($path)
     {
         // $files = glob($path . '/*');
