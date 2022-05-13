@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use App\Models\Filename;
 use App\Models\TestScript;
 use App\Models\TestResult;
@@ -51,9 +52,6 @@ class TestJob implements ShouldQueue
         printf("Start Job\n");
         // Get Data
         $scriptName = $this->filename['hash'];
-        $threads = $this->testScript['threads'];
-        $rampUpPeriod = $this->testScript['ramp_up_period'];
-        $loops = $this->testScript['loops'];
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
         $this->testScript->status = 3;
         $this->testScript->save();
@@ -65,7 +63,7 @@ class TestJob implements ShouldQueue
         $originalScriptFile = $testScriptPath . $scriptName;
         $currentScriptFile = $testScriptPath . $scriptName . '.jmx';
 
-        $resultName = $threads . '-' . $rampUpPeriod . '-' . $loops;
+        $resultName = hash('sha256', Str::uuid().time());
         $resultJTL = $testResultPath . $resultName .'.jtl';
         $command = $jmeterPath.' -n -t '.$currentScriptFile.' -l '.$resultJTL;
         // Generating TestScript
@@ -73,11 +71,11 @@ class TestJob implements ShouldQueue
         $this->generationTestScript($this->testScript, $scriptName);
 
         // Check Result
-        $deleteMessage = "";
-        if(file_exists($resultJTL)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($resultJTL);
-        }
+        // $deleteMessage = "";
+        // if(file_exists($resultJTL)) {
+        //     // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+        //     $deleteMessage = unlink($resultJTL);
+        // }
         // if(file_exists($resultJson)) {
         //     $deleteMessage = unlink($resultJson);
         // }
@@ -104,9 +102,9 @@ class TestJob implements ShouldQueue
         $testResult = [];
         $testResult['user_id'] = $this->testScript['user_id'];
         $testResult['test_script_id'] = $this->testScript['id'];
-        $testResult['threads'] = $threads;
-        $testResult['ramp_up_period'] = $rampUpPeriod;
-        $testResult['loops'] = $loops;
+        $testResult['threads'] = $this->testScript['threads'];
+        $testResult['ramp_up_period'] = $this->testScript['ramp_up_period'];
+        $testResult['loops'] = $this->testScript['loops'];
         $testResult['start_at'] = $startTime;
         $testResult['end_at'] = $endTime;
         $testResult['file_name'] = $resultName;
@@ -172,15 +170,10 @@ class TestJob implements ShouldQueue
 
     public function generationReport($resultPath, $resultName)
     {
-        // $resultLog = 'storage/app/TestResult/'.$scriptName['hash'].'.jtl';
         // $resultJTL = 'storage/app/TestResult/'.$scriptName.'.jtl';
         // $resultJSON = 'storage/app/TestResult/'.$scriptName.'.json';
-        // $errorJSON = 'storage/app/TestResult/'.$scriptName.'-error.json';
-        // $errorByTypeJSON = 'storage/app/TestResult/'.$scriptName.'-errorByType.json';
         $resultJTL = $resultPath . $resultName . '.jtl';
         $resultJSON = $resultPath . $resultName . '.json';
-        $errorJSON = $resultPath . $resultName . '-error.json';
-        $errorByTypeJSON = $resultPath . $resultName . '-errorByType.json';
         
         printf("Start Read CSV\n");
         // 讀取CSV
@@ -434,7 +427,6 @@ class TestJob implements ShouldQueue
         }
         // 匯出結果
         printf("Start Export Json\n");
-        // printf("%s\n", $resultJSON);
         // $json = json_encode($statisticsResult);
         $exportData = [
             'detail' => $statisticsResult,

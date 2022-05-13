@@ -34,39 +34,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data['testResultList'] as $testResult)
+                                        @for($i=0; $i<count($data['testResultList']); $i++)
                                             <tr>
                                                 <td class="p-3 text-center align-middle">
-                                                    {{ $testResult['id'] }}
+                                                    {{ $i+1 }}
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
-                                                    {{ $testResult['end_at'] }}
+                                                    {{ $data['testResultList'][$i]['end_at'] }}
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
-                                                    {{ $testResult['threads'] }} 人
+                                                    {{ $data['testResultList'][$i]['threads'] }} 人
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
-                                                    {{ $testResult['ramp_up_period'] }} 秒
+                                                    {{ $data['testResultList'][$i]['ramp_up_period'] }} 秒
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
-                                                    {{ $testResult['loops'] }} 次
+                                                    {{ $data['testResultList'][$i]['loops'] }} 次
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
                                                     xx %
                                                 </td>
                                                 <td class="text-center align-middle">
                                                     <a class="btn btn-outline-secondary m-1 tippy-label"
-                                                            href="{{ route('TestResult_View', $testResult['id']) }}">
+                                                            href="{{ route('TestResult_View', $data['testResultList'][$i]['id']) }}">
                                                         <i class="fa-solid fa-magnifying-glass"></i>
                                                     </a>
                                                     <button class="btn btn-outline-secondary m-1"
                                                             onclick="deleteTestResult(this)"
-                                                            data-result-id="{{ $testResult['id'] }}">
+                                                            data-result-id="{{ $data['testResultList'][$i]['id'] }}">
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @endfor
                                     </tbody>
                                 </table>
                             </div>

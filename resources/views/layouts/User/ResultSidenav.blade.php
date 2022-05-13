@@ -2,7 +2,10 @@
     <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <a class="btn nav-link mt-3 py-0"
+                <a class="btn nav-link mt-3 py-0
+                        @if(@empty($data['testResultData']))
+                            fw-bold
+                        @endif"
                         href="{{ route('TestResultOverview_View', $data['testScriptData']['id']) }}">
                     結果總覽
                 </a>
