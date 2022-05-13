@@ -19,7 +19,7 @@
                             data-tippy-content="{{ '人數：'.$testResult['threads'].'人, '.
                                                    '啟動時間：'.$testResult['ramp_up_period'].'秒, '.
                                                    '重複次數：'.$testResult['loops'].'次' }}">
-                        {{ $testResult['end_at'] }}
+                        {{ $testResult['start_at'] }}
                     </a>
                 @endforeach
                 {{-- <a class="nav-link collapsed" href="#"

@@ -40,7 +40,7 @@
                                                     {{ $i+1 }}
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['end_at'] }}
+                                                    {{ $data['testResultList'][$i]['start_at'] }}
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
                                                     {{ $data['testResultList'][$i]['threads'] }} 人
