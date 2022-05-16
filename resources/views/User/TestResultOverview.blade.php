@@ -20,7 +20,7 @@
                         </div>
                         {{-- 測試結果 --}}
                         <div class="row">
-                            <div class="col-12 p-4">
+                            <div class="col-12 p-4 text-center">
                                 <table class="table table-bordered py-2">
                                     <thead class="text-center align-middle">
                                         <tr class="text-center">
@@ -69,6 +69,10 @@
                                         @endfor
                                     </tbody>
                                 </table>
+                                <a class="btn btn-secondary m-1"
+                                        href="{{ route('Project_View', $data['testScriptData']['project_id']) }}">
+                                    返回列表
+                                </a>
                             </div>
                         </div>
                     </div>

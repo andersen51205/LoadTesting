@@ -43,9 +43,15 @@
                                             </div>
                                             {{-- 表單操作區 --}}
                                             <div class="row mb-0">
-                                                <div class="col-6 offset-3 d-flex justify-content-end">
+                                                <div class="col-6 offset-3 d-flex justify-content-center">
+                                                    <a class="btn btn-secondary me-2"
+                                                            href="{{ route('ProjectManagement_View') }}">
+                                                        返回
+                                                    </a>
                                                     <button type="button" class="btn btn-primary"
-                                                        data-submit-type="create" onclick="submitForm(this)">送出</button>
+                                                            data-submit-type="create" onclick="submitForm(this)">
+                                                        送出
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>

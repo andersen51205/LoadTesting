@@ -6,8 +6,13 @@
         // 檢查url是否有帶入專案參數
         const url = new URL(window.location.href);
         if(url.searchParams.has('projectId')) {
+            const projectId = url.searchParams.get('projectId');
+            const projectView = "{{ route('Project_View', 'projectId') }}";
             // 選取專案選項
-            document.querySelector('#Select_project').value = url.searchParams.get('projectId');
+            document.querySelector('#Select_project').value = projectId;
+            // 帶入返回按鈕
+            const returnButton = document.querySelector('#A_return_project_view');
+            returnButton.href = projectView.replace('projectId', projectId);
             // 清除參數
             url.searchParams.delete('projectId');
             window.history.replaceState('', '', url.href);
