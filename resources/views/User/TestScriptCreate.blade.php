@@ -116,14 +116,14 @@
                                                 {{-- 表單操作區 --}}
                                                 <div class="col-10 mb-3 offset-1">
                                                     <div class="d-flex justify-content-center">
-                                                        <a id="A_return_project_view" class="btn btn-secondary me-2"
-                                                                href="{{ route('ProjectManagement_View') }}">
-                                                            返回
-                                                        </a>
                                                         <button type="button" class="btn btn-primary"
                                                                 data-type="create" onclick="submitForm(this)">
                                                             送出
                                                         </button>
+                                                        <a id="A_return_project_view" class="btn btn-secondary ms-2"
+                                                                href="{{ route('ProjectManagement_View') }}">
+                                                            返回
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

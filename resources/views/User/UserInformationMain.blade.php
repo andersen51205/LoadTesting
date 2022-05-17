@@ -62,7 +62,7 @@
                         </div>
                         {{-- 表單操作區 --}}
                         <div class="row mb-0">
-                            <div class="col-6 offset-3 d-flex justify-content-end">
+                            <div class="col-6 offset-3 d-flex justify-content-center">
                                 <button type="button" class="btn btn-primary" onclick="submitForm()">送出</button>
                             </div>
                         </div>
