@@ -14,7 +14,7 @@
                 <main>
                     <div class="container pt-4">
                         <div class="row justify-content-center">
-                            <div class="col-md-8">
+                            <div class="col-md-8 pb-4">
                                 <div class="card">
                                     <div class="card-header p-3 align-middle text-center">
                                         <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-plus"></i> 新增測試腳本</h3>
