@@ -150,8 +150,33 @@ class TestResultController extends Controller
      * @param  \App\Models\TestResult  $testResult
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TestResult $testResult)
+    public function destroy($testResultId, TestResult $testResult)
     {
-        //
+        // Get Data
+        $testResultModel = $this->testResult->where('user_id', Auth::user()->id)
+                                            ->where('id', $testResultId)
+                                            ->first();
+        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
+                                           ->where('id', $testResultModel['test_script_id'])
+                                           ->first();
+        $fileName = $this->filename->where('id', $testScriptData['file_id'])
+                                   ->first();
+        // Delete File
+        $deleteMessage = '';
+        $resultPath = '../storage/app/TestResult/' . $fileName['hash'] . '/';
+
+        $currentFile = $resultPath . $testResultModel['file_name'] . '.json';
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+        $currentFile = $resultPath . $testResultModel['file_name'] . '.jtl';
+        if(file_exists($currentFile)) {
+            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+            $deleteMessage = unlink($currentFile);
+        }
+
+        $testResultModel->delete();
+        return response(null, 204);
     }
 }

@@ -257,8 +257,8 @@
                             </div>
                             <div class="col-12 pb-4 text-center">
                                 <a class="btn btn-secondary m-1"
-                                        href="{{ route('Project_View', $data['testScriptData']['project_id']) }}">
-                                    返回列表
+                                        href="{{ route('TestResultOverview_View', $data['testScriptData']['id']) }}">
+                                    返回
                                 </a>
                             </div>
                         </div>

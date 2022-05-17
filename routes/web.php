@@ -78,6 +78,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         // 測試結果
         Route::get('/TestResultList/{testScriptId}', 'User\TestResultController@index')->name('TestResultOverview_View');
         Route::get('/TestResult/{testResultId}', 'User\TestResultController@show')->name('TestResult_View');
+        Route::delete('/TestResult/{testResultId}', 'User\TestResultController@destroy')->name('TestResult_Delete');
     });
     /**
      * 管理員

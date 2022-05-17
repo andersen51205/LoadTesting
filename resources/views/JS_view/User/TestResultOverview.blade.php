@@ -1,11 +1,9 @@
 <script type="text/javascript">
 
     function deleteTestResult(el) {
-        UtilSwal.showWarning("功能建置中！");
-        return;
-        const projectId = el.getAttribute('data-projectId');
-        let route = "";
-        route = route.replace('projectId', projectId);
+        const resultId = el.getAttribute('data-result-id');
+        let route = "{{ route('TestResult_Delete', 'resultId') }}";
+        route = route.replace('resultId', resultId);
 
         UtilSwal.formSubmit({
             title: '是否確定刪除？'
