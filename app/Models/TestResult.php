@@ -16,6 +16,8 @@ class TestResult extends Model
         'threads',
         'ramp_up_period',
         'loops',
+        'response_time',
+        'error_rate',
         'start_at',
         'end_at',
         'file_name'

@@ -97,18 +97,20 @@ class TestJob implements ShouldQueue
         // $reportCommand = $jmeterPath.' -g '.$resultLog.' -o '.$resultFolder;
         // $result = shell_exec($reportCommand);
 
-        $this->GenerationReport($testResultPath, $resultName);
+        $reportData = $this->GenerationReport($testResultPath, $resultName);
         // printf("%s\n", $result);
-        $testResult = [];
-        $testResult['user_id'] = $this->testScript['user_id'];
-        $testResult['test_script_id'] = $this->testScript['id'];
-        $testResult['threads'] = $this->testScript['threads'];
-        $testResult['ramp_up_period'] = $this->testScript['ramp_up_period'];
-        $testResult['loops'] = $this->testScript['loops'];
-        $testResult['start_at'] = $startTime;
-        $testResult['end_at'] = $endTime;
-        $testResult['file_name'] = $resultName;
-        TestResult::create($testResult);
+        $testResultModel = [];
+        $testResultModel['user_id'] = $this->testScript['user_id'];
+        $testResultModel['test_script_id'] = $this->testScript['id'];
+        $testResultModel['threads'] = $this->testScript['threads'];
+        $testResultModel['ramp_up_period'] = $this->testScript['ramp_up_period'];
+        $testResultModel['loops'] = $this->testScript['loops'];
+        $testResultModel['response_time'] = $reportData['responseTime'];
+        $testResultModel['error_rate'] = $reportData['errorRate'];
+        $testResultModel['start_at'] = $startTime;
+        $testResultModel['end_at'] = $endTime;
+        $testResultModel['file_name'] = $resultName;
+        TestResult::create($testResultModel);
 
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
         $this->testScript->status = 4;
@@ -436,6 +438,9 @@ class TestJob implements ShouldQueue
         $fp = fopen($resultJSON, 'w');
         fwrite($fp, json_encode($exportData, JSON_UNESCAPED_SLASHES));
         fclose($fp);
+
+        return ['responseTime' => $statisticsTotal["meanResTime"],
+                'errorRate' => $statisticsTotal["errorPct"]];
     }
 
     /**

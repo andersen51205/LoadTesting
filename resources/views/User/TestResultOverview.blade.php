@@ -29,6 +29,7 @@
                                             <th>執行緒(人數)</th>
                                             <th>啟動時間</th>
                                             <th>重複次數</th>
+                                            <th>平均回應時間(毫秒)</th>
                                             <th>錯誤率</th>
                                             <th>操作</th>
                                         </tr>
@@ -52,7 +53,10 @@
                                                     {{ $data['testResultList'][$i]['loops'] }} 次
                                                 </td>
                                                 <td class="p-3 text-center align-middle">
-                                                    xx %
+                                                    {{ $data['testResultList'][$i]['response_time'] }} ms
+                                                </td>
+                                                <td class="p-3 text-center align-middle">
+                                                    {{ $data['testResultList'][$i]['error_rate'] }} %
                                                 </td>
                                                 <td class="text-center align-middle">
                                                     <a class="btn btn-outline-secondary m-1 tippy-label"
