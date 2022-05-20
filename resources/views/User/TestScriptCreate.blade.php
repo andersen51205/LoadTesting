@@ -14,7 +14,7 @@
                 <main>
                     <div class="container pt-4">
                         <div class="row justify-content-center">
-                            <div class="col-md-8">
+                            <div class="col-md-8 pb-4">
                                 <div class="card">
                                     <div class="card-header p-3 align-middle text-center">
                                         <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-plus"></i> 新增測試腳本</h3>
@@ -23,7 +23,7 @@
                                         <form id="Form_test_script_information" method="POST" action="{{-- axios --}}">
                                             <div class="row">
                                                 {{-- 選擇專案 --}}
-                                                <div class="col-2 mb-3">
+                                                <div class="col-2 mb-3 offset-1">
                                                     <label class="col-form-label" for="Select_project">
                                                         <span class="text-danger">*</span>選擇專案
                                                     </label>
@@ -42,7 +42,7 @@
                                             </div>
                                             <div class="row">
                                                 {{-- 測試腳本名稱 --}}
-                                                <div class="col-2 mb-3">
+                                                <div class="col-2 mb-3 offset-1">
                                                     <label class="col-form-label" for="Input_name">
                                                         <span class="text-danger">*</span>測試腳本名稱
                                                     </label>
@@ -54,7 +54,7 @@
                                             </div>
                                             <div class="row">
                                                 {{-- 測試腳本描述 --}}
-                                                <div class="col-2 mb-3">
+                                                <div class="col-2 mb-3 offset-1">
                                                     <label class="col-form-label" for="Textarea_description">
                                                         描述
                                                     </label>
@@ -65,8 +65,92 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                {{-- 遞增人數 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_threads">
+                                                        <span class="text-danger">*</span>遞增執行緒
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3 pt-2 necessaryRadio">
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="radio" id="Input_incremental_1" class="form-check-input"
+                                                            name="testScriptIncremental" value="1"
+                                                            onclick="changeIncremental(this)">
+                                                        <label class="form-check-label" for="Input_incremental_1">是</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="radio" id="Input_incremental_0" class="form-check-input"
+                                                            name="testScriptIncremental" value="0"
+                                                            onclick="changeIncremental(this)">
+                                                        <label class="form-check-label" for="Input_incremental_0">否</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                {{-- 人數 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_threads">
+                                                        <span class="text-danger">*</span>執行緒(人數)
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <input type="text" id="Input_start_threads"
+                                                            class="form-control necessary verify-int d-inline-flex"
+                                                            name="testScriptStartThreads" value="">
+                                                    </div>
+                                                    <div id="Div_thread_tilde" class="flex-grow-1 text-center d-none">
+                                                        <label class="col-form-label" for="Input_end_threads">
+                                                        ~
+                                                        </label>
+                                                    </div>
+                                                    <div id="Div_end_thread" class="flex-grow-1 d-none">
+                                                        <input type="text" id="Input_end_threads"
+                                                            class="form-control d-inline-flex"
+                                                            name="testScriptEndThreads" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="Div_increment_amount" class="row d-none">
+                                                {{-- 遞增數量 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_increment_amount">
+                                                        <span class="text-danger">*</span>遞增數量
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3">
+                                                    <input type="text" id="Input_increment_amount"
+                                                        class="form-control"
+                                                        name="testScriptIncrementAmount" value="">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                {{-- 啟動時間 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_ramp_up_period">
+                                                        <span class="text-danger">*</span>啟動時間(秒)
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3">
+                                                    <input type="text" id="Input_ramp_up_period" class="form-control necessary verify-int"
+                                                        name="testScriptRampUpPeriod" value="">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                {{-- 次數 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_loops">
+                                                        <span class="text-danger">*</span>執行次數
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3">
+                                                    <input type="text" id="Input_loops" class="form-control necessary verify-int"
+                                                        name="testScriptLoops" value="">
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 {{-- 腳本檔案 --}}
-                                                <div class="col-2 mb-3">
+                                                <div class="col-2 mb-3 offset-1">
                                                     <label class="col-form-label" for="Input_file">
                                                         <span class="text-danger">*</span>上傳腳本
                                                     </label>
@@ -78,10 +162,16 @@
                                             </div>
                                             <div class="row">
                                                 {{-- 表單操作區 --}}
-                                                <div class="col-10 mb-3">
-                                                    <div class="d-flex justify-content-end">
+                                                <div class="col-10 mb-3 offset-1">
+                                                    <div class="d-flex justify-content-center">
                                                         <button type="button" class="btn btn-primary"
-                                                            data-type="create" onclick="submitForm(this)">送出</button>
+                                                                data-type="create" onclick="submitForm(this)">
+                                                            送出
+                                                        </button>
+                                                        <a id="A_return_project_view" class="btn btn-secondary ms-2"
+                                                                href="{{ route('ProjectManagement_View') }}">
+                                                            返回
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -71,6 +71,9 @@
                                         測試腳本
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('TestScriptTutorial_View') }}">
+                                            如何產生腳本
+                                        </a>
                                         <a class="dropdown-item" href="{{ route('TestScriptManagement_View') }}">
                                             測試腳本管理
                                         </a>
@@ -143,6 +146,7 @@
     </div>
     {{-- 公用元件 --}}
     <script type="text/javascript" src="{{asset(mix('/js/utility/SwalUtility.js'))}}"></script>
+    <script type="text/javascript" src="{{asset(mix('/js/utility/FrontendValidation.js'))}}"></script>
 </body>
 @yield('script')
 </html>

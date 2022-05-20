@@ -43,10 +43,16 @@
                                             </div>
                                             {{-- 表單操作區 --}}
                                             <div class="row mb-0">
-                                                <div class="col-6 offset-3 d-flex justify-content-end">
+                                                <div class="col-6 offset-3 d-flex justify-content-center">
                                                     <button type="button" class="btn btn-primary"
-                                                        data-submit-type="update" data-project-id="{{ $data['projectData']['id'] }}"
-                                                        onclick="submitForm(this)">送出</button>
+                                                            data-submit-type="update" data-project-id="{{ $data['projectData']['id'] }}"
+                                                            onclick="submitForm(this)">
+                                                        送出
+                                                    </button>
+                                                    <a class="btn btn-secondary ms-2"
+                                                            href="{{ route('ProjectManagement_View') }}">
+                                                        返回
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>

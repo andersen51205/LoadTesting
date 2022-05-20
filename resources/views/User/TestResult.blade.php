@@ -28,20 +28,30 @@
                                                         名稱
                                                     </th>
                                                     <td style="width: 75%">
-                                                        {{ $data['testScript']['name'] }}
+                                                        {{ $data['testScriptData']['name'] }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th>描述</th>
-                                                    <td>{{ $data['testScript']['description'] }}</td>
+                                                    <td>{{ $data['testScriptData']['description'] }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>開始時間</th>
-                                                    <td>{{ $data['testScript']['start_at'] }}</td>
+                                                    <th>執行緒(人數)</th>
+                                                    <td>{{ $data['testResultData']['threads'] }} 人</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>結束時間</th>
-                                                    <td>{{ $data['testScript']['end_at'] }}</td>
+                                                    <th>啟動時間</th>
+                                                    <td>{{ $data['testResultData']['ramp_up_period'] }} 秒</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>重複次數</th>
+                                                    <td>{{ $data['testResultData']['loops'] }} 次</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>測試時間</th>
+                                                    <td>
+                                                        {{ $data['testResultData']['start_at'] }} 至 {{ $data['testResultData']['end_at'] }}
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -244,6 +254,12 @@
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-12 pb-4 text-center">
+                                <a class="btn btn-secondary m-1"
+                                        href="{{ route('TestResultOverview_View', $data['testScriptData']['id']) }}">
+                                    返回
+                                </a>
                             </div>
                         </div>
                     </div>

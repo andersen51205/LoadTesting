@@ -2,10 +2,26 @@
     <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <button class="btn nav-link mt-2" onclick="">
-                    <div class="sb-nav-link-icon"><i class="fa fa-dashboard fa-fw"></i></div>
+                <a class="btn nav-link mt-3 py-0
+                        @if(@empty($data['testResultData']))
+                            fw-bold
+                        @endif"
+                        href="{{ route('TestResultOverview_View', $data['testScriptData']['id']) }}">
                     結果總覽
-                </button>
+                </a>
+                @foreach($data['testResultList'] as $testResult)
+                    <a class="btn nav-link mt-3 py-0 tippy-label
+                            @if(@isset($data['testResultData'])
+                                    && $testResult['id'] === $data['testResultData']['id'])
+                                fw-bold
+                            @endif"
+                            href="{{ route('TestResult_View', $testResult['id']) }}"
+                            data-tippy-content="{{ '人數：'.$testResult['threads'].'人, '.
+                                                   '啟動時間：'.$testResult['ramp_up_period'].'秒, '.
+                                                   '重複次數：'.$testResult['loops'].'次' }}">
+                        {{ $testResult['start_at'] }}
+                    </a>
+                @endforeach
                 {{-- <a class="nav-link collapsed" href="#"
                     data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                     aria-expanded="false" aria-controls="collapseLayouts">

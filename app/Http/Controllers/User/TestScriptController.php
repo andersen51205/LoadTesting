@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Jobs\TestJob;
 use App\Http\Controllers\Controller;
 use App\Models\TestScript;
 use App\Models\Project;
 use App\Models\Filename;
+use App\Jobs\TestJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
@@ -67,6 +67,10 @@ class TestScriptController extends Controller
             'file' => 'required|file|mimes:xml',
             'extension' => 'in:jmx',
         ]);
+        if($request['testScriptIncremental'] === "0") {
+            $request['testScriptEndThreads'] = $request['testScriptStartThreads'];
+            $request['testScriptIncrementAmount'] = 1;
+        }
         // Create File
         try {
             $file = $request->file;
@@ -84,20 +88,25 @@ class TestScriptController extends Controller
             return response('Server Error', 500);
         }
         // Get Data
-        $projectData = $this->project->where('id', $request['projectId'])
-                                     ->first();
-        $data = [];
-        $data['user_id'] = Auth::user()->id;
-        $data['project_id'] = $projectData['id'];
-        $data['file_id'] = $fileId;
-        $data['name'] = $request['testScriptName'];
-        $data['description'] = $request['testScriptDescription'];
-        $data['status'] = 1;
+        $testScriptModel = [];
+        $testScriptModel['user_id'] = Auth::user()->id;
+        $testScriptModel['project_id'] = $request['projectId'];
+        $testScriptModel['file_id'] = $fileId;
+        $testScriptModel['name'] = $request['testScriptName'];
+        $testScriptModel['description'] = $request['testScriptDescription'];
+        $testScriptModel['is_incremental'] = $request['testScriptIncremental'];
+        $testScriptModel['start_thread'] = $request['testScriptStartThreads'];
+        $testScriptModel['end_thread'] = $request['testScriptEndThreads'];
+        $testScriptModel['increment_amount'] = $request['testScriptIncrementAmount'];
+        $testScriptModel['threads'] = $request['testScriptStartThreads'];
+        $testScriptModel['ramp_up_period'] = $request['testScriptRampUpPeriod'];
+        $testScriptModel['loops'] = $request['testScriptLoops'];
+        $testScriptModel['status'] = 1;
         // Create Script
-        $this->testScript->create($data);
+        $this->testScript->create($testScriptModel);
         // Return Response
         return response()->json([
-            'redirectTarget' => route('Project_View', [$projectData['id']])
+            'redirectTarget' => route('Project_View', [$request['projectId']])
         ], 200);
     }
 
@@ -162,12 +171,19 @@ class TestScriptController extends Controller
      */
     public function update($testScriptId, Request $request, TestScript $testScript)
     {
+        $updateData = [];
+        // Validate
+        if($request['testScriptIncremental'] === "0") {
+            $request['testScriptEndThreads'] = $request['testScriptStartThreads'];
+            $request['testScriptIncrementAmount'] = 1;
+        }
         // Get Data
         $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
                                            ->where('id', $testScriptId)
                                            ->first();
         // Check File
         if($request['file']) {
+            $updateData['status'] = 1;
             // Get Data
             $fileData = $this->filename->where('id', $testScriptData['file_id'])
                                        ->first();
@@ -217,17 +233,21 @@ class TestScriptController extends Controller
             }
         }
         // Processing data
-        $data['project_id'] = $request['projectId'];
-        $data['name'] = $request['testScriptName'];
-        $data['description'] = $request['testScriptDescription'];
-        $data['status'] = 1;
-        $data['start_at'] = NULL;
-        $data['end_at'] = NULL;
+        $updateData['project_id'] = $request['projectId'];
+        $updateData['name'] = $request['testScriptName'];
+        $updateData['description'] = $request['testScriptDescription'];
+        $updateData['is_incremental'] = $request['testScriptIncremental'];
+        $updateData['start_thread'] = $request['testScriptStartThreads'];
+        $updateData['end_thread'] = $request['testScriptEndThreads'];
+        $updateData['increment_amount'] = $request['testScriptIncrementAmount'];
+        $updateData['threads'] = $request['testScriptStartThreads'];
+        $updateData['ramp_up_period'] = $request['testScriptRampUpPeriod'];
+        $updateData['loops'] = $request['testScriptLoops'];
         // Update Test Script
-        $testScriptData->update($data);
+        $testScriptData->update($updateData);
         // Redirect Route
         return response()->json([
-            'redirectTarget' => route('Project_View', $data['project_id'])
+            'redirectTarget' => route('Project_View', $updateData['project_id'])
         ], 200);
     }
 
@@ -293,44 +313,14 @@ class TestScriptController extends Controller
 
         // Get Data
         $testScriptData = $this->testScript->where('id', $testScriptId)
+                                           ->with('filename')
                                            ->first();
-        $filename = $this->filename->where('id', $testScriptData['file_id'])
-                                   ->first();
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
         $testScriptData->status = 2;
+        $testScriptData->threads = $testScriptData['start_thread'];
         $testScriptData->save();
         // Add to job queue
-        $this->dispatch(new TestJob($filename, $testScriptData));
-    }
-
-    public function result($testScriptId)
-    {
-        // Get Data
-        $testScript = $this->testScript->where('id', $testScriptId)
-                                       ->first();
-        $filename = $this->filename->where('id', $testScript['file_id'])
-                                   ->first();
-        // Check Status
-        $resultFolder = '../storage/app/TestResult/'.$filename['hash'];
-        if(file_exists($resultFolder)) {
-            // $result = Storage::disk('TestResult')->has('file.jpg');
-            // $result = Storage::disk('TestResult')->get($filename['hash'].'/statistics.json');
-            $result = Storage::disk('TestResult')->get($filename['hash'].'.json');
-            $error = Storage::disk('TestResult')->get($filename['hash'].'-error.json');
-            $errorByType = Storage::disk('TestResult')->get($filename['hash'].'-errorByType.json');
-            $statistics = json_decode($result, true);
-            $errorStatistics = json_decode($error, true);
-            $errorStatisticsByType = json_decode($errorByType, true);
-            // ksort($statistics);
-            // Formate Data
-            $data = ['testScript' => $testScript,
-                     'result' => $statistics,
-                     'error' => $errorStatistics,
-                     'errorByType' => $errorStatisticsByType];
-            // View
-            return view('User.TestResult', compact('data'));
-        }
-        dd($resultFolder.' not exist.');
+        $this->dispatch(new TestJob($testScriptData));
     }
 
     public function removeDirectory($path)
@@ -346,5 +336,16 @@ class TestScriptController extends Controller
             }
         }
         rmdir($path);
+    }
+
+    public function tutorial()
+    {
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        // Formate Data
+        $data = ['projectList' => $projectList];
+        // View
+        return view('User.TestTutorial', compact('data'));
     }
 }

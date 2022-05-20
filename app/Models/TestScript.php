@@ -15,8 +15,18 @@ class TestScript extends Model
         'file_id',
         'name',
         'description',
-        'status',
-        'start_at',
-        'end_at'
+        'is_incremental',
+        'start_thread',
+        'end_thread',
+        'increment_amount',
+        'threads',
+        'ramp_up_period',
+        'loops',
+        'status'
     ];
+
+    public function filename()
+    {
+        return $this->belongsTo('App\Models\Filename', 'file_id', 'id');
+    }
 }
