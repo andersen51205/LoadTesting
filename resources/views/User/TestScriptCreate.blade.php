@@ -65,15 +65,63 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                {{-- 遞增人數 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_threads">
+                                                        <span class="text-danger">*</span>遞增執行緒
+                                                    </label>
+                                                </div>
+                                                <div class="col-8 mb-3 pt-2 necessaryRadio">
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="radio" id="Input_incremental_1" class="form-check-input"
+                                                            name="testScriptIncremental" value="1"
+                                                            onclick="changeIncremental(this)">
+                                                        <label class="form-check-label" for="Input_incremental_1">是</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="radio" id="Input_incremental_0" class="form-check-input"
+                                                            name="testScriptIncremental" value="0"
+                                                            onclick="changeIncremental(this)">
+                                                        <label class="form-check-label" for="Input_incremental_0">否</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 {{-- 人數 --}}
                                                 <div class="col-2 mb-3 offset-1">
                                                     <label class="col-form-label" for="Input_threads">
                                                         <span class="text-danger">*</span>執行緒(人數)
                                                     </label>
                                                 </div>
+                                                <div class="col-8 mb-3 d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <input type="text" id="Input_start_threads"
+                                                            class="form-control necessary verify-int d-inline-flex"
+                                                            name="testScriptStartThreads" value="">
+                                                    </div>
+                                                    <div id="Div_thread_tilde" class="flex-grow-1 text-center d-none">
+                                                        <label class="col-form-label" for="Input_end_threads">
+                                                        ~
+                                                        </label>
+                                                    </div>
+                                                    <div id="Div_end_thread" class="flex-grow-1 d-none">
+                                                        <input type="text" id="Input_end_threads"
+                                                            class="form-control d-inline-flex"
+                                                            name="testScriptEndThreads" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="Div_increment_amount" class="row d-none">
+                                                {{-- 遞增數量 --}}
+                                                <div class="col-2 mb-3 offset-1">
+                                                    <label class="col-form-label" for="Input_increment_amount">
+                                                        <span class="text-danger">*</span>遞增數量
+                                                    </label>
+                                                </div>
                                                 <div class="col-8 mb-3">
-                                                    <input type="text" id="Input_threads" class="form-control necessary verify-int"
-                                                        name="testScriptThreads" value="">
+                                                    <input type="text" id="Input_increment_amount"
+                                                        class="form-control"
+                                                        name="testScriptIncrementAmount" value="">
                                                 </div>
                                             </div>
                                             <div class="row">

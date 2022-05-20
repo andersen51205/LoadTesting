@@ -17,6 +17,40 @@
             url.searchParams.delete('projectId');
             window.history.replaceState('', '', url.href);
         }
+        // 呼叫changeIncremental()顯示/隱藏部分項目
+        const incremental = document.querySelector('input[name=testScriptIncremental]:checked');
+        if(incremental) {
+            changeIncremental();
+        }
+    }
+
+    function changeIncremental() {
+        const incremental = document.querySelector('input[name=testScriptIncremental]:checked');
+        const threadTildeDiv = document.querySelector('#Div_thread_tilde');
+        const endThreadDiv = document.querySelector('#Div_end_thread');
+        const incrementAmountDiv = document.querySelector('#Div_increment_amount');
+        if(!incremental) {
+            return;
+        }
+        if(incremental.value === "1") {
+            threadTildeDiv.classList.remove('d-none');
+            endThreadDiv.classList.remove('d-none');
+            endThreadDiv.querySelector('input').classList.add('necessary');
+            endThreadDiv.querySelector('input').classList.add('verify-int');
+            incrementAmountDiv.classList.remove('d-none');
+            incrementAmountDiv.querySelector('input').classList.add('necessary');
+            incrementAmountDiv.querySelector('input').classList.add('verify-int');
+
+        }
+        else {
+            threadTildeDiv.classList.add('d-none');
+            endThreadDiv.classList.add('d-none');
+            endThreadDiv.querySelector('input').classList.remove('necessary');
+            endThreadDiv.querySelector('input').classList.remove('verify-int');
+            incrementAmountDiv.classList.add('d-none');
+            incrementAmountDiv.querySelector('input').classList.remove('necessary');
+            incrementAmountDiv.querySelector('input').classList.remove('verify-int');
+        }
     }
 
     function submitForm(el) {
@@ -29,10 +63,7 @@
         /* 驗證前置作業 */
         const form = document.querySelector('#Form_test_script_information');
         // 清除紅框
-        const validMarks = form.querySelectorAll('.is-invalid');
-        for(let i=0; i<validMarks.length; i++) {
-            validMarks[i].classList.remove('is-invalid');
-        }
+        resetValidMark(form);
         // 驗證後送出
         if(validateForm() && validateInterger()) {
             let formData = new FormData(form);
@@ -67,11 +98,18 @@
     function validateForm() {
         const form = document.querySelector('#Form_test_script_information');
         const necessaryInputs = form.querySelectorAll('.necessary');
+        const necessaryRadios = form.querySelectorAll('.necessaryRadio');
         let isValidPass = true;
         // 驗證必填
         for(let i=0; i<necessaryInputs.length; i++) {
             if(!necessaryInputs[i].value) {
                 necessaryInputs[i].classList.add('is-invalid');
+                isValidPass = false;
+            }
+        }
+        for(let i=0; i<necessaryRadios.length; i++) {
+            if(!necessaryRadios[i].querySelector('input:checked')) {
+                necessaryRadios[i].classList.add('custom-isvaild');
                 isValidPass = false;
             }
         }

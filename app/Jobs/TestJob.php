@@ -19,7 +19,7 @@ use Throwable;
 class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $filename, $testScript;
+    protected $testScript;
 
     /**
      * The number of seconds the job can run before timing out.
@@ -34,11 +34,9 @@ class TestJob implements ShouldQueue
      * @return void
      */
     public function __construct(
-        Filename $filename,
         TestScript $testScript
     )
     {
-        $this->filename = $filename;
         $this->testScript = $testScript;
     }
 
@@ -47,14 +45,20 @@ class TestJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(Filename $filename, TestScript $testScript)
+    public function handle(TestScript $testScript)
     {
         printf("Start Job\n");
         // Get Data
-        $scriptName = $this->filename['hash'];
+        $testScriptData = $this->testScript;
+        $fileModel = $testScriptData['filename'];
+        if(!$fileModel) {
+            $fileModel = Filename::where('id', $testScriptData['file_id'])
+                                 ->first();
+        }
+        $scriptName = $fileModel['hash'];
         // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
-        $this->testScript->status = 3;
-        $this->testScript->save();
+        $testScriptData->status = 3;
+        $testScriptData->save();
         // Set Command
         $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
         $testScriptPath = 'storage/app/TestScript/';
@@ -68,7 +72,7 @@ class TestJob implements ShouldQueue
         $command = $jmeterPath.' -n -t '.$currentScriptFile.' -l '.$resultJTL;
         // Generating TestScript
         printf("Generating TestScript\n");
-        $this->generationTestScript($this->testScript, $scriptName);
+        $this->generationTestScript($testScriptData, $scriptName);
 
         // Check Result
         // $deleteMessage = "";
@@ -112,9 +116,18 @@ class TestJob implements ShouldQueue
         $testResultModel['file_name'] = $resultName;
         TestResult::create($testResultModel);
 
-        // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
-        $this->testScript->status = 4;
-        $this->testScript->save();
+        $nextThreads = $testScriptData['threads'] + $testScriptData['increment_amount'];
+        if($nextThreads > $testScriptData['end_thread']) {
+            // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
+            $testScriptData->status = 4;
+            $testScriptData->save();
+        }
+        else {
+            $testScriptData->status = 3;
+            $testScriptData->threads = $nextThreads;
+            $testScriptData->save();
+            dispatch(new TestJob($testScriptData));
+        }
     }
 
     public function removeDirectory($path)
