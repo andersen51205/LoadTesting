@@ -35,42 +35,50 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for($i=0; $i<count($data['testResultList']); $i++)
+                                        @if(count($data['testResultList']) === 0)
                                             <tr>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $i+1 }}
-                                                </td>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['start_at'] }}
-                                                </td>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['threads'] }} 人
-                                                </td>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['ramp_up_period'] }} 秒
-                                                </td>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['loops'] }} 次
-                                                </td>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['response_time'] }} ms
-                                                </td>
-                                                <td class="p-3 text-center align-middle">
-                                                    {{ $data['testResultList'][$i]['error_rate'] }} %
-                                                </td>
-                                                <td class="text-center align-middle">
-                                                    <a class="btn btn-outline-secondary m-1 tippy-label"
-                                                            href="{{ route('TestResult_View', $data['testResultList'][$i]['id']) }}">
-                                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                                    </a>
-                                                    <button class="btn btn-outline-secondary m-1"
-                                                            onclick="deleteTestResult(this)"
-                                                            data-result-id="{{ $data['testResultList'][$i]['id'] }}">
-                                                        <i class="fa-solid fa-trash-can"></i>
-                                                    </button>
+                                                <td class="p-3 text-center align-middle" colspan="8">
+                                                    無測試結果
                                                 </td>
                                             </tr>
-                                        @endfor
+                                        @else
+                                            @for($i=0; $i<count($data['testResultList']); $i++)
+                                                <tr>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $i+1 }}
+                                                    </td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $data['testResultList'][$i]['start_at'] }}
+                                                    </td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $data['testResultList'][$i]['threads'] }} 人
+                                                    </td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $data['testResultList'][$i]['ramp_up_period'] }} 秒
+                                                    </td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $data['testResultList'][$i]['loops'] }} 次
+                                                    </td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $data['testResultList'][$i]['response_time'] }} ms
+                                                    </td>
+                                                    <td class="p-3 text-center align-middle">
+                                                        {{ $data['testResultList'][$i]['error_rate'] }} %
+                                                    </td>
+                                                    <td class="text-center align-middle">
+                                                        <a class="btn btn-outline-secondary m-1 tippy-label"
+                                                                href="{{ route('TestResult_View', $data['testResultList'][$i]['id']) }}">
+                                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                                        </a>
+                                                        <button class="btn btn-outline-secondary m-1"
+                                                                onclick="deleteTestResult(this)"
+                                                                data-result-id="{{ $data['testResultList'][$i]['id'] }}">
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endfor
+                                        @endif
                                     </tbody>
                                 </table>
                                 <a class="btn btn-secondary m-1"
