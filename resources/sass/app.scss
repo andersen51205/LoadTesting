@@ -13,3 +13,9 @@
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/v4-shims.scss";
+
+// 自定義 isvaild 提示
+.custom-isvaild {
+	border-radius: 5px;
+	border: 1px solid #e3342f;
+}
