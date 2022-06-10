@@ -25,6 +25,16 @@ class TestScript extends Model
         'status'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo('App\Models\Project', 'project_id', 'id');
+    }
+
     public function filename()
     {
         return $this->belongsTo('App\Models\Filename', 'file_id', 'id');

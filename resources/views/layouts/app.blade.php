@@ -108,6 +108,17 @@
                                         </a>
                                     </div>
                                 </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        測試腳本
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Manager_TestScriptList_View') }}">
+                                            測試腳本管理
+                                        </a>
+                                    </div>
+                                </li>
                             @endif
                         @endauth
                     </ul>

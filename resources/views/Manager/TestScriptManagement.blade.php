@@ -16,7 +16,7 @@
                     <div class="container-fluid px-4">
                         <div class="row">
                             <div class="col-10 offset-1">
-                                <h3 class="my-4">專案管理</h3>
+                                <h3 class="my-4">測試腳本管理</h3>
                             </div>
                         </div>
                         {{-- <ol class="breadcrumb mb-4">
@@ -33,36 +33,38 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th style="width:15%">擁有者</th>
-                                            <th style="width:20%">專案名稱</th>
-                                            <th style="width:45%">描述</th>
-                                            <th style="width:20%">操作</th>
+                                            <th style="width:15%">專案</th>
+                                            <th style="width:15%">腳本名稱</th>
+                                            <th style="width:40%">描述</th>
+                                            <th style="width:15%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(isset($data['projectList']))
-                                            @if(count($data['projectList']) === 0)
+                                        @if(isset($data['testScriptList']))
+                                            @if(count($data['testScriptList']) === 0)
                                                 <tr>
                                                     <td class="p-3 text-center" colspan="3">查無專案資料</td>
                                                 </tr>
                                             @else
-                                                @foreach ($data['projectList'] as $project)
+                                                @foreach ($data['testScriptList'] as $testScript)
                                                     <tr>
-                                                        <td class="p-3">{{ $project['user']['name'] }}</td>
-                                                        <td class="p-3">{{ $project['name'] }}</td>
-                                                        <td class="p-3">{{ $project['description'] }}</td>
+                                                        <td class="p-3">{{ $testScript['user']['name'] }}</td>
+                                                        <td class="p-3">{{ $testScript['project']['name'] }}</td>
+                                                        <td class="p-3">{{ $testScript['name'] }}</td>
+                                                        <td class="p-3">{{ $testScript['description'] }}</td>
                                                         <td class="text-center">
                                                             <a class="btn btn-outline-primary m-1 tooltip-label"
-                                                                href="{{ route('Manager_Project_View', $project['id']) }}"
-                                                                data-tippy-content="查看">
-                                                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                                                href="{{ route('Manager_TestResultList_View', $testScript['id']) }}"
+                                                                data-tippy-content="查看結果">
+                                                                <i class="fa-solid fa-chart-line"></i>
                                                             </a>
                                                             <a class="btn btn-outline-success m-1 tooltip-label"
-                                                                href="{{ route('Manager_Project_Edit', $project['id']) }}"
+                                                                href="{{ route('Manager_TestScript_Edit', $testScript['id']) }}"
                                                                 data-tippy-content="編輯">
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a>
                                                             <button class="btn btn-outline-danger m-1 tooltip-label"
-                                                                data-projectId="{{ $project['id'] }}"
+                                                                data-projectId="{{ $testScript['id'] }}"
                                                                 onclick="deleteProject(this)"
                                                                 data-tippy-content="刪除">
                                                                 <i class="fa-solid fa-trash-can"></i>
@@ -105,5 +107,5 @@
 @endsection
 
 @section('script')
-    @include('JS_view.Manager.ProjectManagement')
+    @include('JS_view.Manager.TestScriptManagement')
 @endsection

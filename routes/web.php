@@ -92,11 +92,25 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::delete('/User/{userId}', 'Manager\UserManagementController@destroy')->name('Manager_User_Disable');
         // 專案 
         Route::get('/Project', 'Manager\ProjectController@index')->name('Manager_ProjectList_View');
-        // Route::get('/ProjectCreate', 'User\ProjectController@create')->name('ProjectCreate_View');
-        // Route::post('/ProjectCreate', 'User\ProjectController@store')->name('Project_Create');
+        // Route::get('/ProjectCreate', 'Manager\ProjectController@create')->name('Manager_ProjectCreate_View');
+        // Route::post('/ProjectCreate', 'Manager\ProjectController@store')->name('Manager_Project_Create');
         Route::get('/Project/{projectId}', 'Manager\ProjectController@show')->name('Manager_Project_View');
         Route::get('/Project/edit/{projectId}', 'Manager\ProjectController@edit')->name('Manager_Project_Edit');
         Route::patch('/Project/{projectId}', 'Manager\ProjectController@update')->name('Manager_Project_Update');
         Route::delete('/Project/{projectId}', 'Manager\ProjectController@destroy')->name('Manager_Project_Delete');
+        // 測試腳本
+        // Route::get('/TestScriptTutorial', 'Manager\TestScriptController@tutorial')->name('TestScriptTutorial_View');
+        Route::get('/TestScript', 'Manager\TestScriptController@index')->name('Manager_TestScriptList_View');
+        // Route::get('/TestScriptCreate', 'Manager\TestScriptController@create')->name('Manager_TestScriptCreate_View');
+        // Route::post('/TestScriptCreate', 'Manager\TestScriptController@store')->name('Manager_TestScript_Create');
+        Route::get('/TestScript/{testScriptId}', 'Manager\TestScriptController@edit')->name('Manager_TestScript_Edit');
+        Route::patch('/TestScript/{testScriptId}', 'Manager\TestScriptController@update')->name('Manager_TestScript_Update');
+        Route::delete('/TestScript/{testScriptId}', 'Manager\TestScriptController@destroy')->name('Manager_TestScript_Delete');
+        Route::get('/TestScript/Download/{testScriptId}', 'Manager\TestScriptController@download')->name('Manager_TestScript_Download');
+        // Route::get('/TestScript/Start/{testScriptId}', 'Manager\TestScriptController@start')->name('Manager_TestScript_Start');
+        // 測試結果
+        Route::get('/TestResultList/{testScriptId}', 'Manager\TestResultController@index')->name('Manager_TestResultList_View');
+        // Route::get('/TestResult/{testResultId}', 'Manager\TestResultController@show')->name('TestResult_View');
+        // Route::delete('/TestResult/{testResultId}', 'Manager\TestResultController@destroy')->name('TestResult_Delete');
     });
 });
