@@ -103,7 +103,7 @@
                                         專案
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('Manager_ProjectManagement_View') }}">
+                                        <a class="dropdown-item" href="{{ route('Manager_ProjectList_View') }}">
                                             專案管理
                                         </a>
                                     </div>

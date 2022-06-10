@@ -77,9 +77,15 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($projectId, Project $project)
     {
-        //
+        // Get Data
+        $projectData = $this->project->where('id', $projectId)
+                                     ->first();
+        // Formate Data
+        $data = ['projectData' => $projectData];
+        // View
+        return view('Manager.ProjectEdit', compact('data'));
     }
 
     /**
@@ -89,9 +95,20 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update($projectId, Request $request, Project $project)
     {
-        //
+        // Get Data
+        $projectData = $this->project->where('id', $projectId)
+                                     ->first();
+        // Processing Data
+        $data['name'] = $request['projectName'];
+        $data['description'] = $request['projectDescription'];
+        // Update Test Script
+        $projectData->update($data);
+        // Redirect Route
+        return response()->json([
+            'redirectTarget' => route('Manager_ProjectList_View')
+        ], 200);
     }
 
     /**
@@ -100,8 +117,52 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($projectId, Project $project)
     {
-        //
+        // Get Data
+        $project = $this->project->where('id', $projectId)
+                                 ->first();
+        $testScriptList = $this->testScript->where('project_id', $projectId)
+                                           ->with('filename')
+                                           ->get();
+        foreach ($testScriptList as $testScript) {
+            // Delete File
+            $deleteMessage = '';
+            $resultPath = '../storage/app/TestResult/';
+            $scriptPath = '../storage/app/TestScript/';
+
+            if(file_exists($resultPath . $testScript['filename']['hash'])) {
+                $this->removeDirectory($resultPath . $testScript['filename']['hash']);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '-error.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '-errorByType.json';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $resultPath . $testScript['filename']['hash'] . '.jtl';
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $currentFile = $scriptPath . $testScript['filename']['hash'];
+            if(file_exists($currentFile)) {
+                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
+                $deleteMessage = unlink($currentFile);
+            }
+            $testScript['filename']->delete();
+            $testScript->delete();
+        }
+        $project->delete();
+        return response(null, 204);
     }
 }

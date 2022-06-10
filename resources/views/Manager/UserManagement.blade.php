@@ -6,11 +6,12 @@
 
 @section('content')
     <div class="sb-nav-fixed">
-        {{-- <div id="layoutSidenav"> --}}
+        <div id="layoutSidenav">
             {{-- 側邊欄 --}}
             {{-- @include('layouts.User.ProjectSidenav') --}}
             {{-- 內容 --}}
             {{-- <div id="layoutSidenav_content"> --}}
+            <div id="layoutSidenav_content" class="ps-0">
                 <main>
                     <div class="container-fluid px-4">
                         <div class="row">
@@ -56,9 +57,9 @@
                                                         <td class="p-3 text-center">{{ count($user['testScript']) }}</td>
                                                         <td class="p-3">
                                                             @if($user['expired_at'])
-                                                                {{ "停用(".$user['expired_at'].")" }}
+                                                                <i class="fa-solid fa-xmark"></i> {{ "停用(".$user['expired_at'].")" }}
                                                             @else
-                                                                {{ "正常" }}
+                                                                <i class="fa-solid fa-check"></i> {{ "正常" }}
                                                             @endif
                                                         </td>
                                                         <td class="text-center">
@@ -96,7 +97,7 @@
                         </div>
                     </div>
                 </main>
-                {{-- <footer class="py-4 bg-light mt-auto">
+                <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; Your Website 2021</div>
@@ -107,9 +108,9 @@
                             </div>
                         </div>
                     </div>
-                </footer> --}}
-            {{-- </div> --}}
-        {{-- </div> --}}
+                </footer>
+            </div>
+        </div>
     </div>
 {{--
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

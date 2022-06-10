@@ -9,7 +9,7 @@
 
     function deleteProject(el) {
         const projectId = el.getAttribute('data-projectId');
-        let route = "{{ route('User_Project_Delete', 'projectId') }}";
+        let route = "{{ route('Manager_Project_Delete', 'projectId') }}";
         route = route.replace('projectId', projectId);
 
         UtilSwal.formSubmit({

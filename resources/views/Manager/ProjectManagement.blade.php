@@ -52,12 +52,12 @@
                                                         <td class="p-3">{{ $project['description'] }}</td>
                                                         <td class="text-center">
                                                             <a class="btn btn-outline-primary m-1 tooltip-label"
-                                                                href="{{ route('User_Project_View', $project['id']) }}"
+                                                                href="{{ route('Manager_Project_View', $project['id']) }}"
                                                                 data-tippy-content="查看">
                                                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                                             </a>
                                                             <a class="btn btn-outline-success m-1 tooltip-label"
-                                                                href="{{ route('User_Project_Edit', $project['id']) }}"
+                                                                href="{{ route('Manager_Project_Edit', $project['id']) }}"
                                                                 data-tippy-content="編輯">
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a>
