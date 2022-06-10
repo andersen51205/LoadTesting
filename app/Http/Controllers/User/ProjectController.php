@@ -75,7 +75,7 @@ class ProjectController extends Controller
         $newProject = $this->project->create($data);
         // Redirect Route
         return response()->json([
-            'redirectTarget' => route('Project_View', [$newProject['id']])
+            'redirectTarget' => route('User_Project_View', [$newProject['id']])
         ], 200);
     }
 
@@ -150,7 +150,7 @@ class ProjectController extends Controller
         $projectData->update($data);
         // Redirect Route
         return response()->json([
-            'redirectTarget' => route('ProjectManagement_View')
+            'redirectTarget' => route('User_ProjectList_View')
         ], 200);
     }
 

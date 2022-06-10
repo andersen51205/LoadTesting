@@ -106,7 +106,7 @@ class TestScriptController extends Controller
         $this->testScript->create($testScriptModel);
         // Return Response
         return response()->json([
-            'redirectTarget' => route('Project_View', [$request['projectId']])
+            'redirectTarget' => route('User_Project_View', [$request['projectId']])
         ], 200);
     }
 
@@ -247,7 +247,7 @@ class TestScriptController extends Controller
         $testScriptData->update($updateData);
         // Redirect Route
         return response()->json([
-            'redirectTarget' => route('Project_View', $updateData['project_id'])
+            'redirectTarget' => route('User_Project_View', $updateData['project_id'])
         ], 200);
     }
 

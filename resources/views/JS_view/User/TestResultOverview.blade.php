@@ -2,7 +2,7 @@
 
     function deleteTestResult(el) {
         const resultId = el.getAttribute('data-result-id');
-        let route = "{{ route('TestResult_Delete', 'resultId') }}";
+        let route = "{{ route('User_TestResult_Delete', 'resultId') }}";
         route = route.replace('resultId', resultId);
 
         UtilSwal.formSubmit({

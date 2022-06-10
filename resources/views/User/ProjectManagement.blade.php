@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-10 offset-1">
                                 <div class="my-2 d-flex justify-content-end">
-                                    <a class="btn btn-outline-secondary" href="{{ route('ProjectCreate_View') }}">
+                                    <a class="btn btn-outline-secondary" href="{{ route('User_ProjectCreate_View') }}">
                                         <i class="fa-solid fa-plus"></i> 新增專案
                                     </a>
                                 </div>
@@ -49,11 +49,11 @@
                                                         <td class="p-3">{{ $project['description'] }}</td>
                                                         <td class="text-center">
                                                             <a class="btn btn-outline-secondary m-1"
-                                                                href="{{ route('Project_View', $project['id']) }}">
+                                                                href="{{ route('User_Project_View', $project['id']) }}">
                                                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                                             </a>
                                                             <a class="btn btn-outline-secondary m-1"
-                                                                href="{{ route('Project_Edit', $project['id']) }}">
+                                                                href="{{ route('User_Project_Edit', $project['id']) }}">
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a>
                                                             <button class="btn btn-outline-secondary m-1"

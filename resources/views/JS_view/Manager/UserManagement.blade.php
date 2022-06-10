@@ -10,7 +10,7 @@
 
     function disableUser(el) {
         const userId = el.getAttribute('data-userId');
-        let route = "{{ route('User_Disable', 'userId') }}";
+        let route = "{{ route('Manager_User_Disable', 'userId') }}";
         route = route.replace('userId', userId);
 
         UtilSwal.formSubmit({
@@ -33,7 +33,7 @@
 
     function enableUser(el) {
         const userId = el.getAttribute('data-userId');
-        let route = "{{ route('User_Enable', 'userId') }}";
+        let route = "{{ route('Manager_User_Enable', 'userId') }}";
         route = route.replace('userId', userId);
 
         UtilSwal.formSubmit({

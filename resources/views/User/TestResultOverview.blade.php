@@ -67,7 +67,7 @@
                                                     </td>
                                                     <td class="text-center align-middle">
                                                         <a class="btn btn-outline-secondary m-1 tippy-label"
-                                                                href="{{ route('TestResult_View', $data['testResultList'][$i]['id']) }}">
+                                                                href="{{ route('User_TestResult_View', $data['testResultList'][$i]['id']) }}">
                                                             <i class="fa-solid fa-magnifying-glass"></i>
                                                         </a>
                                                         <button class="btn btn-outline-secondary m-1"
@@ -82,7 +82,7 @@
                                     </tbody>
                                 </table>
                                 <a class="btn btn-secondary m-1"
-                                        href="{{ route('Project_View', $data['testScriptData']['project_id']) }}">
+                                        href="{{ route('User_Project_View', $data['testScriptData']['project_id']) }}">
                                     返回列表
                                 </a>
                             </div>

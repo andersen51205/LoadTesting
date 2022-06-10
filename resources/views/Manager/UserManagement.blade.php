@@ -63,11 +63,11 @@
                                                         </td>
                                                         <td class="text-center">
                                                             {{-- <a class="btn btn-outline-secondary m-1"
-                                                                href="{{ route('Project_View', $project['id']) }}">
+                                                                href="{{ route('User_Project_View', $project['id']) }}">
                                                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                                             </a> --}}
                                                             {{-- <a class="btn btn-outline-secondary m-1"
-                                                                href="{{ route('Project_Edit', $project['id']) }}">
+                                                                href="{{ route('User_Project_Edit', $project['id']) }}">
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a> --}}
                                                             @if($user['expired_at'])

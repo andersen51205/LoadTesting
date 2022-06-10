@@ -24,7 +24,7 @@
         // 驗證後送出
         if(validateForm() &&
            validatePassword()) {
-            const route = "{{ route('UserInfomation_Update') }}";
+            const route = "{{ route('User_Infomation_Update') }}";
             let formData = new FormData(form);
             formData.append('_method', "PATCH");
 

@@ -7,7 +7,7 @@
         const url = new URL(window.location.href);
         if(url.searchParams.has('projectId')) {
             const projectId = url.searchParams.get('projectId');
-            const projectView = "{{ route('Project_View', 'projectId') }}";
+            const projectView = "{{ route('User_Project_View', 'projectId') }}";
             // 選取專案選項
             document.querySelector('#Select_project').value = projectId;
             // 帶入返回按鈕
@@ -54,8 +54,8 @@
     }
 
     function submitForm(el) {
-        const createRoute = "{{ route('TestScript_Create') }}";
-        const updateRoute = "{{ route('TestScript_Update', 'id') }}";
+        const createRoute = "{{ route('User_TestScript_Create') }}";
+        const updateRoute = "{{ route('User_TestScript_Update', 'id') }}";
         const submitType = el.getAttribute('data-type');
         let route = createRoute;
         let warringText = "";

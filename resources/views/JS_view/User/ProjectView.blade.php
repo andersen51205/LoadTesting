@@ -1,6 +1,6 @@
 <script type="text/javascript">
     function startTesting(el) {
-        let route = "{{ route('TestScript_Start','id') }}";
+        let route = "{{ route('User_TestScript_Start','id') }}";
         if(!el.hasAttribute('data-id')) {
             UtilSwal.submitFail();
             return;
@@ -40,7 +40,7 @@
         }
     }
     function deleteTestScript(el) {
-        let route = "{{ route('TestScript_Delete','id') }}";
+        let route = "{{ route('User_TestScript_Delete','id') }}";
         if(!el.hasAttribute('data-script-id')) {
             UtilSwal.submitFail();
             return;

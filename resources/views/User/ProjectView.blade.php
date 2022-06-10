@@ -26,11 +26,11 @@
                                 <div class="my-2 d-flex justify-content-end">
                                     <a class="btn btn-outline-secondary me-2"
                                         target="_blank" rel="noopener noreferrer"
-                                        href="{{ route('TestScriptTutorial_View') }}">
+                                        href="{{ route('User_TestScriptTutorial_View') }}">
                                         <i class="fa-regular fa-circle-question"></i> 如何產生腳本
                                     </a>
                                     <a class="btn btn-outline-secondary"
-                                        href="{{ route('TestScriptCreate_View') }}?projectId={{ $data['projectData']['id'] }}">
+                                        href="{{ route('User_TestScriptCreate_View') }}?projectId={{ $data['projectData']['id'] }}">
                                         <i class="fa-solid fa-plus"></i> 新增測試
                                     </a>
                                 </div>
@@ -98,7 +98,7 @@
                                                             <button class="btn btn-outline-secondary m-1"
                                                                     onclick="viewResult(this)"
                                                                     @if($testScript['status'] === 4)
-                                                                        data-href="{{ route('TestResultOverview_View', $testScript['id']) }}"
+                                                                        data-href="{{ route('User_TestResultList_View', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>
@@ -109,7 +109,7 @@
                                                                     onclick="editTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
-                                                                        data-href="{{ route('TestScript_View', $testScript['id']) }}"
+                                                                        data-href="{{ route('User_TestScript_View', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>
