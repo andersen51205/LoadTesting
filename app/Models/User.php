@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'expired_at',
     ];
 
     /**
@@ -41,4 +42,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function project()
+    {
+        return $this->hasMany('App\Models\Project', 'user_id', 'id');
+    }
+
+    public function testScript()
+    {
+        return $this->hasMany('App\Models\TestScript', 'user_id', 'id');
+    }
 }

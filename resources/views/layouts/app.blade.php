@@ -92,7 +92,7 @@
                                         後臺管理
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('Manager_View') }}">
+                                        <a class="dropdown-item" href="{{ route('UserManagement_View') }}">
                                             使用者管理
                                         </a>
                                     </div>
