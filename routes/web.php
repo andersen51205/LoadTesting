@@ -90,5 +90,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/UserManagement', 'Manager\UserManagementController@index')->name('Manager_UserList_View');
         Route::patch('/User/{userId}', 'Manager\UserManagementController@update')->name('Manager_User_Enable');
         Route::delete('/User/{userId}', 'Manager\UserManagementController@destroy')->name('Manager_User_Disable');
+        // 專案 
+        Route::get('/Project', 'Manager\ProjectController@index')->name('Manager_ProjectManagement_View');
     });
 });

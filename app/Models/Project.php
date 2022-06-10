@@ -15,6 +15,11 @@ class Project extends Model
         'description',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
+
     public function testScript()
     {
         return $this->hasMany('App\Models\TestScript', 'project_id', 'id');
