@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manager;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -26,14 +26,12 @@ class UserManagementController extends Controller
     public function index()
     {
         // Get Data
-        $userList = $this->user->where('id', '!=', Auth::user()->id)
-                               ->with('project')
-                               ->with('testScript')
+        $userList = $this->user->where('permission', 2)
                                ->get();
         // Formate Data
         $data = ['userList' => $userList];
         // View
-        return view('Manager.UserManagement', compact('data'));
+        return view('Admin.UserManagement', compact('data'));
     }
 
     /**
@@ -43,7 +41,8 @@ class UserManagementController extends Controller
      */
     public function create()
     {
-        //
+        // View
+        return view('Admin.UserCreate');
     }
 
     /**

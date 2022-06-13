@@ -16,7 +16,7 @@
                     <div class="container-fluid px-4">
                         <div class="row">
                             <div class="col-10 offset-1">
-                                <h3 class="my-4">使用者管理</h3>
+                                <h3 class="my-4">人員管理</h3>
                             </div>
                         </div>
                         {{-- <ol class="breadcrumb mb-4">
@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-10 offset-1">
                                 <div class="my-2 d-flex justify-content-end">
-                                    <a class="btn btn-outline-primary" href="{{-- route('ManagerCreate_View') --}}">
+                                    <a class="btn btn-outline-primary" href="{{ route('Admin_UserCreate_View') }}">
                                         <i class="fa-solid fa-plus"></i> 新增管理員
                                     </a>
                                 </div>
@@ -35,8 +35,6 @@
                                             <th style="width:20%">使用者名稱</th>
                                             <th style="width:20%">電子郵件</th>
                                             {{-- <th style="width:10%">註冊日期</th> --}}
-                                            <th style="width:8%">專案</th>
-                                            <th style="width:8%">腳本</th>
                                             <th style="width:20%">狀態</th>
                                             <th style="width:10%">操作</th>
                                         </tr>
@@ -45,7 +43,7 @@
                                         @if(isset($data['userList']))
                                             @if(count($data['userList']) === 0)
                                                 <tr>
-                                                    <td class="p-3 text-center" colspan="3">無使用者資料</td>
+                                                    <td class="p-3 text-center" colspan="3">無管理員資料</td>
                                                 </tr>
                                             @else
                                                 @foreach ($data['userList'] as $user)
@@ -53,8 +51,6 @@
                                                         <td class="p-3">{{ $user['name'] }}</td>
                                                         <td class="p-3">{{ $user['email'] }}</td>
                                                         {{-- <td class="p-3">{{ $user['created_at'] }}</td> --}}
-                                                        <td class="p-3 text-center">{{ count($user['project']) }}</td>
-                                                        <td class="p-3 text-center">{{ count($user['testScript']) }}</td>
                                                         <td class="p-3">
                                                             @if($user['expired_at'])
                                                                 <i class="fa-solid fa-xmark"></i> {{ "停用(".$user['expired_at'].")" }}
@@ -72,13 +68,17 @@
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a> --}}
                                                             @if($user['expired_at'])
-                                                                <button class="btn btn-outline-success m-1 tooltip-label"
-                                                                        data-userId="{{ $user['id'] }}"
-                                                                        onclick="enableUser(this)"
-                                                                        data-tippy-content="啟用">
-                                                                    <i class="fa-solid fa-user-check"></i>
-                                                                </button>
+                                                                <a class="btn btn-outline-success m-1 tooltip-label"
+                                                                    href="{{ route('Admin_User_View', $user['id']) }}"
+                                                                    data-tippy-content="檢視">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                </a>
                                                             @else
+                                                                <a class="btn btn-outline-success m-1 tooltip-label"
+                                                                    href="{{ route('Admin_User_Edit', $user['id']) }}"
+                                                                    data-tippy-content="編輯">
+                                                                    <i class="fa-solid fa-user-pen"></i>
+                                                                </a>
                                                                 <button class="btn btn-outline-danger m-1 tooltip-label"
                                                                         data-userId="{{ $user['id'] }}"
                                                                         onclick="disableUser(this)"
@@ -124,5 +124,5 @@
 @endsection
 
 @section('script')
-    @include('JS_view.Manager.UserManagement')
+    @include('JS_view.Admin.UserManagement')
 @endsection

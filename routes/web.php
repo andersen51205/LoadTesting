@@ -123,6 +123,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/UserManagement', 'Admin\UserManagementController@index')->name('Admin_UserManagement_View');
         Route::get('/User/create', 'Admin\UserManagementController@create')->name('Admin_UserCreate_View');
         Route::post('/User', 'Admin\UserManagementController@store')->name('Admin_User_Create');
+        Route::get('/User/{userId}', 'Admin\UserManagementController@show')->name('Admin_User_View');
         Route::get('/User/{userId}/edit', 'Admin\UserManagementController@edit')->name('Admin_User_Edit');
         Route::patch('/User/{userId}', 'Admin\UserManagementController@update')->name('Admin_User_Update');
         Route::delete('/User/{userId}', 'Admin\UserManagementController@destroy')->name('Admin_User_Delete');
