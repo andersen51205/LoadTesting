@@ -119,6 +119,21 @@
                                         </a>
                                     </div>
                                 </li>
+                            @elseif (Auth::user()->permission === 3)
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{{ route('Admin_View') }}">首頁</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        後臺管理
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Admin_UserManagement_View') }}">
+                                            人員管理
+                                        </a>
+                                    </div>
+                                </li>
                             @endif
                         @endauth
                     </ul>
