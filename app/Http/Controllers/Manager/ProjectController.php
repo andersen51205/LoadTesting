@@ -66,9 +66,24 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($projectId, Project $project)
     {
-        //
+        // Get Data
+        $projectData = $this->project->where('id', $projectId)
+                                     ->first();
+        $testScriptList = $this->testScript->where('project_id', $projectId)
+                                           ->get();
+        // Processing Data
+        foreach ($testScriptList as $testScript) {
+            $updateData = explode(" ", $testScript['updated_at']);
+            $testScript['updateDate'] = $updateData[0];
+            $testScript['updateTime'] = $updateData[1];
+        }
+        // Formate Data
+        $data = ['projectData' => $projectData,
+                 'testScriptList' => $testScriptList];
+        // View
+        return view('Manager.ProjectView', compact('data'));
     }
 
     /**
