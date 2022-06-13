@@ -29,7 +29,7 @@
                                                         <span class="text-danger">*</span>管理員名稱
                                                     </label>
                                                     <input type="text" id="Input_name" class="form-control necessary"
-                                                        name="managerName" value="">
+                                                        name="name" value="">
                                                 </div>
                                             </div>
                                             {{-- 電子郵件 --}}
@@ -39,7 +39,7 @@
                                                         <span class="text-danger">*</span>電子郵件
                                                     </label>
                                                     <input type="email" id="Input_email" class="form-control necessary"
-                                                        name="managerEmail" value="">
+                                                        name="email" value="">
                                                 </div>
                                             </div>
                                             {{-- 密碼 --}}
@@ -49,7 +49,7 @@
                                                         <span class="text-danger">*</span>密碼
                                                     </label>
                                                     <input type="password" id="Input_password" class="form-control necessary"
-                                                        name="managerPassword" value="">
+                                                        name="password" value="">
                                                 </div>
                                             </div>
                                             {{-- 密碼確認 --}}
@@ -59,7 +59,7 @@
                                                         <span class="text-danger">*</span>密碼確認
                                                     </label>
                                                     <input type="password" id="Input_password_confirm" class="form-control necessary"
-                                                        name="managerPasswordConfirm" value="">
+                                                        name="passwordConfirm" value="">
                                                 </div>
                                             </div>
                                             {{-- 表單操作區 --}}

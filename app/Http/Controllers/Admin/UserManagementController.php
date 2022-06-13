@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 class UserManagementController extends Controller
@@ -53,7 +54,20 @@ class UserManagementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate
+        // $this->userInformationValidator->checkUserInformation($request);
+        // Get Data
+        $data = [];
+        $data['permission'] = 2;
+        $data['name'] = $request['name'];
+        $data['email'] = $request['email'];
+        $data['password'] = Hash::make($request['password']);
+        // Create Data
+        $newUser = $this->user->create($data);
+        // Redirect Route
+        return response()->json([
+            'redirectTarget' => route('Admin_UserManagement_View')
+        ], 200);
     }
 
     /**
