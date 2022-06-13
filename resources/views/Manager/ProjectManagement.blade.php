@@ -34,8 +34,9 @@
                                         <tr class="text-center">
                                             <th style="width:15%">擁有者</th>
                                             <th style="width:20%">專案名稱</th>
-                                            <th style="width:45%">描述</th>
-                                            <th style="width:20%">操作</th>
+                                            <th style="width:40%">描述</th>
+                                            <th style="width:10%">腳本數</th>
+                                            <th style="width:15%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -50,6 +51,7 @@
                                                         <td class="p-3">{{ $project['user']['name'] }}</td>
                                                         <td class="p-3">{{ $project['name'] }}</td>
                                                         <td class="p-3">{{ $project['description'] }}</td>
+                                                        <td class="p-3">{{ count($project['testScript']) }}</td>
                                                         <td class="text-center">
                                                             <a class="btn btn-outline-primary m-1 tooltip-label"
                                                                 href="{{ route('Manager_Project_View', $project['id']) }}"

@@ -32,6 +32,7 @@ class ProjectController extends Controller
     {
         // Get Data
         $projectList = $this->project->with('user')
+                                     ->with('testScript')
                                      ->get();
         // Formate Data
         $data = ['projectList' => $projectList];
