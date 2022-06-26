@@ -87,9 +87,16 @@ class UserManagementController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($userId, User $user)
     {
-        //
+        // Get Data
+        $userData = $this->user->where('permission', 2)
+                               ->where('id', $userId)
+                               ->first();
+        // Formate Data
+        $data = ['userData' => $userData];
+        // View
+        return view('Admin.UserEdit', compact('data'));
     }
 
     /**
@@ -105,11 +112,17 @@ class UserManagementController extends Controller
         $userData = $this->user->where('id', $userId)
                                ->first();
         // Processing Data
-        $data['expired_at'] = null;
+        $data = [];
+        $data['name'] = $request['name'];
+        if($request['password']) {
+            $data['password'] = Hash::make($request['password']);
+        }
         // Update Data
         $userData->update($data);
         // Redirect Route
-        return response()->json(null, 200);
+        return response()->json([
+            'redirectTarget' => route('Admin_UserManagement_View')
+        ], 200);
     }
 
     /**

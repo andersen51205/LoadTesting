@@ -15,7 +15,7 @@
         if(validateForm()) {
             let formData = new FormData(form);
             if(submitType === 'update') {
-                route = updateRoute.replace('id', el.getAttribute('data-project-id'));
+                route = updateRoute.replace('id', el.getAttribute('data-user-id'));
                 formData.append('_method', 'PATCH');
             }
             UtilSwal.formSubmit({},() => {
