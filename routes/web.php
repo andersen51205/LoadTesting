@@ -119,6 +119,9 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
         // 首頁
         Route::get('/', 'Admin\AdminController@main')->name('Admin_View');
+        // 基本資料
+        Route::get('/AccountInformation', 'Admin\AdminController@infomation')->name('Admin_Infomation_View');
+        Route::patch('/AccountInformation', 'Admin\AdminController@update')->name('Admin_Infomation_Update')->middleware('ajax');
         // 使用者管理
         Route::get('/UserManagement', 'Admin\UserManagementController@index')->name('Admin_UserManagement_View');
         Route::get('/User/create', 'Admin\UserManagementController@create')->name('Admin_UserCreate_View');

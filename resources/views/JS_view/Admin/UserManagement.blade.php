@@ -10,11 +10,12 @@
 
     function disableUser(el) {
         const userId = el.getAttribute('data-userId');
-        let route = "{{ route('Manager_User_Disable', 'userId') }}";
+        let route = "{{ route('Admin_User_Delete', 'userId') }}";
         route = route.replace('userId', userId);
 
         UtilSwal.formSubmit({
-            title: '是否確定停用？'
+            title: '是否確定停用？',
+            text: '停用後將無法再使用該帳號'
         }, function() {
             UtilSwal.showLoading();
             axios({
@@ -23,29 +24,6 @@
             }).then(async function (response) {
                 // handle success
                 UtilSwal.submitSuccess({ title:'停用成功' });
-            })
-            .catch(function (error) {
-                // handle error
-                UtilSwal.submitFail();
-            });
-        });
-    }
-
-    function enableUser(el) {
-        const userId = el.getAttribute('data-userId');
-        let route = "{{ route('Manager_User_Enable', 'userId') }}";
-        route = route.replace('userId', userId);
-
-        UtilSwal.formSubmit({
-            title: '是否確定啟用？'
-        }, function() {
-            UtilSwal.showLoading();
-            axios({
-                url: route,
-                method: "PATCH",
-            }).then(async function (response) {
-                // handle success
-                UtilSwal.submitSuccess({ title:'啟用成功' });
             })
             .catch(function (error) {
                 // handle error

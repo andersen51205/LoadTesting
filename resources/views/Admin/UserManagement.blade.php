@@ -26,13 +26,13 @@
                             <div class="col-10 offset-1">
                                 <div class="my-2 d-flex justify-content-end">
                                     <a class="btn btn-outline-primary" href="{{ route('Admin_UserCreate_View') }}">
-                                        <i class="fa-solid fa-plus"></i> 新增管理員
+                                        <i class="fa-solid fa-user-plus"></i> 新增管理員
                                     </a>
                                 </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center">
-                                            <th style="width:20%">使用者名稱</th>
+                                            <th style="width:20%">管理員名稱</th>
                                             <th style="width:20%">電子郵件</th>
                                             {{-- <th style="width:10%">註冊日期</th> --}}
                                             <th style="width:20%">狀態</th>
@@ -68,11 +68,11 @@
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a> --}}
                                                             @if($user['expired_at'])
-                                                                <a class="btn btn-outline-success m-1 tooltip-label"
+                                                                {{-- <a class="btn btn-outline-success m-1 tooltip-label"
                                                                     href="{{ route('Admin_User_View', $user['id']) }}"
                                                                     data-tippy-content="檢視">
                                                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                                                </a>
+                                                                </a> --}}
                                                             @else
                                                                 <a class="btn btn-outline-success m-1 tooltip-label"
                                                                     href="{{ route('Admin_User_Edit', $user['id']) }}"
