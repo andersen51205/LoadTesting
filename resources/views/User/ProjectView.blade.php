@@ -96,12 +96,11 @@
                                                                 <i class="fa-solid fa-play"></i>
                                                             </button>
                                                             {{-- 查看結果 --}}
-                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                            <a class="btn btn-outline-secondary m-1 tooltip-label"
                                                                     data-tippy-content="查看結果"
-                                                                    onclick="viewResult(this)"
-                                                                    data-href="{{ route('User_TestResultList_View', $testScript['id']) }}">
+                                                                    href="{{ route('User_TestResultList_View', $testScript['id']) }}">
                                                                 <i class="fa-solid fa-chart-line"></i>
-                                                            </button>
+                                                            </a>
                                                             {{-- 編輯腳本 --}}
                                                             <button class="btn btn-outline-secondary m-1 tooltip-label"
                                                                     data-tippy-content="編輯"
