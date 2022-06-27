@@ -86,13 +86,15 @@
                                                         {{-- 操作區 --}}
                                                         <td class="text-center align-middle">
                                                             {{-- 查看結果 --}}
-                                                            <a class="btn btn-outline-secondary m-1"
+                                                            <a class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="查看結果"
                                                                     href="{{ route('Manager_TestResultList_View', $testScript['id']) }}">
                                                                 <i class="fa-solid fa-chart-line"></i>
                                                             </a>
                                                             {{-- 編輯腳本 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
                                                                     onclick="editTestScript(this)"
+                                                                    data-tippy-content="編輯"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
                                                                         data-href="{{ route('Manager_TestScript_Edit', $testScript['id']) }}"
@@ -102,8 +104,9 @@
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </button>
                                                             {{-- 刪除腳本 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
                                                                     onclick="deleteTestScript(this)"
+                                                                    data-tippy-content="刪除"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
                                                                         data-script-id="{{ $testScript['id'] }}"
