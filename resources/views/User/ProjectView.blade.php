@@ -108,7 +108,7 @@
                                                                     onclick="editTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
-                                                                        data-href="{{ route('User_TestScript_View', $testScript['id']) }}"
+                                                                        data-href="{{ route('User_TestScript_Edit', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>

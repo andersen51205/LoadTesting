@@ -70,7 +70,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/TestScriptManagement', 'User\TestScriptController@index')->name('User_TestScriptList_View');
         Route::get('/TestScriptCreate', 'User\TestScriptController@create')->name('User_TestScriptCreate_View');
         Route::post('/TestScriptCreate', 'User\TestScriptController@store')->name('User_TestScript_Create');
-        Route::get('/TestScript/{testScriptId}', 'User\TestScriptController@show')->name('User_TestScript_View');
+        Route::get('/TestScript/{testScriptId}/edit', 'User\TestScriptController@edit')->name('User_TestScript_Edit');
         Route::patch('/TestScript/{testScriptId}', 'User\TestScriptController@update')->name('User_TestScript_Update');
         Route::delete('/TestScript/{testScriptId}', 'User\TestScriptController@destroy')->name('User_TestScript_Delete');
         Route::get('/TestScript/Download/{testScriptId}', 'User\TestScriptController@download')->name('User_TestScript_Download');

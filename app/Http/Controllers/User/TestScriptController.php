@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\TestScript;
+use App\Models\TestResult;
 use App\Models\Project;
 use App\Models\Filename;
 use App\Jobs\TestJob;
@@ -14,17 +15,19 @@ use Storage;
 
 class TestScriptController extends Controller
 {
-    protected $project, $filename, $testScript;
+    protected $project, $filename, $testScript, $testResult;
 
     public function __construct(
         Project $project,
         Filename $filename,
-        TestScript $testScript
+        TestScript $testScript,
+        TestResult $testResult
     )
     {
         $this->project = $project;
         $this->filename = $filename;
         $this->testScript = $testScript;
+        $this->testResult = $testResult;
     }
 
     /**
@@ -116,7 +119,30 @@ class TestScriptController extends Controller
      * @param  \App\Models\TestScript  $testScript
      * @return \Illuminate\Http\Response
      */
-    public function show($testScriptId, TestScript $testScript)
+    public function show(TestScript $testScript)
+    {
+        //
+    }
+
+    public function download($testScriptId)
+    {
+        // Get Data
+        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
+                                            ->where('id', $testScriptId)
+                                            ->with('filename')
+                                            ->first();
+        $fileHash = $testScriptModel['filename']['hash'];
+        $fileName = $testScriptModel['filename']['name'];
+        return Storage::disk('TestScript')->download($fileHash, $fileName);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\TestScript  $testScript
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($testScriptId, TestScript $testScript)
     {
         // Get Data
         $projectList = $this->project->where('user_id', Auth::user()->id)
@@ -138,29 +164,6 @@ class TestScriptController extends Controller
         return view('User.TestScriptView', compact('data'));
     }
 
-    public function download($testScriptId)
-    {
-        // Get Data
-        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
-                                            ->where('id', $testScriptId)
-                                            ->with('filename')
-                                            ->first();
-        $fileHash = $testScriptModel['filename']['hash'];
-        $fileName = $testScriptModel['filename']['name'];
-        return Storage::disk('TestScript')->download($fileHash, $fileName);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TestScript  $testScript
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TestScript $testScript)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -177,59 +180,36 @@ class TestScriptController extends Controller
             $request['testScriptIncrementAmount'] = 1;
         }
         // Get Data
-        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
-                                           ->where('id', $testScriptId)
-                                           ->first();
+        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
+                                            ->where('id', $testScriptId)
+                                            ->first();
         // Check File
         if($request['file']) {
             $updateData['status'] = 1;
             // Get Data
-            $fileData = $this->filename->where('id', $testScriptData['file_id'])
-                                       ->first();
-            $originalFileHash = $fileData['hash'];
+            $fileModel = $this->filename->where('id', $testScriptModel['file_id'])
+                                        ->first();
+            $originalFileHash = $fileModel['hash'];
             // Create File
             $file = $request['file'];
             $originalFileName = $file->getClientOriginalName();
             $uid = hash('sha256', Str::uuid().time());
             Storage::disk('TestScript')->put($uid, $file->get());
             // Update File
-            $fileData->update([
+            $fileModel->update([
                 'hash' => $uid,
                 'name' => $originalFileName,
             ]);
-            // Delete File
-            $deleteMessage = '';
-            $resultPath = '../storage/app/TestResult/';
-            $scriptPath = '../storage/app/TestScript/';
-
-            if(file_exists($resultPath . $originalFileHash)) {
-                $this->removeDirectory($resultPath . $originalFileHash);
-            }
-            $currentFile = $resultPath . $originalFileHash . '.json';
-            if(file_exists($currentFile)) {
-                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-                $deleteMessage = unlink($currentFile);
-            }
-            $currentFile = $resultPath . $originalFileHash . '-error.json';
-            if(file_exists($currentFile)) {
-                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-                $deleteMessage = unlink($currentFile);
-            }
-            $currentFile = $resultPath . $originalFileHash . '-errorByType.json';
-            if(file_exists($currentFile)) {
-                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-                $deleteMessage = unlink($currentFile);
-            }
-            $currentFile = $resultPath . $originalFileHash . '.jtl';
-            if(file_exists($currentFile)) {
-                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-                $deleteMessage = unlink($currentFile);
-            }
-            $currentFile = $scriptPath . $originalFileHash;
-            if(file_exists($currentFile)) {
-                // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-                $deleteMessage = unlink($currentFile);
-            }
+            // Delete Result From DataTable
+            $this->testResult->where('test_script_id', $testScriptModel['id'])
+                             ->delete();
+            // Delete Script File
+            Storage::disk('TestScript')->delete($originalFileHash);
+            Storage::disk('TestScript')->delete($originalFileHash.'.jmx');
+            // Delete Result File
+            $resultFiles = Storage::disk('TestResult')->allFiles($originalFileHash);
+            Storage::disk('TestResult')->delete($resultFiles);
+            Storage::disk('TestResult')->deleteDirectory($originalFileHash);
         }
         // Processing data
         $updateData['project_id'] = $request['projectId'];
@@ -243,7 +223,7 @@ class TestScriptController extends Controller
         $updateData['ramp_up_period'] = $request['testScriptRampUpPeriod'];
         $updateData['loops'] = $request['testScriptLoops'];
         // Update Test Script
-        $testScriptData->update($updateData);
+        $testScriptModel->update($updateData);
         // Redirect Route
         return response()->json([
             'redirectTarget' => route('User_Project_View', $updateData['project_id'])
