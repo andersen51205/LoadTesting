@@ -239,46 +239,24 @@ class TestScriptController extends Controller
     public function destroy($testScriptId ,TestScript $testScript)
     {
         // Get Data
-        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
+        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
                                            ->where('id', $testScriptId)
+                                           ->with('filename')
                                            ->first();
-        $fileName = $this->filename->where('id', $testScriptData['file_id'])
-                                   ->first();
-        // Delete File
-        $deleteMessage = '';
-        $resultPath = '../storage/app/TestResult/';
-        $scriptPath = '../storage/app/TestScript/';
-
-        if(file_exists($resultPath . $fileName['hash'])) {
-            $this->removeDirectory($resultPath . $fileName['hash']);
-        }
-        $currentFile = $resultPath . $fileName['hash'] . '.json';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $currentFile = $resultPath . $fileName['hash'] . '-error.json';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $currentFile = $resultPath . $fileName['hash'] . '-errorByType.json';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $currentFile = $resultPath . $fileName['hash'] . '.jtl';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $currentFile = $scriptPath . $fileName['hash'];
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $fileName->delete();
-        $testScriptData->delete();
+        $fileHash = $testScriptModel['filename']['hash'];
+        // Delete Result From DataTable
+        $this->testResult->where('test_script_id', $testScriptModel['id'])
+                         ->delete();
+        // Delete Script File
+        Storage::disk('TestScript')->delete($fileHash);
+        Storage::disk('TestScript')->delete($fileHash.'.jmx');
+        // Delete Result File
+        $resultFiles = Storage::disk('TestResult')->allFiles($fileHash);
+        Storage::disk('TestResult')->delete($resultFiles);
+        Storage::disk('TestResult')->deleteDirectory($fileHash);
+        
+        $testScriptModel->filename->delete();
+        $testScriptModel->delete();
         return response(null, 204);
     }
 
