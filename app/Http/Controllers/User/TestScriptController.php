@@ -141,14 +141,13 @@ class TestScriptController extends Controller
     public function download($testScriptId)
     {
         // Get Data
-        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
-                                           ->where('id', $testScriptId)
-                                           ->first();
-        $fileName = $this->filename->where('id', $testScriptData['file_id'])
-                                   ->first();
-        $path = '../storage/app/TestScript/'.$fileName['hash'];
-        // Script File
-        return response()->download($path, $fileName['name']);
+        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
+                                            ->where('id', $testScriptId)
+                                            ->with('filename')
+                                            ->first();
+        $fileHash = $testScriptModel['filename']['hash'];
+        $fileName = $testScriptModel['filename']['name'];
+        return Storage::disk('TestScript')->download($fileHash, $fileName);
     }
 
     /**
@@ -305,22 +304,16 @@ class TestScriptController extends Controller
 
     public function start($testScriptId)
     {
-        // $result = shell_exec('dir');
-        // $resultUtf8 = mb_convert_encoding($result, "UTF-8", "BIG-5"); 
-        // return response()->json($result, 200);
-        // $result = shell_exec('jmeter -n -t my_test.jmx -l log.jtl -H my.proxy.server -P 8000');
-        // return 'done';
-
         // Get Data
-        $testScriptData = $this->testScript->where('id', $testScriptId)
-                                           ->with('filename')
-                                           ->first();
-        // Set Status : 1 -> ready, 2 -> wait, 3 -> doing, 4 -> finish
-        $testScriptData->status = 2;
-        $testScriptData->threads = $testScriptData['start_thread'];
-        $testScriptData->save();
+        $testScriptModel = $this->testScript->where('id', $testScriptId)
+                                            ->with('filename')
+                                            ->first();
+        // Set Status : 1->ready, 2->wait, 3->doing, 4->finish, 5->fail
+        $testScriptModel->status = 2;
+        $testScriptModel->threads = $testScriptModel['start_thread'];
+        $testScriptModel->save();
         // Add to job queue
-        $this->dispatch(new TestJob($testScriptData));
+        $this->dispatch(new TestJob($testScriptModel));
     }
 
     public function removeDirectory($path)
