@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\TestScript;
@@ -33,8 +33,8 @@ class TestResultController extends Controller
     public function index($testScriptId, Request $request)
     {
         // Get Data
-        $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
-                                            ->where('id', $testScriptId)
+        $testScriptModel = $this->testScript->where('id', $testScriptId)
+                                            ->with('filename')
                                             ->first();
         $testResultList = $this->testResult->where('test_script_id', $testScriptId)
                                            ->get();
@@ -42,7 +42,7 @@ class TestResultController extends Controller
         $data = ['testScriptData' => $testScriptModel,
                  'testResultList' => $testResultList];
         // View
-        return view('User.TestResultOverview', compact('data'));
+        return view('Manager.TestResultOverview', compact('data'));
     }
 
     /**
