@@ -1,4 +1,13 @@
 <script type="text/javascript">
+
+    window.onload = function() {
+        init();
+    };
+
+    function init() {
+        setTippyLabel(document);
+    }
+    
     function startTesting(el) {
         let route = "{{ route('User_TestScript_Start','id') }}";
         if(!el.hasAttribute('data-id')) {

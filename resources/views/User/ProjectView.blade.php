@@ -85,8 +85,9 @@
                                                         {{-- 操作區 --}}
                                                         <td class="text-center align-middle">
                                                             {{-- 開始測試 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
                                                                     data-id="{{ $testScript['id'] }}"
+                                                                    data-tippy-content="開始測試"
                                                                     onclick="startTesting(this)"
                                                                     @if($testScript['status'] === 2
                                                                             || $testScript['status'] === 3)
@@ -95,17 +96,15 @@
                                                                 <i class="fa-solid fa-play"></i>
                                                             </button>
                                                             {{-- 查看結果 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="查看結果"
                                                                     onclick="viewResult(this)"
-                                                                    @if($testScript['status'] === 4)
-                                                                        data-href="{{ route('User_TestResultList_View', $testScript['id']) }}"
-                                                                    @else
-                                                                        disabled
-                                                                    @endif>
+                                                                    data-href="{{ route('User_TestResultList_View', $testScript['id']) }}">
                                                                 <i class="fa-solid fa-chart-line"></i>
                                                             </button>
                                                             {{-- 編輯腳本 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="編輯"
                                                                     onclick="editTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
@@ -116,7 +115,8 @@
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </button>
                                                             {{-- 刪除腳本 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="刪除"
                                                                     onclick="deleteTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
