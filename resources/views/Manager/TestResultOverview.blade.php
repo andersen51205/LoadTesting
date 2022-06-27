@@ -98,7 +98,7 @@
                                                     <td class="text-center align-middle">
                                                         <a class="btn btn-outline-secondary m-1 tooltip-label"
                                                                 data-tippy-content="查看"
-                                                                href="{{ route('User_TestResult_View', $data['testResultList'][$i]['id']) }}">
+                                                                href="{{ route('Manager_TestResult_View', $data['testResultList'][$i]['id']) }}">
                                                             <i class="fa-solid fa-magnifying-glass"></i>
                                                         </a>
                                                         <button class="btn btn-outline-secondary m-1 tooltip-label"
