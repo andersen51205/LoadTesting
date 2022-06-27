@@ -22,15 +22,7 @@
             UtilSwal.submitFail();
         });
     }
-    
-    function viewResult(el) {
-        if(el.hasAttribute('data-href')) {
-            location.href = el.getAttribute('data-href');
-        }
-        else {
-            UtilSwal.submitFail();
-        }
-    }
+
     function editTestScript(el) {
         if(el.hasAttribute('data-href')) {
             location.href = el.getAttribute('data-href');
@@ -40,7 +32,7 @@
         }
     }
     function deleteTestScript(el) {
-        let route = "{{ route('User_TestScript_Delete','id') }}";
+        let route = "{{ route('Manager_TestScript_Delete','id') }}";
         if(!el.hasAttribute('data-script-id')) {
             UtilSwal.submitFail();
             return;

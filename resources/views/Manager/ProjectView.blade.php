@@ -85,32 +85,17 @@
                                                         </td>
                                                         {{-- 操作區 --}}
                                                         <td class="text-center align-middle">
-                                                            {{-- 開始測試 --}}
-                                                            {{-- <button class="btn btn-outline-secondary m-1"
-                                                                    data-id="{{ $testScript['id'] }}"
-                                                                    onclick="startTesting(this)"
-                                                                    @if($testScript['status'] === 2
-                                                                            || $testScript['status'] === 3)
-                                                                        disabled
-                                                                    @endif>
-                                                                <i class="fa-solid fa-play"></i>
-                                                            </button> --}}
                                                             {{-- 查看結果 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
-                                                                    onclick="viewResult(this)"
-                                                                    @if($testScript['status'] === 4)
-                                                                        data-href="{{ route('User_TestResultList_View', $testScript['id']) }}"
-                                                                    @else
-                                                                        disabled
-                                                                    @endif>
+                                                            <a class="btn btn-outline-secondary m-1"
+                                                                    href="{{ route('Manager_TestResultList_View', $testScript['id']) }}">
                                                                 <i class="fa-solid fa-chart-line"></i>
-                                                            </button>
+                                                            </a>
                                                             {{-- 編輯腳本 --}}
                                                             <button class="btn btn-outline-secondary m-1"
                                                                     onclick="editTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
-                                                                        data-href="{{ route('User_TestScript_View', $testScript['id']) }}"
+                                                                        data-href="{{ route('Manager_TestScript_Edit', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>
@@ -134,6 +119,11 @@
                                         @endif
                                     </tbody>
                                 </table>
+                                <div class="text-center">
+                                    <a class="btn btn-secondary mb-3" href="{{ route('Manager_ProjectList_View') }}">
+                                        返回列表
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
