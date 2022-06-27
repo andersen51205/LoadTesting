@@ -93,12 +93,12 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/UserManagement', 'Manager\UserManagementController@index')->name('Manager_UserList_View');
         Route::patch('/User/{userId}', 'Manager\UserManagementController@update')->name('Manager_User_Enable');
         Route::delete('/User/{userId}', 'Manager\UserManagementController@destroy')->name('Manager_User_Disable');
-        // 專案 
+        // 專案管理
         Route::get('/Project', 'Manager\ProjectController@index')->name('Manager_ProjectList_View');
         // Route::get('/ProjectCreate', 'Manager\ProjectController@create')->name('Manager_ProjectCreate_View');
         // Route::post('/ProjectCreate', 'Manager\ProjectController@store')->name('Manager_Project_Create');
         Route::get('/Project/{projectId}', 'Manager\ProjectController@show')->name('Manager_Project_View');
-        Route::get('/Project/edit/{projectId}', 'Manager\ProjectController@edit')->name('Manager_Project_Edit');
+        Route::get('/Project/{projectId}/edit', 'Manager\ProjectController@edit')->name('Manager_Project_Edit');
         Route::patch('/Project/{projectId}', 'Manager\ProjectController@update')->name('Manager_Project_Update');
         Route::delete('/Project/{projectId}', 'Manager\ProjectController@destroy')->name('Manager_Project_Delete');
         // 測試腳本管理

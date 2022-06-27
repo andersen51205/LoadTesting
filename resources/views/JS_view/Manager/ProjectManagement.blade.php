@@ -13,7 +13,8 @@
         route = route.replace('projectId', projectId);
 
         UtilSwal.formSubmit({
-            title: '是否確定刪除？'
+            title: '是否確定刪除？',
+            text: '注意：刪除專案將會連同該專案的測試腳本與測試結果一併刪除'
         }, function() {
             UtilSwal.showLoading();
             axios({
