@@ -111,10 +111,10 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::delete('/TestScript/{testScriptId}', 'Manager\TestScriptController@destroy')->name('Manager_TestScript_Delete');
         Route::get('/TestScript/Download/{testScriptId}', 'Manager\TestScriptController@download')->name('Manager_TestScript_Download');
         // Route::get('/TestScript/Start/{testScriptId}', 'Manager\TestScriptController@start')->name('Manager_TestScript_Start');
-        // 測試結果
+        // 測試結果管理
         Route::get('/TestResultList/{testScriptId}', 'Manager\TestResultController@index')->name('Manager_TestResultList_View');
-        // Route::get('/TestResult/{testResultId}', 'Manager\TestResultController@show')->name('TestResult_View');
-        // Route::delete('/TestResult/{testResultId}', 'Manager\TestResultController@destroy')->name('TestResult_Delete');
+        Route::get('/TestResult/{testResultId}', 'Manager\TestResultController@show')->name('Manager_TestResult_View');
+        Route::delete('/TestResult/{testResultId}', 'Manager\TestResultController@destroy')->name('Manager_TestResult_Delete');
     });
     /**
      * Admin

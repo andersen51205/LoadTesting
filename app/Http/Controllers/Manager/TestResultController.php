@@ -153,29 +153,17 @@ class TestResultController extends Controller
     public function destroy($testResultId, TestResult $testResult)
     {
         // Get Data
-        $testResultModel = $this->testResult->where('user_id', Auth::user()->id)
-                                            ->where('id', $testResultId)
+        $testResultModel = $this->testResult->where('id', $testResultId)
                                             ->first();
-        $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
-                                           ->where('id', $testResultModel['test_script_id'])
-                                           ->first();
-        $fileName = $this->filename->where('id', $testScriptData['file_id'])
-                                   ->first();
+        $testScriptModal = $this->testScript->where('id', $testResultModel['test_script_id'])
+                                            ->with('filename')
+                                            ->first();
+        $scriptName = $testScriptModal['filename']['hash'];
+        $resultName = $testResultModel['file_name'];
         // Delete File
-        $deleteMessage = '';
-        $resultPath = '../storage/app/TestResult/' . $fileName['hash'] . '/';
-
-        $currentFile = $resultPath . $testResultModel['file_name'] . '.json';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $currentFile = $resultPath . $testResultModel['file_name'] . '.jtl';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-
+        Storage::disk('TestResult')->delete($scriptName.'/'.$resultName.'.jtl');
+        Storage::disk('TestResult')->delete($scriptName.'/'.$resultName.'.json');
+        // Delete From DataTable
         $testResultModel->delete();
         return response(null, 204);
     }
