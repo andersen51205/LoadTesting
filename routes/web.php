@@ -86,6 +86,9 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     Route::group(['prefix' => 'manager', 'middleware' => 'manager'], function() {
         // 首頁
         Route::get('/', 'Manager\ManagerController@main')->name('Manager_View');
+        // 基本資料
+        Route::get('/AccountInformation', 'Manager\ManagerController@infomation')->name('Manager_Infomation_View');
+        Route::patch('/AccountInformation', 'Manager\ManagerController@update')->name('Manager_Infomation_Update')->middleware('ajax');
         // 使用者管理
         Route::get('/UserManagement', 'Manager\UserManagementController@index')->name('Manager_UserList_View');
         Route::patch('/User/{userId}', 'Manager\UserManagementController@update')->name('Manager_User_Enable');

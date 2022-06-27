@@ -24,11 +24,6 @@
                         </ol> --}}
                         <div class="row">
                             <div class="col-10 offset-1">
-                                <div class="my-2 d-flex justify-content-end">
-                                    <a class="btn btn-outline-primary" href="{{-- route('ManagerCreate_View') --}}">
-                                        <i class="fa-solid fa-plus"></i> 新增管理員
-                                    </a>
-                                </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center">
@@ -72,12 +67,12 @@
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a> --}}
                                                             @if($user['expired_at'])
-                                                                <button class="btn btn-outline-success m-1 tooltip-label"
+                                                                {{-- <button class="btn btn-outline-success m-1 tooltip-label"
                                                                         data-userId="{{ $user['id'] }}"
                                                                         onclick="enableUser(this)"
                                                                         data-tippy-content="啟用">
                                                                     <i class="fa-solid fa-user-check"></i>
-                                                                </button>
+                                                                </button> --}}
                                                             @else
                                                                 <button class="btn btn-outline-danger m-1 tooltip-label"
                                                                         data-userId="{{ $user['id'] }}"

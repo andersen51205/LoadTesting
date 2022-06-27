@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserManagementController extends Controller
 {
@@ -26,6 +27,7 @@ class UserManagementController extends Controller
     {
         // Get Data
         $userList = $this->user->where('permission', 1)
+        //                     ->where('id', '!=', Auth::user()->id)
                                ->with('project')
                                ->with('testScript')
                                ->get();
