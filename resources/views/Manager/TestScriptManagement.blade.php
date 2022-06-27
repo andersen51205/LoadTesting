@@ -64,8 +64,8 @@
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a>
                                                             <button class="btn btn-outline-danger m-1 tooltip-label"
-                                                                data-projectId="{{ $testScript['id'] }}"
-                                                                onclick="deleteProject(this)"
+                                                                data-script-id="{{ $testScript['id'] }}"
+                                                                onclick="deleteTestScript(this)"
                                                                 data-tippy-content="刪除">
                                                                 <i class="fa-solid fa-trash-can"></i>
                                                             </button>
