@@ -35,6 +35,7 @@ class TestResultController extends Controller
         // Get Data
         $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
                                             ->where('id', $testScriptId)
+                                            ->with('filename')
                                             ->first();
         $testResultList = $this->testResult->where('test_script_id', $testScriptId)
                                            ->get();
@@ -80,36 +81,18 @@ class TestResultController extends Controller
                                             ->first();
         $testScriptModel = $this->testScript->where('user_id', Auth::user()->id)
                                             ->where('id', $testResultModel['test_script_id'])
+                                            ->with('filename')
                                             ->first();
-        $filename = $this->filename->where('id', $testScriptModel['file_id'])
-                                   ->first();
+        $fileHash = $testScriptModel['filename']['hash'];
+        $resultName = $testResultModel['file_name'];
         $testResultList = $this->testResult->where('test_script_id', $testScriptModel['id'])
                                            ->get();
-        // Check Status
-        // $resultFolder = '../storage/app/TestResult/'.$filename['hash'].'/';
-        // $result = Storage::disk('TestResult')->has('file.jpg');
-        // $result = Storage::disk('TestResult')->get($filename['hash'].'/statistics.json');
-        $result = Storage::disk('TestResult')->get($filename['hash'].'/'.$testResultModel['file_name'].'.json');
-        // $error = Storage::disk('TestResult')->get($filename['hash'].'-error.json');
-        // $errorByType = Storage::disk('TestResult')->get($filename['hash'].'-errorByType.json');
+        // Get Result
+        $result = Storage::disk('TestResult')->get($fileHash.'/'.$resultName.'.json');
         $resultArray = json_decode($result, true);
         $statistics = $resultArray['detail'];
         $errorStatistics = $resultArray['errorDetail'];
         $errorStatisticsByType = $resultArray['errorByType'];
-        // ksort($statistics);
-
-        // Processing Data
-        // $testInfomation = [];
-        // 腳本資訊
-        // $testInfomation['name'] = $testScriptModel['name'];
-        // $testInfomation['description'] = $testScriptModel['description'];
-        // 結果資訊
-        // $testInfomation['id'] = $testResultModel['id'];
-        // $testInfomation['threads'] = $testResultModel['threads'];
-        // $testInfomation['loops'] = $testResultModel['loops'];
-        // $testInfomation['rampUpTime'] = $testResultModel['ramp_up_period'];
-        // $testInfomation['start_at'] = $testResultModel['start_at'];
-        // $testInfomation['end_at'] = $testResultModel['end_at'];
         // Formate Data
         $data = ['testScriptData' => $testScriptModel,
                  'testResultList' => $testResultList,
@@ -158,24 +141,14 @@ class TestResultController extends Controller
                                             ->first();
         $testScriptData = $this->testScript->where('user_id', Auth::user()->id)
                                            ->where('id', $testResultModel['test_script_id'])
+                                           ->with('filename')
                                            ->first();
-        $fileName = $this->filename->where('id', $testScriptData['file_id'])
-                                   ->first();
+        $fileHash = $testScriptData['filename']['hash'];
+        $resultName = $testResultModel['file_name'];
         // Delete File
-        $deleteMessage = '';
-        $resultPath = '../storage/app/TestResult/' . $fileName['hash'] . '/';
-
-        $currentFile = $resultPath . $testResultModel['file_name'] . '.json';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-        $currentFile = $resultPath . $testResultModel['file_name'] . '.jtl';
-        if(file_exists($currentFile)) {
-            // Storage::disk('TestResult')->delete($scriptName['hash'].'.jtl');
-            $deleteMessage = unlink($currentFile);
-        }
-
+        Storage::disk('TestResult')->delete($fileHash.'/'.$resultName.'.jtl');
+        Storage::disk('TestResult')->delete($fileHash.'/'.$resultName.'.json');
+        // Delete Result From DataTable
         $testResultModel->delete();
         return response(null, 204);
     }

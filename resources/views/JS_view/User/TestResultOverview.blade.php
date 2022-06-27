@@ -1,5 +1,13 @@
 <script type="text/javascript">
 
+    window.onload = function() {
+        init();
+    };
+
+    function init() {
+        setTippyLabel(document);
+    }
+    
     function deleteTestResult(el) {
         const resultId = el.getAttribute('data-result-id');
         let route = "{{ route('User_TestResult_Delete', 'resultId') }}";
