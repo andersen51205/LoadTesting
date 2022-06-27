@@ -1,5 +1,13 @@
 <script type="text/javascript">
 
+    window.onload = function() {
+        init();
+    };
+
+    function init() {
+        setTippyLabel(document);
+    }
+    
     function deleteProject(el) {
         const projectId = el.getAttribute('data-projectId');
         let route = "{{ route('User_Project_Delete', 'projectId') }}";
