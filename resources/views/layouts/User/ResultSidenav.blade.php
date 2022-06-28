@@ -6,7 +6,7 @@
                         @if(@empty($data['testResultData']))
                             fw-bold
                         @endif"
-                        href="{{ route('TestResultOverview_View', $data['testScriptData']['id']) }}">
+                        href="{{ route('User_TestResultList_View', $data['testScriptData']['id']) }}">
                     結果總覽
                 </a>
                 @foreach($data['testResultList'] as $testResult)
@@ -15,7 +15,7 @@
                                     && $testResult['id'] === $data['testResultData']['id'])
                                 fw-bold
                             @endif"
-                            href="{{ route('TestResult_View', $testResult['id']) }}"
+                            href="{{ route('User_TestResult_View', $testResult['id']) }}"
                             data-tippy-content="{{ '人數：'.$testResult['threads'].'人, '.
                                                    '啟動時間：'.$testResult['ramp_up_period'].'秒, '.
                                                    '重複次數：'.$testResult['loops'].'次' }}">

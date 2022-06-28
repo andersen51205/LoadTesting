@@ -1,7 +1,7 @@
 <script type="text/javascript">
     function submitForm(el) {
-        const createRoute = "{{ route('Project_Create') }}";
-        const updateRoute = "{{ route('Project_Update', 'id') }}";
+        const createRoute = "{{ route('User_Project_Create') }}";
+        const updateRoute = "{{ route('User_Project_Update', 'id') }}";
         const submitType = el.getAttribute('data-submit-type');
         let route = createRoute;
         /* 驗證前置作業 */

@@ -49,7 +49,7 @@
                                                         送出
                                                     </button>
                                                     <a class="btn btn-secondary ms-2"
-                                                            href="{{ route('ProjectManagement_View') }}">
+                                                            href="{{ route('User_ProjectList_View') }}">
                                                         返回
                                                     </a>
                                                 </div>

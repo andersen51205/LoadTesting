@@ -26,11 +26,11 @@
                                 <div class="my-2 d-flex justify-content-end">
                                     <a class="btn btn-outline-secondary me-2"
                                         target="_blank" rel="noopener noreferrer"
-                                        href="{{ route('TestScriptTutorial_View') }}">
+                                        href="{{ route('User_TestScriptTutorial_View') }}">
                                         <i class="fa-regular fa-circle-question"></i> 如何產生腳本
                                     </a>
                                     <a class="btn btn-outline-secondary"
-                                        href="{{ route('TestScriptCreate_View') }}?projectId={{ $data['projectData']['id'] }}">
+                                        href="{{ route('User_TestScriptCreate_View') }}?projectId={{ $data['projectData']['id'] }}">
                                         <i class="fa-solid fa-plus"></i> 新增測試
                                     </a>
                                 </div>
@@ -85,8 +85,9 @@
                                                         {{-- 操作區 --}}
                                                         <td class="text-center align-middle">
                                                             {{-- 開始測試 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
                                                                     data-id="{{ $testScript['id'] }}"
+                                                                    data-tippy-content="開始測試"
                                                                     onclick="startTesting(this)"
                                                                     @if($testScript['status'] === 2
                                                                             || $testScript['status'] === 3)
@@ -95,28 +96,26 @@
                                                                 <i class="fa-solid fa-play"></i>
                                                             </button>
                                                             {{-- 查看結果 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
-                                                                    onclick="viewResult(this)"
-                                                                    @if($testScript['status'] === 4)
-                                                                        data-href="{{ route('TestResultOverview_View', $testScript['id']) }}"
-                                                                    @else
-                                                                        disabled
-                                                                    @endif>
+                                                            <a class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="查看結果"
+                                                                    href="{{ route('User_TestResultList_View', $testScript['id']) }}">
                                                                 <i class="fa-solid fa-chart-line"></i>
-                                                            </button>
+                                                            </a>
                                                             {{-- 編輯腳本 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="編輯"
                                                                     onclick="editTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
-                                                                        data-href="{{ route('TestScript_View', $testScript['id']) }}"
+                                                                        data-href="{{ route('User_TestScript_Edit', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </button>
                                                             {{-- 刪除腳本 --}}
-                                                            <button class="btn btn-outline-secondary m-1"
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-tippy-content="刪除"
                                                                     onclick="deleteTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
@@ -133,6 +132,11 @@
                                         @endif
                                     </tbody>
                                 </table>
+                                <div class="text-center">
+                                    <a class="btn btn-secondary mb-3" href="{{ route('User_ProjectList_View') }}">
+                                        返回列表
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

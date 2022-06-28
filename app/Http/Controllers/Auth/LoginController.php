@@ -79,6 +79,10 @@ class LoginController extends Controller
                     // 管理員
                     return redirect()->route('Manager_View');
                 }
+                elseif(Auth::user()->permission === 3) {
+                    // 管理員
+                    return redirect()->route('Admin_View');
+                }
                 break;
             case 'Username_Or_Password_Wrong':
                 // 帳密認證失敗

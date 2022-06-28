@@ -46,7 +46,7 @@
                                         基本資料
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('UserInfomation_View') }}">
+                                        <a class="dropdown-item" href="{{ route('User_Infomation_View') }}">
                                             帳號資訊
                                         </a>
                                     </div>
@@ -57,10 +57,10 @@
                                         專案
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('ProjectManagement_View') }}">
+                                        <a class="dropdown-item" href="{{ route('User_ProjectList_View') }}">
                                             專案管理
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('ProjectCreate_View') }}">
+                                        <a class="dropdown-item" href="{{ route('User_ProjectCreate_View') }}">
                                             新增專案
                                         </a>
                                     </div>
@@ -71,13 +71,13 @@
                                         測試腳本
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('TestScriptTutorial_View') }}">
+                                        <a class="dropdown-item" href="{{ route('User_TestScriptTutorial_View') }}">
                                             如何產生腳本
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('TestScriptManagement_View') }}">
+                                        <a class="dropdown-item" href="{{ route('User_TestScriptList_View') }}">
                                             測試腳本管理
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('TestScriptCreate_View') }}">
+                                        <a class="dropdown-item" href="{{ route('User_TestScriptCreate_View') }}">
                                             新增測試腳本
                                         </a>
                                     </div>
@@ -89,11 +89,70 @@
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        基本資料
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Manager_Infomation_View') }}">
+                                            帳號資訊
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         後臺管理
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('Manager_View') }}">
+                                        <a class="dropdown-item" href="{{ route('Manager_UserList_View') }}">
                                             使用者管理
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        專案
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Manager_ProjectList_View') }}">
+                                            專案管理
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        測試腳本
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Manager_TestScriptList_View') }}">
+                                            測試腳本管理
+                                        </a>
+                                    </div>
+                                </li>
+                            @elseif (Auth::user()->permission === 3)
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="{{ route('Admin_View') }}">首頁</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        基本資料
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Admin_Infomation_View') }}">
+                                            帳號資訊
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        後臺管理
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('Admin_UserManagement_View') }}">
+                                            人員管理
                                         </a>
                                     </div>
                                 </li>

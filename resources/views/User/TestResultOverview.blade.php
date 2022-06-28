@@ -15,13 +15,43 @@
                     <div class="container-fluid px-4">
                         <div class="row">
                             <div class="col-12">
-                                <h3 class="mx-4 mt-4">結果總覽</h3>
+                                <h3 class="mx-4 mt-4">腳本資訊</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 px-4 py-2">
+                                <table class="table table-bordered align-middle">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 25%">腳本名稱</th>
+                                            <td style="width: 75%">{{ $data['testScriptData']['name'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>描述</th>
+                                            <td>{{ $data['testScriptData']['description'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>腳本檔</th>
+                                            <td>
+                                                <a class="btn btn-outline-danger"
+                                                        href="{{ route('User_TestScript_Download', $data['testScriptData']['id']) }}">
+                                                    <i class="fa-solid fa-file-arrow-down"></i> {{ $data['testScriptData']['filename']['name'] }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="mx-4 mt-2">結果總覽</h3>
                             </div>
                         </div>
                         {{-- 測試結果 --}}
                         <div class="row">
-                            <div class="col-12 p-4 text-center">
-                                <table class="table table-bordered py-2">
+                            <div class="col-12 px-4 py-2 text-center">
+                                <table class="table table-bordered">
                                     <thead class="text-center align-middle">
                                         <tr class="text-center">
                                             <th>編號</th>
@@ -66,11 +96,13 @@
                                                         {{ $data['testResultList'][$i]['error_rate'] }} %
                                                     </td>
                                                     <td class="text-center align-middle">
-                                                        <a class="btn btn-outline-secondary m-1 tippy-label"
-                                                                href="{{ route('TestResult_View', $data['testResultList'][$i]['id']) }}">
+                                                        <a class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                data-tippy-content="查看"
+                                                                href="{{ route('User_TestResult_View', $data['testResultList'][$i]['id']) }}">
                                                             <i class="fa-solid fa-magnifying-glass"></i>
                                                         </a>
-                                                        <button class="btn btn-outline-secondary m-1"
+                                                        <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                data-tippy-content="刪除"
                                                                 onclick="deleteTestResult(this)"
                                                                 data-result-id="{{ $data['testResultList'][$i]['id'] }}">
                                                             <i class="fa-solid fa-trash-can"></i>
@@ -82,7 +114,7 @@
                                     </tbody>
                                 </table>
                                 <a class="btn btn-secondary m-1"
-                                        href="{{ route('Project_View', $data['testScriptData']['project_id']) }}">
+                                        href="{{ route('User_Project_View', $data['testScriptData']['project_id']) }}">
                                     返回列表
                                 </a>
                             </div>

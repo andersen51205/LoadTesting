@@ -33,6 +33,10 @@ class RedirectIfAuthenticated
                     // 管理員
                     return redirect()->route('Manager_View');
                 }
+                elseif(Auth::user()->permission === 3) {
+                    // Admin
+                    return redirect()->route('Admin_View');
+                }
             }
         }
         return $next($request);

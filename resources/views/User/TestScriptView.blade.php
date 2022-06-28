@@ -163,7 +163,7 @@
                                                 </div>
                                                 <div class="col-8 mb-3">
                                                     <a class="btn btn-outline-danger"
-                                                            href="{{ route('TestScript_Download', $data['testScriptData']['id']) }}">
+                                                            href="{{ route('User_TestScript_Download', $data['testScriptData']['id']) }}">
                                                         <i class="fa-solid fa-file-arrow-down"></i> {{ $data['testScriptData']['fileName'] }}
                                                     </a>
                                                 </div>
@@ -193,7 +193,7 @@
                                                             送出
                                                         </button>
                                                         <a class="btn btn-secondary ms-2"
-                                                                href="{{ route('Project_View', $data['testScriptData']['project_id']) }}">
+                                                                href="{{ route('User_Project_View', $data['testScriptData']['project_id']) }}">
                                                             返回
                                                         </a>
                                                     </div>
