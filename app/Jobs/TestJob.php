@@ -90,6 +90,7 @@ class TestJob implements ShouldQueue
 
         // Start Time
         $startTime = date("Y-m-d H:i:s");
+        printf("Command : %s\n", $command);
         printf("Start Testing.\n");
         // Start Test
         $result = shell_exec($command);
