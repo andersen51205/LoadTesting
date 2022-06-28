@@ -37,7 +37,19 @@ class TestScriptController extends Controller
      */
     public function index()
     {
-        return "Sorry, this page is not completed.";
+        // Get Data
+        $projectList = $this->project->where('user_id', Auth::user()->id)
+                                     ->get();
+        $testScriptList = $this->testScript->where('user_id', Auth::user()->id)
+                                           ->orderBy('user_id')
+                                           ->orderBy('project_id')
+                                           ->with('project')
+                                           ->get();
+        // Formate Data
+        $data = ['projectList' => $projectList,
+                 'testScriptList' => $testScriptList];
+        // View
+        return view('User.TestScriptManagement', compact('data'));
     }
 
     /**

@@ -8,10 +8,9 @@
     <div class="sb-nav-fixed">
         <div id="layoutSidenav">
             {{-- 側邊欄 --}}
-            {{-- @include('layouts.User.ProjectSidenav') --}}
+            @include('layouts.User.ProjectSidenav')
             {{-- 內容 --}}
-            {{-- <div id="layoutSidenav_content"> --}}
-            <div id="layoutSidenav_content" class="ps-0">
+            <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
                         <div class="row">
@@ -24,32 +23,30 @@
                         </ol> --}}
                         <div class="row">
                             <div class="col-10 offset-1">
-                                {{-- <div class="my-2 d-flex justify-content-end">
-                                    <a class="btn btn-outline-secondary" href="{{ route('User_ProjectCreate_View') }}">
-                                        <i class="fa-solid fa-plus"></i> 新增專案
+                                <div class="my-2 d-flex justify-content-end">
+                                    <a class="btn btn-outline-secondary" href="{{ route('User_TestScriptCreate_View') }}">
+                                        <i class="fa-solid fa-plus"></i> 新增腳本
                                     </a>
-                                </div> --}}
+                                </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center">
-                                            <th style="width:15%">擁有者</th>
                                             <th style="width:15%">專案</th>
-                                            <th style="width:15%">腳本名稱</th>
-                                            <th style="width:31%">描述</th>
-                                            <th style="width:9%">狀態</th>
-                                            <th style="width:15%">操作</th>
+                                            <th style="width:20%">腳本名稱</th>
+                                            <th style="width:33%">描述</th>
+                                            <th style="width:10%">狀態</th>
+                                            <th style="width:22%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if(isset($data['testScriptList']))
                                             @if(count($data['testScriptList']) === 0)
                                                 <tr>
-                                                    <td class="p-3 text-center" colspan="6">查無專案資料</td>
+                                                    <td class="p-3 text-center" colspan="5">查無腳本資料</td>
                                                 </tr>
                                             @else
                                                 @foreach ($data['testScriptList'] as $testScript)
                                                     <tr>
-                                                        <td class="p-3">{{ $testScript['user']['name'] }}</td>
                                                         <td class="p-3">{{ $testScript['project']['name'] }}</td>
                                                         <td class="p-3">{{ $testScript['name'] }}</td>
                                                         <td class="p-3">{{ $testScript['description'] }}</td>
@@ -70,10 +67,21 @@
                                                             @endif
                                                         </td>
                                                         <td class="text-center">
+                                                            {{-- 開始測試 --}}
+                                                            <button class="btn btn-outline-secondary m-1 tooltip-label"
+                                                                    data-id="{{ $testScript['id'] }}"
+                                                                    data-tippy-content="開始測試"
+                                                                    onclick="startTesting(this)"
+                                                                    @if($testScript['status'] === 2
+                                                                            || $testScript['status'] === 3)
+                                                                        disabled
+                                                                    @endif>
+                                                                <i class="fa-solid fa-play"></i>
+                                                            </button>
                                                             {{-- 查看結果 --}}
                                                             <a class="btn btn-outline-secondary m-1 tooltip-label"
-                                                                href="{{ route('Manager_TestResultList_View', $testScript['id']) }}"
-                                                                data-tippy-content="查看結果">
+                                                                    data-tippy-content="查看結果"
+                                                                    href="{{ route('User_TestResultList_View', $testScript['id']) }}">
                                                                 <i class="fa-solid fa-chart-line"></i>
                                                             </a>
                                                             {{-- 編輯腳本 --}}
@@ -82,7 +90,7 @@
                                                                     onclick="editTestScript(this)"
                                                                     @if($testScript['status'] !== 2
                                                                             && $testScript['status'] !== 3)
-                                                                        data-href="{{ route('Manager_TestScript_Edit', $testScript['id']) }}"
+                                                                        data-href="{{ route('User_TestScript_Edit', $testScript['id']) }}"
                                                                     @else
                                                                         disabled
                                                                     @endif>
@@ -138,5 +146,5 @@
 @endsection
 
 @section('script')
-    @include('JS_view.Manager.TestScriptManagement')
+    @include('JS_view.User.TestScriptManagement')
 @endsection
