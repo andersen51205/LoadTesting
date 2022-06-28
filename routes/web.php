@@ -62,7 +62,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
         Route::get('/ProjectCreate', 'User\ProjectController@create')->name('User_ProjectCreate_View');
         Route::post('/ProjectCreate', 'User\ProjectController@store')->name('User_Project_Create');
         Route::get('/Project/{projectId}', 'User\ProjectController@show')->name('User_Project_View');
-        Route::get('/Project/edit/{projectId}', 'User\ProjectController@edit')->name('User_Project_Edit');
+        Route::get('/Project/{projectId}/edit', 'User\ProjectController@edit')->name('User_Project_Edit');
         Route::patch('/Project/{projectId}', 'User\ProjectController@update')->name('User_Project_Update');
         Route::delete('/Project/{projectId}', 'User\ProjectController@destroy')->name('User_Project_Delete');
         // 測試腳本

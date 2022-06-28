@@ -132,6 +132,11 @@
                                         @endif
                                     </tbody>
                                 </table>
+                                <div class="text-center">
+                                    <a class="btn btn-secondary mb-3" href="{{ route('User_ProjectList_View') }}">
+                                        返回列表
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
