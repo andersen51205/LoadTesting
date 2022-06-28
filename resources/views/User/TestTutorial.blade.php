@@ -225,5 +225,5 @@
 @endsection
 
 @section('script')
-    @include('JS_view.user.TestTutorial')
+    @include('JS_view.User.TestTutorial')
 @endsection

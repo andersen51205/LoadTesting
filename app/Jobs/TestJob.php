@@ -60,7 +60,8 @@ class TestJob implements ShouldQueue
         $testScriptData->status = 3;
         $testScriptData->save();
         // Set Command
-        $jmeterPath = 'D:\ProgramFiles\apache-jmeter-5.4.2\bin\jmeter';
+        $jmeterPath = env('JMETER_PATH');
+        printf("JmeterPath : %s\n", $jmeterPath);
         $testScriptPath = 'storage/app/TestScript/';
         $testResultPath = 'storage/app/TestResult/'.$scriptName.'/';
 
