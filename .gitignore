@@ -5,11 +5,13 @@
 /public/css/styles.css
 /public/css/dataTable.css
 /public/css/laravel.css
+/public/css/googleFontNunito.css
 /public/css/customize.css
 /public/css/table.css
 /public/js/app.js
 /public/js/utility
 /public/fonts/vendor
+/public/fonts
 /public/mix-manifest.json
 /public/jmeter.log
 /storage/*.key
