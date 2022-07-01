@@ -39,9 +39,9 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 */
-// 驗證相關
+// 登入登出
 Route::get('login', 'Auth\LoginController@main')->name('Login_View');
-Route::post('login', 'Auth\LoginController@login')->name('Login');
+Route::post('login', 'Auth\LoginController@login')->name('Login')->middleware('ajax');;
 Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
 
 /**
