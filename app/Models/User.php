@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\VerifyEmail;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'permission',
         'name',
         'email',
+        'email_verified_at',
         'password',
         'expired_at',
     ];
@@ -52,5 +54,10 @@ class User extends Authenticatable
     public function testScript()
     {
         return $this->hasMany('App\Models\TestScript', 'user_id', 'id');
+    }
+
+    public function sendVerifyEmailNotification($authCode)
+    {
+        $this->notify(new VerifyEmail($authCode));
     }
 }
