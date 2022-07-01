@@ -16,9 +16,16 @@
                 </div>
                 <div class="card-body">
                     <form id="Form_verify" method="POST" action="{{-- axios --}}">
-                        {{-- 錯誤提示 --}}
-                        <div class="alert alert-danger text-center d-none" role="alert">
-                            {{-- $message --}}
+                        {{-- 提示訊息 --}}
+                        <div class="row mb-3">
+                            <div class="col-6 offset-3">
+                                <div class="alert alert-warning text-center" role="alert">
+                                    <H4><b>註冊成功</b></H4>
+                                    請點擊下方「發送認證信」按鈕寄送認證信<br>
+                                    完成信箱認證後才能使用平台上的所有功能<br>
+                                    認證碼的有效時間為30分鐘
+                                </div>
+                            </div>
                         </div>
                         {{-- 認證碼 --}}
                         <div class="row mb-3">
