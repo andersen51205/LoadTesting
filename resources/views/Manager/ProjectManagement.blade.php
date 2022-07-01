@@ -43,7 +43,7 @@
                                         @if(isset($data['projectList']))
                                             @if(count($data['projectList']) === 0)
                                                 <tr>
-                                                    <td class="p-3 text-center" colspan="3">查無專案資料</td>
+                                                    <td class="p-3 text-center" colspan="5">查無專案資料</td>
                                                 </tr>
                                             @else
                                                 @foreach ($data['projectList'] as $project)

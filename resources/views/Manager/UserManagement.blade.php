@@ -54,7 +54,7 @@
                                                             @if($user['expired_at'])
                                                                 <i class="fa-solid fa-xmark"></i> {{ "停用(".$user['expired_at'].")" }}
                                                             @elseif(!$user['email_verified_at'])
-                                                                <i class="fa-solid fa-exclamation"></i> {{ "尚未完成電子郵件認證" }}
+                                                                <i class="fa-solid fa-exclamation me-1"></i> {{ "尚未完成電子郵件認證" }}
                                                             @else
                                                                 <i class="fa-solid fa-check"></i> {{ "正常" }}
                                                             @endif
