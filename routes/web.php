@@ -58,7 +58,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
      * 使用者
      */
-    Route::group(['prefix' => 'user', 'middleware' => 'user'], function() {
+    Route::group(['prefix' => 'user', 'middleware' => ['user', 'verified.email']], function() {
         // 首頁
         Route::get('/', 'User\UserController@main')->name('User_View');
         // 基本資料
@@ -90,7 +90,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
      * 管理員
      */
-    Route::group(['prefix' => 'manager', 'middleware' => 'manager'], function() {
+    Route::group(['prefix' => 'manager', 'middleware' => ['manager', 'verified.email']], function() {
         // 首頁
         Route::get('/', 'Manager\ManagerController@main')->name('Manager_View');
         // 基本資料
@@ -125,7 +125,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
      * Admin
      */
-    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
+    Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'verified.email']], function() {
         // 首頁
         Route::get('/', 'Admin\AdminController@main')->name('Admin_View');
         // 基本資料
