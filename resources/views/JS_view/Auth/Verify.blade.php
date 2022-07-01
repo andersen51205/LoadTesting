@@ -16,7 +16,7 @@
     }
 
     function submitForm() {
-        const route = "{{ route('Register_Email_Verify') }}";
+        const route = "{{ route('Verify_Email') }}";
         /* 驗證前置作業 */
         const form = document.querySelector('#Form_verify');
         // 清除紅框

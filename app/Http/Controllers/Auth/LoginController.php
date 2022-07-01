@@ -77,7 +77,7 @@ class LoginController extends Controller
         // 檢查Email認證
         if(!Auth::user()->email_verified_at) {
             return response()->json([
-                'redirectTarget' => route('Register_Verify_View')
+                'redirectTarget' => route('Verify_Email_View')
             ], 200);
         }
 

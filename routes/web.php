@@ -54,9 +54,9 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
      * 帳號認證
      */
-    Route::get('Verify', 'Auth\VerifyController@show')->name('Register_Verify_View');
+    Route::get('Verify', 'Auth\VerifyController@show')->name('Verify_Email_View');
     Route::get('Verify/Send', 'Auth\VerifyController@send')->name('Verify_Email_Send');
-    Route::post('Verify', 'Auth\VerifyController@verify')->name('Register_Email_Verify');
+    Route::post('Verify', 'Auth\VerifyController@verify')->name('Verify_Email');
 
     /**
      * 使用者

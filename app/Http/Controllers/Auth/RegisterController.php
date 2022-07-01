@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -76,7 +77,7 @@ class RegisterController extends Controller
         Auth::attempt($request->only('email','password'));
         // Redirect Route
         return response()->json([
-            'redirectTarget' => route('Register_Verify_View')
+            'redirectTarget' => route('Verify_Email_View')
         ], 200);
     } 
 }

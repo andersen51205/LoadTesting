@@ -18,7 +18,7 @@ class VerifiedEmail
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::user()->email_verified_at) {
-            return redirect()->route('Register_Verify_View');
+            return redirect()->route('Verify_Email_View');
         }
         return $next($request);
     }
