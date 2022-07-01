@@ -45,7 +45,7 @@ Route::post('login', 'Auth\LoginController@login')->name('Login')->middleware('a
 Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
 // 註冊帳號
 Route::get('Register', 'Auth\RegisterController@index')->name('register');
-Route::post('Register', 'Auth\RegisterController@create');
+Route::post('Register', 'Auth\RegisterController@store')->name('Register_Create');
 
 /**
  * 後台
