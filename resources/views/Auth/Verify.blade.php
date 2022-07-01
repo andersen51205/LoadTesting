@@ -10,7 +10,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header p-3 align-middle text-center">
-                    <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-users"></i> Email信箱認證</h3>
+                    <h3 class="m-2 align-middle d-inline">
+                        <i class="fa-solid fa-envelope-circle-check"></i> Email信箱認證
+                    </h3>
                 </div>
                 <div class="card-body">
                     <form id="Form_verify" method="POST" action="{{-- axios --}}">

@@ -66,12 +66,6 @@ class LoginController extends Controller
                 'message' => $message,
             ], 401);
         }
-        // 檢查Email認證
-        if(!Auth::user()->email_verified_at) {
-            return response()->json([
-                'redirectTarget' => route('Register_Verify_View')
-            ], 200);
-        }
         // 檢查是否帳號狀態是否停用
         if(Auth::user()->expired_at) {
             Auth::logout();
@@ -79,6 +73,12 @@ class LoginController extends Controller
             return response()->json([
                 'message' => $message,
             ], 403);
+        }
+        // 檢查Email認證
+        if(!Auth::user()->email_verified_at) {
+            return response()->json([
+                'redirectTarget' => route('Register_Verify_View')
+            ], 200);
         }
 
         // 一般使用者
