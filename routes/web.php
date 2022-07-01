@@ -43,6 +43,9 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('login', 'Auth\LoginController@main')->name('Login_View');
 Route::post('login', 'Auth\LoginController@login')->name('Login')->middleware('ajax');;
 Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
+// 註冊帳號
+Route::get('Register', 'Auth\RegisterController@index')->name('register');
+Route::post('Register', 'Auth\RegisterController@create');
 
 /**
  * 後台

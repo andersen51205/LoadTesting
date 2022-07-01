@@ -68,11 +68,9 @@ class LoginController extends Controller
         }
         // 檢查Email認證
         if(!Auth::user()->email_verified_at) {
-            Auth::logout();
-            $message = '尚未驗證電子郵件';
             return response()->json([
-                'message' => $message,
-            ], 401);
+                'redirectTarget' => route('Register_Verify_View')
+            ], 200);
         }
         // 檢查是否帳號狀態是否停用
         if(Auth::user()->expired_at) {

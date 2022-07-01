@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Request;
 
 class RegisterController extends Controller
 {
@@ -57,27 +58,32 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('Auth.Register');
+    }
+
+    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    public function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-
-    /**
-     * Show the application registration form.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showRegistrationForm()
-    {
-        return view('Auth.Register');
-    }
+        $data = [];
+        $data['name'] = $request['name'];
+        $data['email'] = $request['email'];
+        $data['password'] = Hash::make($request['password']);
+        // Create Data
+        $newProject = User::create($data);
+        // Redirect Route
+        return response()->json([
+            'redirectTarget' => route('Register_Verify_View')
+        ], 200);
+    } 
 }
