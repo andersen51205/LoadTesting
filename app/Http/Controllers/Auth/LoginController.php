@@ -60,34 +60,44 @@ class LoginController extends Controller
         $this->loginValidator->checkLogin($request);
 
         // 認證帳號密碼
-        if (Auth::attempt($request->only('email','password'))) {
-            // 認證通過...
-            $message = 'Success';
+        if(!Auth::attempt($request->only('email','password'))) {
+            $message = '電子郵件不存在或密碼錯誤';
+            return response()->json([
+                'message' => $message,
+            ], 401);
         }
-        else {
-            $this->incrementLoginAttempts($request);
-            $message = 'Username_Or_Password_Wrong';
+        // 檢查是否帳號狀態是否停用
+        if(Auth::user()->expired_at) {
+            Auth::logout();
+            $message = '該帳號已被停權';
+            return response()->json([
+                'message' => $message,
+            ], 403);
         }
-        // Response
-        switch ($message) {
-            case 'Success':
-                if(Auth::user()->permission === 1) {
-                    // 使用者
-                    return redirect()->route('User_View');
-                }
-                elseif(Auth::user()->permission === 2) {
-                    // 管理員
-                    return redirect()->route('Manager_View');
-                }
-                elseif(Auth::user()->permission === 3) {
-                    // 管理員
-                    return redirect()->route('Admin_View');
-                }
-                break;
-            case 'Username_Or_Password_Wrong':
-                // 帳密認證失敗
-                return redirect()->back()->withInput()->withErrors(['error' => '電子郵件不存在或密碼錯誤']);
-                break;
+        // 檢查Email認證
+        if(!Auth::user()->email_verified_at) {
+            return response()->json([
+                'redirectTarget' => route('Verify_Email_View')
+            ], 200);
+        }
+
+        // 一般使用者
+        if(Auth::user()->permission === 1) {
+            return response()->json([
+                'redirectTarget' => route('User_View')
+            ], 200);
+        }
+        // 一般管理員
+        elseif(Auth::user()->permission === 2) {
+            return response()->json([
+                'redirectTarget' => route('Manager_View')
+            ], 200);
+        }
+        // 最高管理員
+        elseif(Auth::user()->permission === 3) {
+            return response()->json([
+                'redirectTarget' => route('Admin_View')
+            ], 200);
         }
     }
 

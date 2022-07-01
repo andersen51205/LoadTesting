@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'manager' => \App\Http\Middleware\ManagerPermission::class,
         'admin' => \App\Http\Middleware\AdminPermission::class,
         'ajax' => \App\Http\Middleware\AjaxRequestCheck::class,
+        'verified.email' => \App\Http\Middleware\VerifiedEmail::class,
     ];
 }

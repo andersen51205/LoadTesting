@@ -3,42 +3,26 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Auth;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::USER_HOME;
-
+    protected $user;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        User $user
+    )
     {
         $this->middleware('guest');
+        $this->user = $user;
     }
 
     /**
@@ -57,27 +41,43 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-
-    /**
      * Show the application registration form.
      *
      * @return \Illuminate\View\View
      */
-    public function showRegistrationForm()
+    public function index()
     {
         return view('Auth.Register');
     }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Check If Email Exist
+        $existUser = $this->user->where('email', $request['email'])
+                                ->first();
+        if($existUser) {
+            return response()->json([
+                'message' => '該電子郵件已被註冊'
+            ], 401);
+        }
+        // Processing Data
+        $data = [];
+        $data['name'] = $request['name'];
+        $data['email'] = $request['email'];
+        $data['password'] = Hash::make($request['password']);
+        // Create Data
+        $newProject = User::create($data);
+        // Login User
+        Auth::attempt($request->only('email','password'));
+        // Redirect Route
+        return response()->json([
+            'redirectTarget' => route('Verify_Email_View')
+        ], 200);
+    } 
 }

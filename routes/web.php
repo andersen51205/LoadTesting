@@ -39,19 +39,29 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 */
-// 驗證相關
+// 登入登出
 Route::get('login', 'Auth\LoginController@main')->name('Login_View');
-Route::post('login', 'Auth\LoginController@login')->name('Login');
+Route::post('login', 'Auth\LoginController@login')->name('Login')->middleware('ajax');;
 Route::post('logout', 'Auth\LoginController@logout')->name('Logout');
+// 註冊帳號
+Route::get('Register', 'Auth\RegisterController@index')->name('register');
+Route::post('Register', 'Auth\RegisterController@store')->name('Register_Create');
 
 /**
  * 後台
  */
 Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
+     * 帳號認證
+     */
+    Route::get('Verify', 'Auth\VerifyController@show')->name('Verify_Email_View');
+    Route::get('Verify/Send', 'Auth\VerifyController@send')->name('Verify_Email_Send');
+    Route::post('Verify', 'Auth\VerifyController@verify')->name('Verify_Email');
+
+    /**
      * 使用者
      */
-    Route::group(['prefix' => 'user', 'middleware' => 'user'], function() {
+    Route::group(['prefix' => 'user', 'middleware' => ['user', 'verified.email']], function() {
         // 首頁
         Route::get('/', 'User\UserController@main')->name('User_View');
         // 基本資料
@@ -83,7 +93,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
      * 管理員
      */
-    Route::group(['prefix' => 'manager', 'middleware' => 'manager'], function() {
+    Route::group(['prefix' => 'manager', 'middleware' => ['manager', 'verified.email']], function() {
         // 首頁
         Route::get('/', 'Manager\ManagerController@main')->name('Manager_View');
         // 基本資料
@@ -118,7 +128,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function() {
     /**
      * Admin
      */
-    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
+    Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'verified.email']], function() {
         // 首頁
         Route::get('/', 'Admin\AdminController@main')->name('Admin_View');
         // 基本資料

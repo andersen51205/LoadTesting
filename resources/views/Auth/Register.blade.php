@@ -9,63 +9,55 @@
                     <h3 class="m-2 align-middle d-inline"><i class="fa-solid fa-user-plus"></i> 註冊會員</h3>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+                    <form id="Form_register" method="POST" action="{{-- axios --}}">
                         {{-- 使用者名稱 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label class="col-form-label" for="name">使用者名稱</label>
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <label class="col-form-label" for="name">
+                                    <span class="text-danger">*</span>使用者名稱
+                                </label>
+                                <input type="text" id="name" class="form-control necessary"
+                                    name="name" value="">
                                 {{-- 錯誤提示 --}}
-                                @error('name')
+                                {{-- @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                @enderror --}}
                             </div>
                         </div>
                         {{-- 電子郵件 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label class="col-form-label" for="email">電子郵件</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" required autocomplete="email">
-                                {{-- 錯誤提示 --}}
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <label class="col-form-label" for="email">
+                                    <span class="text-danger">*</span>電子郵件
+                                </label>
+                                <input type="email" id="email" class="form-control necessary"
+                                    name="email" value="">
                             </div>
                         </div>
                         {{-- 密碼 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label for="password" class="col-form-label">密碼</label>
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror"
-                                    name="password" required autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <label for="Input_password" class="col-form-label">密碼</label>
+                                <input type="password" id="Input_password"
+                                    class="form-control necessary" name="password">
                             </div>
                         </div>
                         {{-- 密碼確認 --}}
                         <div class="row mb-3">
                             <div class="col-6 offset-3">
-                                <label for="password-confirm" class="col-form-label">密碼確認</label>
-                                <input id="password-confirm" type="password" class="form-control"
-                                    name="password_confirmation" required autocomplete="new-password">
+                                <label for="Input_password_confirm" class="col-form-label">密碼確認</label>
+                                <input type="password" id="Input_password_confirm" class="form-control necessary"
+                                    name="password_confirmation">
                             </div>
                         </div>
                         {{-- 表單操作區 --}}
                         <div class="row mb-0">
                             <div class="col-6 offset-3 d-flex justify-content-end">
                                 {{-- <a class="mx-4 my-2" href="{{ route('Login_View') }}">改用帳號登入</a> --}}
-                                <button type="submit" class="btn btn-primary">我要註冊</button>
+                                <button type="button" class="btn btn-primary"
+                                    onclick="submitForm()">我要註冊</button>
                             </div>
                         </div>
                         {{-- 其他選項 --}}
@@ -83,4 +75,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    @include('JS_view.Auth.Register')
 @endsection
