@@ -4,6 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Project;
+use App\Models\TestScript;
+use App\Models\TestResult;
 use App\Validators\User\UserInformationValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +14,7 @@ use Auth;
 
 class UserController extends Controller
 {
-    protected $user;
+    protected $user, $project, $testScript, $testResult;
     protected $userInformationValidator;
 
     /**
@@ -21,12 +24,18 @@ class UserController extends Controller
      */
     public function __construct(
         User $user,
+        Project $project,
+        TestScript $testScript,
+        TestResult $testResult,
         UserInformationValidator $userInformationValidator
     )
     {
         // 已透過Middleware進行檢查
         // $this->middleware('auth');
         $this->user = $user;
+        $this->project = $project;
+        $this->testScript = $testScript;
+        $this->testResult = $testResult;
         $this->userInformationValidator = $userInformationValidator;
     }
 
@@ -37,7 +46,23 @@ class UserController extends Controller
      */
     public function main()
     {
-        return view('User.UserMain');
+        // Get Data
+        $userModel = $this->user->where('id', Auth::user()->id)
+                                ->first();
+        $projectCount = $this->project->where('user_id', $userModel['id'])
+                                      ->count();
+        $testScriptCount = $this->testScript->where('user_id', $userModel['id'])
+                                            ->count();
+        $testResultCount = $this->testResult->where('user_id', $userModel['id'])
+                                            ->count();
+        // Processing Data
+        $data = [];
+        $data['user'] = $userModel;
+        $data['projectCount'] = $projectCount;
+        $data['testScriptCount'] = $testScriptCount;
+        $data['testResultCount'] = $testResultCount;
+        // View
+        return view('User.UserMain', compact('data'));
     }
 
     public function infomation()
@@ -45,7 +70,7 @@ class UserController extends Controller
         // Get Data
         $data = $this->user->where('email', Auth::user()->email)
                            ->first();
-        // Response
+        // View
         return view('User.UserInformationMain', compact('data'));
     }
 
