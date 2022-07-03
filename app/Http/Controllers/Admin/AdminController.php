@@ -37,7 +37,17 @@ class AdminController extends Controller
      */
     public function main()
     {
-        return view('Admin.AdminMain');
+        // Get Data
+        $userModel = $this->user->where('id', Auth::user()->id)
+                                ->first();
+        $managerCount = $this->user->where('permission', 2)
+                                   ->count();
+        // Processing Data
+        $data = [];
+        $data['user'] = $userModel;
+        $data['managerCount'] = $managerCount;
+        // View
+        return view('Admin.AdminMain', compact('data'));
     }
 
     public function infomation()

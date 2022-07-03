@@ -37,7 +37,17 @@ class ManagerController extends Controller
      */
     public function main()
     {
-        return view('Manager.ManagerMain');
+        // Get Data
+        $userModel = $this->user->where('id', Auth::user()->id)
+                                ->first();
+        $userCount = $this->user->where('permission', 1)
+                                ->count();
+        // Processing Data
+        $data = [];
+        $data['user'] = $userModel;
+        $data['userCount'] = $userCount;
+        // View
+        return view('Manager.ManagerMain', compact('data'));
     }
 
     public function infomation()
